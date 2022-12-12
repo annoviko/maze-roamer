@@ -10,11 +10,11 @@ function Announce-Step($Message) {
 
 
 function Build-Application($Configuration) {
-    Announce-Step "Build Application."
+    Announce-Step "Build Application (configuration '$Configuration')."
     
     msbuild /p:RestorePackagesConfig=true /t:restore
     
-    msbuild $SolutionName /t:crwproc /p:configuration=$Configuration /p:platform=x64
+    msbuild $SolutionName /t:maze-roamer /p:configuration=$Configuration /p:platform=x64
     if ($LastExitCode -ne 0) {
         Write-Error "[Error] Building crwproc failed with error code '$LastExitCode'."
         Exit 1
