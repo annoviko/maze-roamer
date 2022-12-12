@@ -64,6 +64,8 @@ function Run-BuildTestJob {
     
     Build-Application "Release"
 	Build-Application "Debug"
+	
+	Run-UnitTests
 }
 
 
