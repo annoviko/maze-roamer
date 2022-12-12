@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 
 struct position {
     int x = 0;
@@ -11,5 +13,17 @@ struct position {
 
     bool operator!=(const position& p_other) const {
         return !(*this == p_other);
+    }
+
+    position operator*(const int p_value) const {
+        return { x * p_value, y * p_value };
+    }
+
+    position operator+(const int p_value) const {
+        return { x + p_value, y + p_value };
+    }
+
+    position operator+(const position& p_value) const {
+        return { x + p_value.x, y + p_value.y };
     }
 };

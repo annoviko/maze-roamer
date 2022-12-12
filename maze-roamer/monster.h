@@ -11,7 +11,7 @@
 
 class monster {
 protected:
-    static constexpr int TRANSITION_STEPS = 10;
+    static constexpr int TRANSITION_STEP_SIZE = 4;
 
 protected:
     const level_map* m_map;
@@ -23,7 +23,7 @@ protected:
     position m_current_position = { -1, -1 };
     position m_prev_position = { -1, -1 };
 
-    int m_transition_step = 0;
+    position m_transition_step = { 0, 0 };
 
     char m_id;
 
@@ -37,11 +37,22 @@ public:
 
     virtual position get_current_position() const;
 
+    virtual position get_next_position() const;
+
     virtual position get_previous_scale_position() const;
 
     virtual position get_current_scale_position() const;
 
+    virtual position get_next_scale_position() const;
+
     virtual std::vector<position> get_possible_steps(const position& p_pos) const;
 
     virtual position move(const position& p_player) = 0;
+
+protected:
+    virtual void handle_state();
+
+    virtual void handle_wait_for_input() = 0;
+
+    virtual void handle_transition();
 };
