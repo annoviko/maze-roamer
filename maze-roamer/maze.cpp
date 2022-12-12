@@ -78,11 +78,11 @@ void maze::initialize() {
     SDL_RenderPresent(m_renderer);
 
     for (const auto& pos : stupid_monsters) {
-        m_monsters.push_back(std::make_shared<monster_random>('S', &m_maze, pos));
+        m_monsters.push_back(std::make_shared<monster_random>('S', &m_maze, OBJECT_SIZE, pos));
     }
 
     for (const auto& pos : clever_monsters) {
-        m_monsters.push_back(std::make_shared<monster_bfs>('C', &m_maze, pos));
+        m_monsters.push_back(std::make_shared<monster_bfs>('C', &m_maze, OBJECT_SIZE, pos));
     }
 
     m_monster_thread = std::thread(&maze::thread_monster, this);
@@ -124,8 +124,8 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y, cons
                 break;
             }
 
-            SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
-            SDL_RenderFillRect(m_renderer, &rect);
+            //SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
+            //SDL_RenderFillRect(m_renderer, &rect);
             SDL_RenderCopy(m_renderer, m_texture_monster, NULL, &rect);
             break;
         }
@@ -134,8 +134,8 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y, cons
                 break;
             }
 
-            SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
-            SDL_RenderFillRect(m_renderer, &rect);
+            //SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
+            //SDL_RenderFillRect(m_renderer, &rect);
             SDL_RenderCopy(m_renderer, m_texture_monster_bfs, NULL, &rect);
             break;
         }
@@ -156,13 +156,15 @@ void maze::thread_monster() {
             std::vector<std::pair<position, char>> new_positions;
 
             for (auto& monster_ptr : m_monsters) {
-                position new_position = monster_ptr->move(m_player);
+                monster_ptr->move(m_player);
 
                 old_positions.push_back(monster_ptr->get_previous_position());
-                new_positions.push_back({ new_position, monster_ptr->get_id() });
+                old_positions.push_back(monster_ptr->get_current_position());
+                old_positions.push_back(monster_ptr->get_next_position());
+                new_positions.push_back({ monster_ptr->get_current_scale_position(), monster_ptr->get_id()});
 
                 /* TODO: player is dead? */
-                if (new_position == m_player) {
+                if (monster_ptr->get_current_position() == m_player) {
                     game_over();
                 }
             }
@@ -175,16 +177,13 @@ void maze::thread_monster() {
             }
 
             for (const auto& pos : new_positions) {
-                int x = pos.first.x * OBJECT_SIZE;
-                int y = pos.first.y * OBJECT_SIZE;
-
-                render_object(pos.second, x, y, false);
+                render_object(pos.second, pos.first.x, pos.first.y, false);
             }
 
             SDL_RenderPresent(m_renderer);
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }
 
@@ -204,12 +203,9 @@ void maze::render_player_movement(const position& p_prev, const position& p_cur)
     int x = p_prev.x * OBJECT_SIZE;
     int y = p_prev.y * OBJECT_SIZE;
 
-    SDL_Rect rect{ x, y, OBJECT_SIZE, OBJECT_SIZE };
+    render_object(m_maze[p_prev.y][p_prev.x], x, y, true);
 
-    SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
-    SDL_RenderFillRect(m_renderer, &rect);
-
-    rect = { p_cur.x * OBJECT_SIZE, p_cur.y * OBJECT_SIZE, OBJECT_SIZE, OBJECT_SIZE };
+    SDL_Rect rect = { p_cur.x * OBJECT_SIZE, p_cur.y * OBJECT_SIZE, OBJECT_SIZE, OBJECT_SIZE };
 
     SDL_RenderFillRect(m_renderer, &rect);
     SDL_RenderCopy(m_renderer, m_texture_player, NULL, &rect);

@@ -8,21 +8,30 @@ position monster_bfs::move(const position& p_player) {
         return m_current_position;
     }
 
-    if (p_player != m_player_position) {
-        m_path_to_player = get_path_to_player(p_player);
-        m_player_position = p_player;
-    }
-    else {
-        if (!m_path_to_player.empty()) {
-            m_path_to_player.pop_front();
-        }
+    m_prev_player_position = m_cur_player_position;
+    m_cur_player_position = p_player;
+
+    handle_state();
+
+    return m_current_position;
+}
+
+
+void monster_bfs::handle_wait_for_input() {
+    if (m_cur_player_position != m_prev_player_position) {
+        m_path_to_player = get_path_to_player(m_cur_player_position);
     }
 
-    position next_step = m_path_to_player.empty() ? p_player : m_path_to_player.front();
-    m_prev_position = m_current_position;
-    m_current_position = next_step;
+    if (!m_path_to_player.empty()) {
+        m_prev_position = m_current_position;
+        m_next_position = m_path_to_player.front();
 
-    return next_step;
+        m_path_to_player.pop_front();
+    }
+
+    m_state = monster_state::cell_transition;
+
+    handle_transition();
 }
 
 
