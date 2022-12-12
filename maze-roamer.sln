@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "maze-roamer", "maze-roamer\maze-roamer.vcxproj", "{2DDAE4CA-20E0-4B59-B53E-19D722949AED}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ut", "tests\ut\ut.vcxproj", "{5E2DF477-03D2-46C4-B1CB-4B96B5B3829B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{2DDAE4CA-20E0-4B59-B53E-19D722949AED}.Debug|x64.Build.0 = Debug|x64
 		{2DDAE4CA-20E0-4B59-B53E-19D722949AED}.Release|x64.ActiveCfg = Release|x64
 		{2DDAE4CA-20E0-4B59-B53E-19D722949AED}.Release|x64.Build.0 = Release|x64
+		{5E2DF477-03D2-46C4-B1CB-4B96B5B3829B}.Debug|x64.ActiveCfg = Debug|x64
+		{5E2DF477-03D2-46C4-B1CB-4B96B5B3829B}.Debug|x64.Build.0 = Debug|x64
+		{5E2DF477-03D2-46C4-B1CB-4B96B5B3829B}.Release|x64.ActiveCfg = Release|x64
+		{5E2DF477-03D2-46C4-B1CB-4B96B5B3829B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
