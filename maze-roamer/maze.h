@@ -8,8 +8,9 @@
 
 #include "level_map.h"
 #include "position.h"
-
 #include "monster.h"
+
+#include "core/texture_manager.h"
 
 
 class maze {
@@ -21,10 +22,7 @@ private:
 
     SDL_Renderer * m_renderer;
 
-    SDL_Texture* m_texture_coin;
-    SDL_Texture* m_texture_player;
-    SDL_Texture* m_texture_monster;
-    SDL_Texture* m_texture_monster_clever;
+    texture_manager m_texture_manager;
 
     std::vector<std::shared_ptr<monster>> m_monsters;
 
@@ -60,6 +58,8 @@ public:
     void initialize();
 
 private:
+    void initialize_texture_manager();
+
     void render_maze();
 
     void game_over();

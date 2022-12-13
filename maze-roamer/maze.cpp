@@ -9,7 +9,8 @@
 
 
 maze::maze(const std::string& p_filepath, SDL_Renderer * p_renderer) :
-    m_renderer(p_renderer)
+    m_renderer(p_renderer),
+    m_texture_manager(p_renderer)
 {
     std::ifstream stream(p_filepath);
 
@@ -25,22 +26,20 @@ maze::maze(const std::string& p_filepath, SDL_Renderer * p_renderer) :
         row++;
     }
 
-    m_texture_coin = IMG_LoadTexture(m_renderer, "img/coin.png");
-    SDL_SetTextureBlendMode(m_texture_coin, SDL_BLENDMODE_BLEND);
-
-    m_texture_player = IMG_LoadTexture(m_renderer, "img/player.png");
-    SDL_SetTextureBlendMode(m_texture_player, SDL_BLENDMODE_BLEND);
-
-    m_texture_monster = IMG_LoadTexture(m_renderer, "img/monster.png");
-    SDL_SetTextureBlendMode(m_texture_monster, SDL_BLENDMODE_BLEND);
-
-    m_texture_monster_clever = IMG_LoadTexture(m_renderer, "img/monster-bfs.png");
-    SDL_SetTextureBlendMode(m_texture_monster_clever, SDL_BLENDMODE_BLEND);
+    initialize_texture_manager();
 }
 
 
 maze::~maze() {
     m_is_running = false;
+}
+
+
+void maze::initialize_texture_manager() {
+    m_texture_manager.load('$', "img/coin.png");
+    m_texture_manager.load('P', "img/player.png");
+    m_texture_manager.load('S', "img/monster.png");
+    m_texture_manager.load('C', "img/monster-bfs.png");
 }
 
 
@@ -149,7 +148,7 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y, cons
         case '$': {
             SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
             SDL_RenderFillRect(m_renderer, &rect);
-            SDL_RenderCopy(m_renderer, m_texture_coin, NULL, &rect);
+            m_texture_manager.draw(p_obj_id, rect);
             break;
         }
         case 'P': {
@@ -159,7 +158,7 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y, cons
 
             SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
             SDL_RenderFillRect(m_renderer, &rect);
-            SDL_RenderCopy(m_renderer, m_texture_player, NULL, &rect);
+            m_texture_manager.draw(p_obj_id, rect);
             break;
         }
         case 'S': {
@@ -167,7 +166,7 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y, cons
                 break;
             }
 
-            SDL_RenderCopy(m_renderer, m_texture_monster, NULL, &rect);
+            m_texture_manager.draw(p_obj_id, rect);
             break;
         }
         case 'C': {
@@ -175,7 +174,7 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y, cons
                 break;
             }
 
-            SDL_RenderCopy(m_renderer, m_texture_monster_clever, NULL, &rect);
+            m_texture_manager.draw(p_obj_id, rect);
             break;
         }
     }
