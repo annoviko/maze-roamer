@@ -1,10 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <mutex>
 #include <string>
 #include <vector>
-#include <thread>
 
 #include <SDL.h>
 
@@ -21,7 +19,6 @@ private:
 private:
     level_map m_maze;
 
-    std::mutex m_mutex;
     SDL_Renderer * m_renderer;
 
     SDL_Texture* m_texture_coin;
@@ -30,7 +27,6 @@ private:
     SDL_Texture* m_texture_monster_bfs;
 
     std::vector<std::shared_ptr<monster>> m_monsters;
-    std::thread m_monster_thread;
 
     bool m_is_running = true;
     position m_player;
@@ -39,6 +35,10 @@ public:
     maze(const std::string& p_filepath, SDL_Renderer * p_renderer);
 
     ~maze();
+
+    void update();
+
+    void render();
 
     void move_right();
 
@@ -60,15 +60,13 @@ public:
     void initialize();
 
 private:
-    void game_over();
+    void render_maze();
 
-    void thread_monster();
+    void game_over();
 
     void render_object(const char p_obj_id, const int p_x, const int p_y, const bool p_render_static_only);
 
     bool is_inside(const position& p_pos) const;
 
     bool is_wall(const position& p_pos) const;
-
-    void render_player_movement(const position& p_prev, const position& p_cur);
 };

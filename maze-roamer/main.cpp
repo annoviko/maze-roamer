@@ -24,37 +24,51 @@ int main(int argc, char* argv[]) {
 
     bool is_running = true;
     SDL_Event event;
+    std::memset((void *) &event, 0x00, sizeof(SDL_Event));
 
     while (is_running && m.is_running()) {
-        SDL_WaitEvent(&event);
-        switch (event.type) {
-        case SDL_QUIT:
-            is_running = false;
-            break;
+        auto frameStart = SDL_GetTicks();
 
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym) {
-            case SDLK_RIGHT:
-                m.move_right();
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+            case SDL_QUIT:
+                is_running = false;
                 break;
 
-            case SDLK_LEFT:
-                m.move_left();
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) {
+                case SDLK_RIGHT:
+                    m.move_right();
+                    break;
+
+                case SDLK_LEFT:
+                    m.move_left();
+                    break;
+
+                case SDLK_UP:
+                    m.move_up();
+                    break;
+
+                case SDLK_DOWN:
+                    m.move_down();
+                    break;
+                }
+
                 break;
 
-            case SDLK_UP:
-                m.move_up();
-                break;
-
-            case SDLK_DOWN:
-                m.move_down();
+            default:
                 break;
             }
+        }
 
-            break;
+        m.update();
+        m.render();
 
-        default:
-            break;
+        auto frameTime = SDL_GetTicks() - frameStart;
+
+        if (frameTime < 50)
+        {
+            SDL_Delay((int)(50 - frameTime));
         }
     }
 
