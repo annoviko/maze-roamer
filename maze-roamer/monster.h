@@ -21,7 +21,6 @@ protected:
 
     position m_next_position = { -1, -1 };
     position m_current_position = { -1, -1 };
-    position m_prev_position = { -1, -1 };
 
     position m_transition_step = { 0, 0 };
 
@@ -33,13 +32,9 @@ public:
 public:
     virtual char get_id() const;
 
-    virtual position get_previous_position() const;
-
     virtual position get_current_position() const;
 
     virtual position get_next_position() const;
-
-    virtual position get_previous_scale_position() const;
 
     virtual position get_current_scale_position() const;
 

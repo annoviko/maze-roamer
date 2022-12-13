@@ -24,7 +24,7 @@ private:
     SDL_Texture* m_texture_coin;
     SDL_Texture* m_texture_player;
     SDL_Texture* m_texture_monster;
-    SDL_Texture* m_texture_monster_bfs;
+    SDL_Texture* m_texture_monster_clever;
 
     std::vector<std::shared_ptr<monster>> m_monsters;
 

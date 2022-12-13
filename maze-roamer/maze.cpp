@@ -5,7 +5,7 @@
 #include <SDL_image.h>
 
 #include "monster_random.h"
-#include "monster_bfs.h"
+#include "monster_clever.h"
 
 
 maze::maze(const std::string& p_filepath, SDL_Renderer * p_renderer) :
@@ -34,8 +34,8 @@ maze::maze(const std::string& p_filepath, SDL_Renderer * p_renderer) :
     m_texture_monster = IMG_LoadTexture(m_renderer, "img/monster.png");
     SDL_SetTextureBlendMode(m_texture_monster, SDL_BLENDMODE_BLEND);
 
-    m_texture_monster_bfs = IMG_LoadTexture(m_renderer, "img/monster-bfs.png");
-    SDL_SetTextureBlendMode(m_texture_monster_bfs, SDL_BLENDMODE_BLEND);
+    m_texture_monster_clever = IMG_LoadTexture(m_renderer, "img/monster-bfs.png");
+    SDL_SetTextureBlendMode(m_texture_monster_clever, SDL_BLENDMODE_BLEND);
 }
 
 
@@ -81,7 +81,7 @@ void maze::initialize() {
     }
 
     for (const auto& pos : clever_monsters) {
-        m_monsters.push_back(std::make_shared<monster_bfs>('C', &m_maze, OBJECT_SIZE, pos));
+        m_monsters.push_back(std::make_shared<monster_clever>('C', &m_maze, OBJECT_SIZE, pos));
     }
 }
 
@@ -175,7 +175,7 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y, cons
                 break;
             }
 
-            SDL_RenderCopy(m_renderer, m_texture_monster_bfs, NULL, &rect);
+            SDL_RenderCopy(m_renderer, m_texture_monster_clever, NULL, &rect);
             break;
         }
     }

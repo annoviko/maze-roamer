@@ -5,18 +5,12 @@ monster::monster(const char p_id, const level_map* p_map, const int p_cell_size,
     m_id(p_id),
     m_map(p_map),
     m_cell_size(p_cell_size),
-    m_current_position(p_initial_position),
-    m_prev_position(p_initial_position)
+    m_current_position(p_initial_position)
 { }
 
 
 char monster::get_id() const {
     return m_id;
-}
-
-
-position monster::get_previous_position() const {
-    return m_prev_position;
 }
 
 
@@ -29,10 +23,6 @@ position monster::get_next_position() const {
     return m_next_position;
 }
 
-
-position monster::get_previous_scale_position() const {
-    return m_prev_position * m_cell_size;
-}
 
 position monster::get_current_scale_position() const {
     return m_current_position * m_cell_size + m_transition_step;

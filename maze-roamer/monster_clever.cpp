@@ -1,9 +1,11 @@
-#include "monster_bfs.h"
+#include "monster_clever.h"
 
 #include <queue>
 
+#include <iostream>
 
-position monster_bfs::move(const position& p_player) {
+
+position monster_clever::move(const position& p_player) {
     if (p_player == m_current_position) {
         return m_current_position;
     }
@@ -17,16 +19,17 @@ position monster_bfs::move(const position& p_player) {
 }
 
 
-void monster_bfs::handle_wait_for_input() {
-    if (m_cur_player_position != m_prev_player_position) {
+void monster_clever::handle_wait_for_input() {
+    if (m_path_to_player.empty() || (m_cur_player_position != m_prev_player_position)) {
         m_path_to_player = get_path_to_player(m_cur_player_position);
     }
 
     if (!m_path_to_player.empty()) {
-        m_prev_position = m_current_position;
         m_next_position = m_path_to_player.front();
-
         m_path_to_player.pop_front();
+    }
+    else {
+        std::cout << "Clever monster does not where to go!" << std::endl;
     }
 
     m_state = monster_state::cell_transition;
@@ -35,7 +38,7 @@ void monster_bfs::handle_wait_for_input() {
 }
 
 
-std::list<position> monster_bfs::get_path_to_player(const position& p_player) {
+std::list<position> monster_clever::get_path_to_player(const position& p_player) {
     position not_visited = { -1, -1 };
     position initial = { 0, 0 };
 

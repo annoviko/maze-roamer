@@ -11,8 +11,6 @@ position monster_random::move(const position& p_player) {
 
 
 void monster_random::handle_wait_for_input() {
-    m_prev_position = m_current_position;
-
     auto ways = get_possible_steps(m_current_position);
     std::size_t index_way = rand() % ways.size();
 

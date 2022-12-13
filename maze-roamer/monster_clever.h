@@ -5,14 +5,14 @@
 #include <list>
 
 
-class monster_bfs : public monster {
+class monster_clever : public monster {
 private:
     std::list<position> m_path_to_player; // cache it
     position m_prev_player_position = { -1, -1 };
     position m_cur_player_position = { -1, -1 };
 
 public:
-    monster_bfs(char p_id, const level_map* p_map, const int p_cell_size, position p_position) :
+    monster_clever(char p_id, const level_map* p_map, const int p_cell_size, position p_position) :
         monster(p_id, p_map, p_cell_size, p_position)
     { }
 
