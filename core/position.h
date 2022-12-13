@@ -1,7 +1,5 @@
 #pragma once
 
-#include <type_traits>
-
 
 struct position {
     int x = 0;

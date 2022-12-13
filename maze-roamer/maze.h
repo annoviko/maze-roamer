@@ -7,9 +7,10 @@
 #include <SDL.h>
 
 #include "level_map.h"
-#include "position.h"
 #include "monster.h"
 
+#include "core/game_object.h"
+#include "core/position.h"
 #include "core/texture_manager.h"
 
 
@@ -18,6 +19,9 @@ private:
     static constexpr int OBJECT_SIZE = 32;
 
 private:
+    std::vector<std::vector<game_object::ptr>> m_objects_fundamental;
+    std::vector<std::vector<game_object::ptr>> m_objects_static;
+
     level_map m_maze;
 
     SDL_Renderer * m_renderer;
@@ -64,7 +68,7 @@ private:
 
     void game_over();
 
-    void render_object(const char p_obj_id, const int p_x, const int p_y, const bool p_render_static_only);
+    void render_object(const char p_obj_id, const int p_x, const int p_y);
 
     bool is_inside(const position& p_pos) const;
 

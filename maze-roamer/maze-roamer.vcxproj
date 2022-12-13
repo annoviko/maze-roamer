@@ -98,13 +98,15 @@
     <Text Include="level01.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="coin.h" />
+    <ClInclude Include="ground.h" />
     <ClInclude Include="level_map.h" />
     <ClInclude Include="maze.h" />
     <ClInclude Include="monster.h" />
     <ClInclude Include="monster_clever.h" />
     <ClInclude Include="monster_random.h" />
     <ClInclude Include="monster_state.h" />
-    <ClInclude Include="position.h" />
+    <ClInclude Include="wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

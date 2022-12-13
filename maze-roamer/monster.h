@@ -6,7 +6,7 @@
 
 #include "level_map.h"
 #include "monster_state.h"
-#include "position.h"
+#include "core/position.h"
 
 
 class monster {

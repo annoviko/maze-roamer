@@ -31,7 +31,7 @@ void texture_manager::load(const char p_id, const std::string& p_path) {
 }
 
 
-void texture_manager::draw(const char p_id, const SDL_Rect& p_dest) {
+void texture_manager::draw(const char p_id, const SDL_Rect& p_dest) const {
     auto iter_texture = m_textures.find(p_id);
     if (iter_texture == m_textures.cend()) {
         throw std::invalid_argument("Impossible to draw texture (reason: id is not found).");

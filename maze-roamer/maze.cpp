@@ -1,11 +1,15 @@
 #include "maze.h"
 
 #include <fstream>
+#include <memory>
 
 #include <SDL_image.h>
 
+#include "coin.h"
+#include "ground.h"
 #include "monster_random.h"
 #include "monster_clever.h"
+#include "wall.h"
 
 
 maze::maze(const std::string& p_filepath, SDL_Renderer * p_renderer) :
@@ -17,13 +21,6 @@ maze::maze(const std::string& p_filepath, SDL_Renderer * p_renderer) :
     int row = 0;
     for (std::string line; std::getline(stream, line); ) {
         m_maze.push_back(line);
-
-        std::size_t col = line.find('P');
-        if (col != std::string::npos) {
-            m_player = { (int) col, row };
-        }
-
-        row++;
     }
 
     initialize_texture_manager();
@@ -36,6 +33,8 @@ maze::~maze() {
 
 
 void maze::initialize_texture_manager() {
+    m_texture_manager.load(' ', "img/ground.png");
+    m_texture_manager.load('*', "img/wall.png");
     m_texture_manager.load('$', "img/coin.png");
     m_texture_manager.load('P', "img/player.png");
     m_texture_manager.load('S', "img/monster.png");
@@ -49,19 +48,42 @@ void maze::initialize() {
     std::vector<position> stupid_monsters;
     std::vector<position> clever_monsters;
 
+    m_objects_static = std::vector<std::vector<game_object::ptr>>(m_maze.size(), std::vector<game_object::ptr>(m_maze[0].size(), nullptr));
+
     for (int i = 0; i < m_maze.size(); i++) {
+        m_objects_fundamental.push_back(std::vector<game_object::ptr>());
+
         for (int j = 0; j < m_maze[0].size(); j++) {
             auto& value = m_maze[i][j];
 
-            render_object(value, x, y, false);
+            SDL_Rect rect{ x, y, OBJECT_SIZE, OBJECT_SIZE };
+
             x += OBJECT_SIZE;
 
-            if (value == 'S') {
-                stupid_monsters.push_back({ j, i });
+            if (value != '*') {
+                m_objects_fundamental.back().push_back(std::make_shared<ground>(' ', rect, m_texture_manager));
             }
 
-            if (value == 'C') {
+            switch (value) {
+            case 'S':
+                stupid_monsters.push_back({ j, i });
+                break;
+
+            case 'C':
                 clever_monsters.push_back({ j, i });
+                break;
+
+            case 'P':
+                m_player = { j, i };
+                break;
+
+            case '$':
+                m_objects_static[i][j] = std::make_shared<coin>(value, rect, m_texture_manager);
+                break;
+
+            case '*': 
+                m_objects_fundamental.back().push_back(std::make_shared<wall>(value, rect, m_texture_manager));
+                break;
             }
 
             if (value != '*' && value != ' ' && value != '$') {
@@ -73,8 +95,6 @@ void maze::initialize() {
         y += OBJECT_SIZE;
     }
 
-    SDL_RenderPresent(m_renderer);
-
     for (const auto& pos : stupid_monsters) {
         m_monsters.push_back(std::make_shared<monster_random>('S', &m_maze, OBJECT_SIZE, pos));
     }
@@ -82,6 +102,8 @@ void maze::initialize() {
     for (const auto& pos : clever_monsters) {
         m_monsters.push_back(std::make_shared<monster_clever>('C', &m_maze, OBJECT_SIZE, pos));
     }
+
+    render();
 }
 
 
@@ -101,10 +123,10 @@ void maze::render() {
 
     for (const auto& monster_ptr : m_monsters) {
         const auto& pos = monster_ptr->get_current_scale_position();
-        render_object(monster_ptr->get_id(), pos.x, pos.y, false);
+        render_object(monster_ptr->get_id(), pos.x, pos.y);
     }
 
-    render_object('P', m_player.x * OBJECT_SIZE, m_player.y * OBJECT_SIZE, false);
+    render_object('P', m_player.x * OBJECT_SIZE, m_player.y * OBJECT_SIZE);
 
     SDL_RenderPresent(m_renderer);
 }
@@ -113,15 +135,14 @@ void maze::render() {
 void maze::render_maze() {
     int x = 0, y = 0;
 
-    for (int i = 0; i < m_maze.size(); i++) {
-        for (int j = 0; j < m_maze[0].size(); j++) {
-            auto& value = m_maze[i][j];
+    for (int i = 0; i < m_objects_fundamental.size(); i++) {
+        for (int j = 0; j < m_objects_fundamental[i].size(); j++) {
+            auto& object_fundamental = m_objects_fundamental[i][j];
+            object_fundamental->render();
 
-            render_object(value, x, y, false);
-            x += OBJECT_SIZE;
-
-            if (value != '*' && value != ' ' && value != '$') {
-                value = ' '; // clean dynamic objects.
+            auto& object_static = m_objects_static[i][j];
+            if (object_static != nullptr) {
+                object_static->render();
             }
         }
 
@@ -131,49 +152,19 @@ void maze::render_maze() {
 }
 
 
-void maze::render_object(const char p_obj_id, const int p_x, const int p_y, const bool p_render_static_only = false) {
+void maze::render_object(const char p_obj_id, const int p_x, const int p_y) {
     SDL_Rect rect{ p_x, p_y, OBJECT_SIZE, OBJECT_SIZE };
 
     switch (p_obj_id) {
-        case '*': {
-            SDL_SetRenderDrawColor(m_renderer, 0, 220, 220, 220);
-            SDL_RenderFillRect(m_renderer, &rect);
-            break;
-        }
-        case ' ': {
-            SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
-            SDL_RenderFillRect(m_renderer, &rect);
-            break;
-        }
-        case '$': {
-            SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
-            SDL_RenderFillRect(m_renderer, &rect);
-            m_texture_manager.draw(p_obj_id, rect);
-            break;
-        }
         case 'P': {
-            if (p_render_static_only) {
-                break;
-            }
-
-            SDL_SetRenderDrawColor(m_renderer, 0, 255, 255, 255);
-            SDL_RenderFillRect(m_renderer, &rect);
             m_texture_manager.draw(p_obj_id, rect);
             break;
         }
         case 'S': {
-            if (p_render_static_only) {
-                break;
-            }
-
             m_texture_manager.draw(p_obj_id, rect);
             break;
         }
         case 'C': {
-            if (p_render_static_only) {
-                break;
-            }
-
             m_texture_manager.draw(p_obj_id, rect);
             break;
         }
@@ -190,21 +181,6 @@ void maze::game_over() {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Game Over", "Game Over", nullptr);
     m_is_running = false;
 }
-
-/*
-void maze::render_player_movement(const position& p_prev, const position& p_cur) {
-    int x = p_prev.x * OBJECT_SIZE;
-    int y = p_prev.y * OBJECT_SIZE;
-
-    render_object(m_maze[p_prev.y][p_prev.x], x, y, true);
-
-    SDL_Rect rect = { p_cur.x * OBJECT_SIZE, p_cur.y * OBJECT_SIZE, OBJECT_SIZE, OBJECT_SIZE };
-
-    SDL_RenderFillRect(m_renderer, &rect);
-    SDL_RenderCopy(m_renderer, m_texture_player, NULL, &rect);
-    SDL_RenderPresent(m_renderer);
-}
-*/
 
 
 bool maze::is_inside(const position& p_pos) const {

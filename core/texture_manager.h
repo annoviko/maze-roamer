@@ -20,5 +20,5 @@ public:
 public:
     void load(const char p_id, const std::string& p_path);
 
-    void draw(const char p_id, const SDL_Rect& p_dest);
+    void draw(const char p_id, const SDL_Rect& p_dest) const;
 };
