@@ -1,36 +1,22 @@
 #include "monster.h"
 
 
-monster::monster(const char p_id, const level_map* p_map, const int p_cell_size, const position p_initial_position) :
-    m_id(p_id),
+monster::monster(const char p_id, const SDL_Rect& p_location, const texture_manager& p_texture_manager, const level_matrix* p_map, const position p_logical_position) :
+    game_object(p_id, p_location, p_texture_manager),
     m_map(p_map),
-    m_cell_size(p_cell_size),
-    m_current_position(p_initial_position)
+    m_logical_location(p_logical_position),
+    m_logical_destination(p_logical_position),
+    m_destination(p_location)
 { }
 
 
-char monster::get_id() const {
-    return m_id;
+void monster::notify_player_moving(const position& p_pos) {
+    m_logical_player = p_pos;
 }
 
 
-position monster::get_current_position() const {
-    return m_current_position;
-}
-
-
-position monster::get_next_position() const {
-    return m_next_position;
-}
-
-
-position monster::get_current_scale_position() const {
-    return m_current_position * m_cell_size + m_transition_step;
-}
-
-
-position monster::get_next_scale_position() const {
-    return m_next_position * m_cell_size;
+const position& monster::get_logical_location() const {
+    return m_logical_location;
 }
 
 
@@ -58,12 +44,24 @@ std::vector<position> monster::get_possible_steps(const position& p_pos) const {
 
 void monster::handle_state() {
     switch (m_state) {
-    case monster_state::cell_transition:
-        handle_transition();
+    case monster_state::moving_up:
+        handle_moving_up();
         break;
 
-    case monster_state::wait_for_input:
-        handle_wait_for_input();
+    case monster_state::moving_down:
+        handle_moving_down();
+        break;
+
+    case monster_state::moving_left:
+        handle_moving_left();
+        break;
+
+    case monster_state::moving_right:
+        handle_moving_right();
+        break;
+
+    case monster_state::wait_for_destination:
+        handle_wait_for_destination();
         break;
 
     default:
@@ -72,45 +70,60 @@ void monster::handle_state() {
 }
 
 
-void monster::handle_transition() {
-    const auto next_pos_scale = get_next_scale_position();
-    const auto cur_pos_scale = get_current_scale_position();
-
-    if (cur_pos_scale.x != next_pos_scale.x) {
-        if (cur_pos_scale.x > next_pos_scale.x) {
-            m_transition_step.x -= TRANSITION_STEP_SIZE;
-            if (m_transition_step.x < -m_cell_size) {
-                m_transition_step.x = -m_cell_size;
-            }
-        }
-        else {
-            m_transition_step.x += TRANSITION_STEP_SIZE;
-
-            if (m_transition_step.x > m_cell_size) {
-                m_transition_step.x = m_cell_size;
-            }
-        }
+void monster::define_moving_state() {
+    if (m_logical_location.x < m_logical_destination.x) {
+        m_state = monster_state::moving_right;
     }
-    else if (cur_pos_scale.y != next_pos_scale.y) {
-        if (cur_pos_scale.y > next_pos_scale.y) {
-            m_transition_step.y -= TRANSITION_STEP_SIZE;
-
-            if (m_transition_step.y < -m_cell_size) {
-                m_transition_step.y = -m_cell_size;
-            }
-        }
-        else {
-            m_transition_step.y += TRANSITION_STEP_SIZE;
-
-            if (m_transition_step.y > m_cell_size) {
-                m_transition_step.y = m_cell_size;
-            }
-        }
+    else if (m_logical_location.x > m_logical_destination.x) {
+        m_state = monster_state::moving_left;
     }
+    else if (m_logical_location.y < m_logical_destination.y) {
+        m_state = monster_state::moving_down;
+    }
+    else if (m_logical_location.y > m_logical_destination.y) {
+        m_state = monster_state::moving_up;
+    }
+    else {
+        m_state = monster_state::wait_for_destination;
+    }
+}
 
-    if (get_current_scale_position() == next_pos_scale) {
-        m_state = monster_state::wait_for_input;
-        m_current_position = m_next_position;
-        m_transition_step = { 0, 0 };
+
+void monster::handle_moving_done() {
+    m_location = m_destination;
+
+    m_state = monster_state::wait_for_destination;
+    m_logical_location = m_logical_destination;
+}
+
+
+void monster::handle_moving_left() {
+    m_location.x -= TRANSITION_STEP_SIZE;
+    if (m_location.x <= m_destination.x) {
+        handle_moving_done();
+    }
+}
+
+
+void monster::handle_moving_right() {
+    m_location.x += TRANSITION_STEP_SIZE;
+    if (m_location.x >= m_destination.x) {
+        handle_moving_done();
+    }
+}
+
+
+void monster::handle_moving_up() {
+    m_location.y -= TRANSITION_STEP_SIZE;
+    if (m_location.y <= m_destination.y) {
+        handle_moving_done();
+    }
+}
+
+
+void monster::handle_moving_down() {
+    m_location.y += TRANSITION_STEP_SIZE;
+    if (m_location.y >= m_destination.y) {
+        handle_moving_done();
     }
 }

@@ -4,50 +4,54 @@
 #include <vector>
 #include <string>
 
-#include "level_map.h"
+#include "level_matrix.h"
 #include "monster_state.h"
+
+#include "core/game_object.h"
 #include "core/position.h"
+#include "core/texture_manager.h"
 
 
-class monster {
+class monster : public game_object {
 protected:
     static constexpr int TRANSITION_STEP_SIZE = 4;
 
 protected:
-    const level_map* m_map;
-    const int m_cell_size;
+    const level_matrix* m_map;
 
-    monster_state m_state = monster_state::wait_for_input;
+    monster_state m_state = monster_state::wait_for_destination;
 
-    position m_next_position = { -1, -1 };
-    position m_current_position = { -1, -1 };
+    position m_logical_location = { -1, -1 };
+    position m_logical_destination = { -1, -1 };
 
-    position m_transition_step = { 0, 0 };
+    SDL_Rect m_destination;
 
-    char m_id;
-
-public:
-    monster(const char p_id, const level_map* p_map, const int p_cell_size, const position p_initial_position);
+    position m_logical_player = { -1, -1 };
 
 public:
-    virtual char get_id() const;
+    monster(const char p_id, const SDL_Rect& p_location, const texture_manager& p_texture_manager, const level_matrix* p_map, const position p_logical_position);
 
-    virtual position get_current_position() const;
+public:
+    void notify_player_moving(const position& p_pos);
 
-    virtual position get_next_position() const;
-
-    virtual position get_current_scale_position() const;
-
-    virtual position get_next_scale_position() const;
-
-    virtual std::vector<position> get_possible_steps(const position& p_pos) const;
-
-    virtual position move(const position& p_player) = 0;
+    const position& get_logical_location() const;
 
 protected:
+    virtual std::vector<position> get_possible_steps(const position& p_pos) const;
+
     virtual void handle_state();
 
-    virtual void handle_wait_for_input() = 0;
+    virtual void define_moving_state();
 
-    virtual void handle_transition();
+    virtual void handle_moving_done();
+
+    virtual void handle_moving_left();
+
+    virtual void handle_moving_right();
+
+    virtual void handle_moving_up();
+
+    virtual void handle_moving_down();
+
+    virtual void handle_wait_for_destination() = 0;
 };

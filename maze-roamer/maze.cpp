@@ -45,9 +45,6 @@ void maze::initialize_texture_manager() {
 void maze::initialize() {
     int x = 0, y = 0;
 
-    std::vector<position> stupid_monsters;
-    std::vector<position> clever_monsters;
-
     m_objects_static = std::vector<std::vector<game_object::ptr>>(m_maze.size(), std::vector<game_object::ptr>(m_maze[0].size(), nullptr));
 
     for (int i = 0; i < m_maze.size(); i++) {
@@ -66,11 +63,11 @@ void maze::initialize() {
 
             switch (value) {
             case 'S':
-                stupid_monsters.push_back({ j, i });
+                m_monsters.push_back(std::make_shared<monster_random>('S', rect, m_texture_manager, &m_maze, position{ j, i }));
                 break;
 
             case 'C':
-                clever_monsters.push_back({ j, i });
+                m_monsters.push_back(std::make_shared<monster_clever>('C', rect, m_texture_manager, &m_maze, position{ j, i }));
                 break;
 
             case 'P':
@@ -95,23 +92,16 @@ void maze::initialize() {
         y += OBJECT_SIZE;
     }
 
-    for (const auto& pos : stupid_monsters) {
-        m_monsters.push_back(std::make_shared<monster_random>('S', &m_maze, OBJECT_SIZE, pos));
-    }
-
-    for (const auto& pos : clever_monsters) {
-        m_monsters.push_back(std::make_shared<monster_clever>('C', &m_maze, OBJECT_SIZE, pos));
-    }
-
     render();
 }
 
 
 void maze::update() {
     for (auto& monster_ptr : m_monsters) {
-        monster_ptr->move(m_player);
+        monster_ptr->notify_player_moving(m_player);
+        monster_ptr->update();
 
-        if (monster_ptr->get_current_position() == m_player) {
+        if (monster_ptr->get_logical_location() == m_player) {
             game_over();
         }
     }
@@ -119,20 +109,19 @@ void maze::update() {
 
 
 void maze::render() {
-    render_maze();
-
-    for (const auto& monster_ptr : m_monsters) {
-        const auto& pos = monster_ptr->get_current_scale_position();
-        render_object(monster_ptr->get_id(), pos.x, pos.y);
-    }
+    render_static_objects();
 
     render_object('P', m_player.x * OBJECT_SIZE, m_player.y * OBJECT_SIZE);
+
+    for (const auto& monster_ptr : m_monsters) {
+        monster_ptr->render();
+    }
 
     SDL_RenderPresent(m_renderer);
 }
 
 
-void maze::render_maze() {
+void maze::render_static_objects() {
     int x = 0, y = 0;
 
     for (int i = 0; i < m_objects_fundamental.size(); i++) {
@@ -157,14 +146,6 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y) {
 
     switch (p_obj_id) {
         case 'P': {
-            m_texture_manager.draw(p_obj_id, rect);
-            break;
-        }
-        case 'S': {
-            m_texture_manager.draw(p_obj_id, rect);
-            break;
-        }
-        case 'C': {
             m_texture_manager.draw(p_obj_id, rect);
             break;
         }
@@ -228,7 +209,7 @@ void maze::move(const position& p_prev, const position& p_next) {
     }
 
     for (auto& monster : m_monsters) {
-        if (p_next == monster->get_current_position()) {
+        if (p_next == monster->get_logical_location()) {
             game_over();
             return;
         }

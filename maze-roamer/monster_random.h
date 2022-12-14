@@ -5,13 +5,13 @@
 
 class monster_random : public monster {
 public:
-    monster_random(char id, const level_map* p_map, const int p_cell_scale, position p_position) :
-        monster(id, p_map, p_cell_scale, p_position)
+    monster_random(const char p_id, const SDL_Rect& p_location, const texture_manager& p_texture_manager, const level_matrix* p_map, const position p_logical_position) :
+        monster(p_id, p_location, p_texture_manager, p_map, p_logical_position)
     { }
 
 public:
-    position move(const position& p_player) override;
+    void update() override;
 
-private:
-    void handle_wait_for_input() override;
+protected:
+    void handle_wait_for_destination() override;
 };

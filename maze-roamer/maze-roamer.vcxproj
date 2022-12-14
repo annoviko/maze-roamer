@@ -100,7 +100,7 @@
   <ItemGroup>
     <ClInclude Include="coin.h" />
     <ClInclude Include="ground.h" />
-    <ClInclude Include="level_map.h" />
+    <ClInclude Include="level_matrix.h" />
     <ClInclude Include="maze.h" />
     <ClInclude Include="monster.h" />
     <ClInclude Include="monster_clever.h" />

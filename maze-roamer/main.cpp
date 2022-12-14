@@ -4,6 +4,7 @@
 
 #include "maze.h"
 
+#include <chrono>
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -20,7 +21,12 @@ int main(int argc, char* argv[]) {
 
     maze m("level01.txt", renderer);
     SDL_SetWindowSize(window, m.get_width(), m.get_height());
+
+    auto started = std::chrono::high_resolution_clock::now();
     m.initialize();
+    auto done = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(done - started).count();
+    std::cout << duration << std::endl;
 
     bool is_running = true;
     SDL_Event event;

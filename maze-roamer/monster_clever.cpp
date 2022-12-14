@@ -5,36 +5,32 @@
 #include <iostream>
 
 
-position monster_clever::move(const position& p_player) {
-    if (p_player == m_current_position) {
-        return m_current_position;
-    }
-
-    m_prev_player_position = m_cur_player_position;
-    m_cur_player_position = p_player;
-
+void monster_clever::update() {
     handle_state();
-
-    return m_current_position;
 }
 
 
-void monster_clever::handle_wait_for_input() {
-    if (m_path_to_player.empty() || (m_cur_player_position != m_prev_player_position)) {
-        m_path_to_player = get_path_to_player(m_cur_player_position);
+void monster_clever::handle_wait_for_destination() {
+    if (m_path_to_player.empty() || (m_logical_player != m_logical_player_last)) {
+        m_path_to_player = get_path_to_player(m_logical_player);
+        m_logical_player_last = m_logical_player;
     }
 
     if (!m_path_to_player.empty()) {
-        m_next_position = m_path_to_player.front();
+        m_logical_destination = m_path_to_player.front();
         m_path_to_player.pop_front();
+
+        m_destination.x = m_logical_destination.x * m_destination.w;
+        m_destination.y = m_logical_destination.y * m_destination.h;
     }
     else {
         std::cout << "Clever monster does not where to go!" << std::endl;
     }
 
-    m_state = monster_state::cell_transition;
-
-    handle_transition();
+    define_moving_state();
+    if (m_state != monster_state::wait_for_destination) {
+        handle_state();
+    }
 }
 
 
@@ -45,8 +41,8 @@ std::list<position> monster_clever::get_path_to_player(const position& p_player)
     std::vector<std::vector<position>> path_back(m_map->size(), std::vector<position>(m_map->front().size(), not_visited));
 
     std::queue<position> to_process;
-    to_process.push({ m_current_position.x, m_current_position.y });
-    path_back[m_current_position.y][m_current_position.x] = initial;
+    to_process.push({ m_logical_location.x, m_logical_location.y });
+    path_back[m_logical_location.y][m_logical_location.x] = initial;
 
     bool player_found = false;
 
@@ -76,7 +72,7 @@ std::list<position> monster_clever::get_path_to_player(const position& p_player)
     }
 
     std::list<position> result = { };
-    for (position p = p_player; p != m_current_position; p = path_back[p.y][p.x]) {
+    for (position p = p_player; p != m_logical_location; p = path_back[p.y][p.x]) {
         result.push_front(p);
     }
 

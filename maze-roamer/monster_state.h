@@ -2,6 +2,9 @@
 
 
 enum class monster_state {
-    cell_transition = 0,
-    wait_for_input = 1
+    moving_left = 0,
+    moving_down,
+    moving_right,
+    moving_up,
+    wait_for_destination
 };

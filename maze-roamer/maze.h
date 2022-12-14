@@ -6,7 +6,7 @@
 
 #include <SDL.h>
 
-#include "level_map.h"
+#include "level_matrix.h"
 #include "monster.h"
 
 #include "core/game_object.h"
@@ -22,7 +22,7 @@ private:
     std::vector<std::vector<game_object::ptr>> m_objects_fundamental;
     std::vector<std::vector<game_object::ptr>> m_objects_static;
 
-    level_map m_maze;
+    level_matrix m_maze;
 
     SDL_Renderer * m_renderer;
 
@@ -64,7 +64,7 @@ public:
 private:
     void initialize_texture_manager();
 
-    void render_maze();
+    void render_static_objects();
 
     void game_over();
 

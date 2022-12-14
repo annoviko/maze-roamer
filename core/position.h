@@ -5,6 +5,16 @@ struct position {
     int x = 0;
     int y = 0;
 
+    position& operator=(const position& p_other) {
+        if (this == &p_other) {
+            return *this;
+        }
+
+        x = p_other.x;
+        y = p_other.y;
+        return *this;
+    }
+
     bool operator==(const position& p_other) const {
         return x == p_other.x && y == p_other.y;
     }
