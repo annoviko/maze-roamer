@@ -25,16 +25,17 @@ private:
     level_matrix m_maze;
 
     SDL_Renderer * m_renderer;
-
+    SDL_Window* m_window;
     texture_manager m_texture_manager;
 
     std::vector<std::shared_ptr<monster>> m_monsters;
 
     bool m_is_running = true;
     position m_player;
+    int m_score = 0;
 
 public:
-    maze(const std::string& p_filepath, SDL_Renderer * p_renderer);
+    maze(const std::string& p_filepath, SDL_Renderer * p_renderer, SDL_Window* p_window);
 
     ~maze();
 
@@ -73,4 +74,6 @@ private:
     bool is_inside(const position& p_pos) const;
 
     bool is_wall(const position& p_pos) const;
+
+    void check_score();
 };
