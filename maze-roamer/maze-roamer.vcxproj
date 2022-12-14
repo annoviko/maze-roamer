@@ -88,24 +88,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dynamic_game_object.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maze.cpp" />
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="monster_clever.cpp" />
     <ClCompile Include="monster_random.cpp" />
+    <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="level01.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coin.h" />
+    <ClInclude Include="dynamic_game_object.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="level_matrix.h" />
     <ClInclude Include="maze.h" />
     <ClInclude Include="monster.h" />
     <ClInclude Include="monster_clever.h" />
     <ClInclude Include="monster_random.h" />
-    <ClInclude Include="monster_state.h" />
+    <ClInclude Include="dynamic_object_state.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="wall.h" />
   </ItemGroup>
   <ItemGroup>

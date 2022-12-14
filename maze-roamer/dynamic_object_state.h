@@ -1,7 +1,7 @@
 #pragma once
 
 
-enum class monster_state {
+enum class dynamic_object_state {
     moving_left = 0,
     moving_down,
     moving_right,

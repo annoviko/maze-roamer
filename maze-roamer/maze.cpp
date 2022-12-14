@@ -71,7 +71,7 @@ void maze::initialize() {
                 break;
 
             case 'P':
-                m_player = { j, i };
+                m_player = std::make_shared<player>('P', rect, m_texture_manager, &m_maze, position{ j, i });
                 break;
 
             case '$':
@@ -97,11 +97,13 @@ void maze::initialize() {
 
 
 void maze::update() {
+    m_player->update();
+
     for (auto& monster_ptr : m_monsters) {
-        monster_ptr->notify_player_moving(m_player);
+        monster_ptr->notify_player_moving(m_player->get_logical_location());
         monster_ptr->update();
 
-        if (monster_ptr->get_logical_location() == m_player) {
+        if (monster_ptr->get_logical_location() == m_player->get_logical_location()) {
             game_over();
         }
     }
@@ -111,7 +113,7 @@ void maze::update() {
 void maze::render() {
     render_static_objects();
 
-    render_object('P', m_player.x * OBJECT_SIZE, m_player.y * OBJECT_SIZE);
+    m_player->render();
 
     for (const auto& monster_ptr : m_monsters) {
         monster_ptr->render();
@@ -164,58 +166,23 @@ void maze::game_over() {
 }
 
 
-bool maze::is_inside(const position& p_pos) const {
-    return ((p_pos.x >= 0 && p_pos.x < m_maze.front().size()) &&
-        (p_pos.y >= 0 && p_pos.y < m_maze.size()));
-}
-
-
-bool maze::is_wall(const position& p_pos) const {
-    if (!is_inside(p_pos)) {
-        return false;
-    }
-
-    return m_maze[p_pos.y][p_pos.x] == '*';
-}
-
-
 void maze::move_right() {
-    position next_pos = { m_player.x + 1, m_player.y };
-    move(m_player, next_pos);
+    m_player->move_right();
 }
 
 
 void maze::move_left() {
-    position next_pos = { m_player.x - 1, m_player.y };
-    move(m_player, next_pos);
+    m_player->move_left();
 }
 
 
 void maze::move_up() {
-    position next_pos = { m_player.x, m_player.y - 1 };
-    move(m_player, next_pos);
+    m_player->move_up();
 }
 
 
 void maze::move_down() {
-    position next_pos = { m_player.x, m_player.y + 1 };
-    move(m_player, next_pos);
-}
-
-
-void maze::move(const position& p_prev, const position& p_next) {
-    if (is_wall(p_next)) {
-        return;
-    }
-
-    for (auto& monster : m_monsters) {
-        if (p_next == monster->get_logical_location()) {
-            game_over();
-            return;
-        }
-    }
-
-    m_player = p_next;
+    m_player->move_down();
 }
 
 

@@ -15,7 +15,7 @@ void monster_random::handle_wait_for_destination() {
     m_destination.y = m_logical_destination.y * m_destination.h;
 
     define_moving_state();
-    if (m_state != monster_state::wait_for_destination) {
+    if (m_state != dynamic_object_state::wait_for_destination) {
         handle_state();
     }
 }
