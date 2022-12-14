@@ -31,6 +31,11 @@ void player::update() {
 
 
 void player::try_change_destination(const dynamic_object_state p_state) {
+    /* check if physically can change direction */
+    if ((m_location.x % m_location.w != 0) || (m_location.y % m_location.h != 0)) {
+        return;
+    }
+
     position destination_candidate = m_logical_location;
 
     switch (p_state) {
