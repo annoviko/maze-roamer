@@ -27,14 +27,16 @@ private:
 
     level_matrix m_maze;
 
-    SDL_Renderer * m_renderer;
+    int m_score = 0;
 
+    SDL_Renderer * m_renderer;
+    SDL_Window* m_window;
     texture_manager m_texture_manager;
 
     bool m_is_running = true;
 
 public:
-    maze(const std::string& p_filepath, SDL_Renderer * p_renderer);
+    maze(const std::string& p_filepath, SDL_Renderer * p_renderer, SDL_Window* p_window);
 
     ~maze();
 
@@ -67,4 +69,6 @@ private:
     void game_over();
 
     void render_object(const char p_obj_id, const int p_x, const int p_y);
+
+    void check_score();
 };

@@ -12,9 +12,10 @@
 #include "wall.h"
 
 
-maze::maze(const std::string& p_filepath, SDL_Renderer * p_renderer) :
+maze::maze(const std::string& p_filepath, SDL_Renderer* p_renderer, SDL_Window* p_window) :
     m_renderer(p_renderer),
-    m_texture_manager(p_renderer)
+    m_texture_manager(p_renderer),
+    m_window(p_window)
 {
     std::ifstream stream(p_filepath);
 
@@ -78,12 +79,12 @@ void maze::initialize() {
                 m_objects_static[i][j] = std::make_shared<coin>(value, rect, m_texture_manager);
                 break;
 
-            case '*': 
+            case '*':
                 m_objects_fundamental.back().push_back(std::make_shared<wall>(value, rect, m_texture_manager));
                 break;
             }
 
-            if (value != '*' && value != ' ' && value != '$') {
+            if (value != '*' && value != ' ') {
                 value = ' '; // clean dynamic objects.
             }
         }
@@ -95,6 +96,16 @@ void maze::initialize() {
     render();
 }
 
+void maze::check_score() {
+    auto& static_object = m_objects_static[m_player->get_logical_location().y][m_player->get_logical_location().x];
+    if ((static_object != nullptr) && (static_object->get_id() == '$')) {
+        m_score += 100;
+        static_object = nullptr;
+        std::string title("Maze Roamer | Score: ");
+        title.append(std::to_string(m_score));
+        SDL_SetWindowTitle(m_window, title.c_str());
+    }
+}
 
 void maze::update() {
     m_player->update();
@@ -107,6 +118,7 @@ void maze::update() {
             game_over();
         }
     }
+    check_score();
 }
 
 
