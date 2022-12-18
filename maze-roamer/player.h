@@ -27,6 +27,8 @@ public:
 
     void move_down();
 
+    bool death();
+    
     void update() override;
 
 protected:
