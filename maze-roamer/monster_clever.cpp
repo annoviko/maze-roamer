@@ -7,6 +7,7 @@
 
 void monster_clever::update() {
     handle_state();
+    m_current_frame = 24 + int((SDL_GetTicks() / 100) % m_num_of_frame);
 }
 
 

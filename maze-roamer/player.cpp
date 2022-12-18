@@ -26,6 +26,32 @@ void player::update() {
         try_change_destination(m_next_state);
     }
 
+    int base_frame = 0;
+    switch (m_state)
+    {
+    case dynamic_object_state::moving_left:
+        base_frame = 0;
+        m_flip = SDL_FLIP_HORIZONTAL;
+        break;
+    case dynamic_object_state::moving_right:
+        base_frame = 0;
+        m_flip = SDL_FLIP_NONE;
+        break;
+    case dynamic_object_state::moving_down:
+        base_frame = 4;
+        m_flip = SDL_FLIP_VERTICAL;
+        break;
+    case dynamic_object_state::moving_up:
+        base_frame = 4;
+        m_flip = SDL_FLIP_NONE;
+        break;
+    case dynamic_object_state::wait_for_destination:
+    default:
+        base_frame = 0;
+        m_flip = SDL_FLIP_NONE;
+    }
+    m_current_frame = base_frame + int((SDL_GetTicks() / 100) % m_num_of_frame);
+
     handle_state();
 }
 

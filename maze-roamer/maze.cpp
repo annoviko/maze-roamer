@@ -34,12 +34,7 @@ maze::~maze() {
 
 
 void maze::initialize_texture_manager() {
-    m_texture_manager.load(' ', "img/ground.png");
-    m_texture_manager.load('*', "img/wall.png");
-    m_texture_manager.load('$', "img/coin.png");
-    m_texture_manager.load('P', "img/player.png");
-    m_texture_manager.load('S', "img/monster.png");
-    m_texture_manager.load('C', "img/monster-bfs.png");
+    m_texture_manager.load("img/pacman.png");
 }
 
 
@@ -160,7 +155,7 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y) {
 
     switch (p_obj_id) {
         case 'P': {
-            m_texture_manager.draw(p_obj_id, rect);
+            m_texture_manager.draw(rect);
             break;
         }
     }
