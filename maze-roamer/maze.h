@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #include "level_matrix.h"
 #include "monster.h"
@@ -26,17 +27,20 @@ private:
     std::vector<std::shared_ptr<monster>> m_monsters;
 
     level_matrix m_maze;
+    level_matrix m_initial_maze;
 
-    int m_score = 0;
-
-    SDL_Renderer * m_renderer;
-    SDL_Window* m_window;
+    bool m_death_seq;
+    int m_score;
+    int m_health;
+    int m_total_coin;
+    int m_collected_coin;
+    SDL_Renderer* m_renderer;
     texture_manager m_texture_manager;
-
+    TTF_Font* m_font;
     bool m_is_running = true;
 
 public:
-    maze(const std::string& p_filepath, SDL_Renderer * p_renderer, SDL_Window* p_window);
+    maze(const std::string& p_filepath, SDL_Renderer* p_renderer);
 
     ~maze();
 
@@ -66,9 +70,19 @@ private:
 
     void render_static_objects();
 
-    void game_over();
+    void check_game_over();
 
     void render_object(const char p_obj_id, const int p_x, const int p_y);
 
+    void render_bottom();
+    
     void check_score();
+    
+    void show_score();
+    
+    void show_health();
+    
+    void show_progress() const;
+    
+    void reinitialize();
 };

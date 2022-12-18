@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #include <iostream>
 
@@ -10,7 +11,7 @@ int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window* window;
-    window = SDL_CreateWindow("Maze Roamer | Score: 0", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 832, 416, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("Maze Roamer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 832, 448, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
     if (window == NULL) {
         std::cout << "Could not create window: " << SDL_GetError() << '\n';
@@ -18,8 +19,10 @@ int main(int argc, char* argv[]) {
     }
 
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-    maze m("level01.txt", renderer, window);
+    if (TTF_Init() < 0) {
+        std::cout << "Error initializing SDL_ttf: " << TTF_GetError() << std::endl;
+    }
+    maze m("level01.txt", renderer);
 
     auto started = std::chrono::high_resolution_clock::now();
     m.initialize();
@@ -77,6 +80,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    TTF_Quit();
     SDL_DestroyWindow(window);
     SDL_Quit();
 
