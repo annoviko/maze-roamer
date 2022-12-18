@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/maze-roamer
+/core/x64/Debug
+/maze-roamer/x64/Debug
+*.user
+/tests/ut/x64/Debug
+/x64/Debug
+/packages
