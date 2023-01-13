@@ -34,6 +34,7 @@ private:
     int m_health;
     int m_total_coin;
     int m_collected_coin;
+    int m_remaining_coin;
     SDL_Renderer* m_renderer;
     texture_manager m_texture_manager;
     TTF_Font* m_font;
@@ -75,14 +76,16 @@ private:
     void render_object(const char p_obj_id, const int p_x, const int p_y);
 
     void render_bottom();
-    
+
     void check_score();
-    
+
+    void check_win_condition();
+
     void show_score();
-    
+
     void show_health();
-    
+
     void show_progress() const;
-    
+
     void reinitialize();
 };
