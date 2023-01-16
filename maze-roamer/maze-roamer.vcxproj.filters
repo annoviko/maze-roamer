@@ -22,6 +22,16 @@
     <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="level_finder.cpp" />
+    <ClCompile Include="level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="level_runner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player_context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="maze.h">
@@ -57,6 +67,18 @@
     <ClInclude Include="dynamic_game_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="level_finder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="level_runner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player_context.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -73,7 +95,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="level01.txt">
+    <Text Include="level-01.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="level-02.txt">
       <Filter>Resources</Filter>
     </Text>
   </ItemGroup>

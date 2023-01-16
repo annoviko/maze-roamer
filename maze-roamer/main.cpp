@@ -3,9 +3,10 @@
 
 #include <iostream>
 
-#include "maze.h"
+#include "level_finder.h"
+#include "level_runner.h"
+#include "player_context.h"
 
-#include <chrono>
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -22,62 +23,13 @@ int main(int argc, char* argv[]) {
     if (TTF_Init() < 0) {
         std::cout << "Error initializing SDL_ttf: " << TTF_GetError() << std::endl;
     }
-    maze m("level01.txt", renderer);
 
-    auto started = std::chrono::high_resolution_clock::now();
-    m.initialize();
-    auto done = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(done - started).count();
-    std::cout << duration << std::endl;
+    level_finder finder(".");
+    player_context::ptr context = std::make_shared<player_context>();
 
-    bool is_running = true;
-    SDL_Event event;
-    std::memset((void *) &event, 0x00, sizeof(SDL_Event));
-
-    while (is_running && m.is_running()) {
-        auto frameStart = SDL_GetTicks();
-
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-            case SDL_QUIT:
-                is_running = false;
-                break;
-
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                case SDLK_RIGHT:
-                    m.move_right();
-                    break;
-
-                case SDLK_LEFT:
-                    m.move_left();
-                    break;
-
-                case SDLK_UP:
-                    m.move_up();
-                    break;
-
-                case SDLK_DOWN:
-                    m.move_down();
-                    break;
-                }
-
-                break;
-
-            default:
-                break;
-            }
-        }
-
-        m.update();
-        m.render();
-
-        auto frameTime = SDL_GetTicks() - frameStart;
-
-        if (frameTime < 50)
-        {
-            SDL_Delay((int)(50 - frameTime));
-        }
+    level_runner runner(renderer, context);
+    for (std::size_t i = 0; (i < finder.get_levels().size()) && !runner.is_game_over(); i++) {
+        runner.run(finder.get_levels()[i]);
     }
 
     TTF_Quit();

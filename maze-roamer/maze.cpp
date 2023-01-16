@@ -5,7 +5,6 @@
 #include <memory>
 
 #include <SDL_image.h>
-#include <SDL_ttf.h>
 
 #include "coin.h"
 #include "ground.h"
@@ -13,22 +12,18 @@
 #include "monster_clever.h"
 #include "wall.h"
 
-maze::maze(const std::string& p_filepath, SDL_Renderer* p_renderer) :
-    m_renderer(p_renderer),
-    m_texture_manager(p_renderer)
-{
-    std::ifstream stream(p_filepath);
 
-    int row = 0;
-    for (std::string line; std::getline(stream, line); ) {
-        m_maze.push_back(line);
-    }
+maze::maze(const level& p_level,const player_context::ptr& p_context, SDL_Renderer* p_renderer) :
+    m_renderer(p_renderer),
+    m_texture_manager(p_renderer),
+    m_player_context(p_context)
+{
+    m_maze = p_level.load();
     m_initial_maze = m_maze;
+
     initialize_texture_manager();
     m_font = TTF_OpenFont("fonts/Symtext.ttf", 28);
 
-    m_score = 0;
-    m_health = 3;
     m_total_coin = 0;
     m_collected_coin = 0;
     m_remaining_coin = 0;
@@ -107,7 +102,7 @@ void maze::initialize() {
 void maze::check_score() {
     auto& static_object = m_objects_static[m_player->get_logical_location().y][m_player->get_logical_location().x];
     if ((static_object != nullptr) && (static_object->get_id() == '$')) {
-        m_score += 100;
+        m_player_context->increase_score(100);
         m_collected_coin++;
 
         static_object = nullptr;
@@ -135,6 +130,8 @@ void maze::update() {
     }
     check_score();
 }
+
+
 void maze::reinitialize() {
     int x = 0, y = 0;
     m_monsters.clear();
@@ -167,6 +164,7 @@ void maze::reinitialize() {
         y += OBJECT_SIZE;
     }
 }
+
 
 void maze::render() {
     if (m_death_seq) {
@@ -215,10 +213,10 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y) {
     SDL_Rect rect{ p_x, p_y, OBJECT_SIZE, OBJECT_SIZE };
 
     switch (p_obj_id) {
-    case 'P': {
-        m_texture_manager.draw(rect);
-        break;
-    }
+        case 'P': {
+            m_texture_manager.draw(rect);
+            break;
+        }
     }
 }
 
@@ -237,8 +235,8 @@ void maze::check_win_condition() {
 
 
 void maze::check_game_over() {
-    m_health--;
-    if (m_health <= 0) {
+    m_player_context->decrease_health();
+    if (m_player_context->is_dead()) {
         m_is_running = false;
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Game Over", "Game Over", nullptr);
     }
@@ -274,7 +272,6 @@ void maze::move_down() {
 }
 
 
-
 int maze::get_height() const {
     return OBJECT_SIZE * m_maze.size();
 }
@@ -300,30 +297,33 @@ void maze::show_health()
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(Message);
 
-    SDL_Rect location = { 736, 414, 32,32 };
-    m_texture_manager.draw_frame(location, 10, m_health < 3, SDL_FLIP_NONE);
+    const int health = m_player_context->get_health();
+
+    SDL_Rect location = { 736, 414, 32, 32 };
+    m_texture_manager.draw_frame(location, 10, health < 3, SDL_FLIP_NONE);
     location = { 768, 414, 32,32 };
-    m_texture_manager.draw_frame(location, 10, m_health < 2, SDL_FLIP_NONE);
+    m_texture_manager.draw_frame(location, 10, health < 2, SDL_FLIP_NONE);
     location = { 800, 414, 32,32 };
-    m_texture_manager.draw_frame(location, 10, m_health < 1, SDL_FLIP_NONE);
+    m_texture_manager.draw_frame(location, 10, health < 1, SDL_FLIP_NONE);
 }
 
 void maze::show_score()
 {
     //Score: 00000
     std::string message("Score: ");
-    if (m_score == 0)
+    const int score = m_player_context->get_score();
+    if (score == 0)
     {
         message.append("00000");
     }
     else {
-        int cnt = 5 - (int)log10(m_score);
+        int cnt = 5 - (int)log10(score);
         while (cnt > 0)
         {
             cnt--;
             message.append("0");
         }
-        message.append(std::to_string(m_score));
+        message.append(std::to_string(score));
     }
     SDL_Color White = { 255, 255, 255 };
     SDL_Surface* surfaceMessage = TTF_RenderText_Solid(m_font, message.c_str(), White);

@@ -7,9 +7,11 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "level.h"
 #include "level_matrix.h"
 #include "monster.h"
 #include "player.h"
+#include "player_context.h"
 
 #include "core/game_object.h"
 #include "core/position.h"
@@ -29,9 +31,9 @@ private:
     level_matrix m_maze;
     level_matrix m_initial_maze;
 
+    player_context::ptr m_player_context;
+
     bool m_death_seq;
-    int m_score;
-    int m_health;
     int m_total_coin;
     int m_collected_coin;
     int m_remaining_coin;
@@ -41,7 +43,7 @@ private:
     bool m_is_running = true;
 
 public:
-    maze(const std::string& p_filepath, SDL_Renderer* p_renderer);
+    maze(const level& p_level, const player_context::ptr& p_context, SDL_Renderer* p_renderer);
 
     ~maze();
 
