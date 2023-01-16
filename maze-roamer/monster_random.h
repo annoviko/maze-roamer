@@ -5,7 +5,7 @@
 
 class monster_random : public monster {
 protected:
-    static constexpr int MONSTER_RANDOM_TRANSITION_STEP_SIZE = 3;
+    static constexpr int MONSTER_RANDOM_TRANSITION_STEP_SIZE = 1;
 
 public:
     monster_random(const char p_id, const SDL_Rect& p_location, const texture_manager& p_texture_manager, const level_matrix* p_map, const position p_logical_position, const int p_current_row = 1, const int p_current_frame = 0, const int p_num_of_frame = 0, const SDL_RendererFlip p_flip = SDL_FLIP_NONE) :

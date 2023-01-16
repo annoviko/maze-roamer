@@ -7,7 +7,7 @@
 
 class monster_clever : public monster {
 protected:
-    static constexpr int MONSTER_CLEVER_TRANSITION_STEP_SIZE = 3;
+    static constexpr int MONSTER_CLEVER_TRANSITION_STEP_SIZE = 1;
 
 private:
     std::list<position> m_path_to_player; // cache it

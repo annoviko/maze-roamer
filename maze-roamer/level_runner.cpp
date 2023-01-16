@@ -6,7 +6,8 @@
 
 level_runner::level_runner(SDL_Renderer* p_renderer, const player_context::ptr& p_context) :
     m_renderer(p_renderer),
-    m_context(p_context)
+    m_context(p_context),
+    m_is_running(true)
 { }
 
 
@@ -15,17 +16,16 @@ void level_runner::run(const level& p_level) {
 
     m.initialize();
 
-    bool is_running = true;
     SDL_Event event;
     std::memset((void*)&event, 0x00, sizeof(SDL_Event));
 
-    while (is_running && m.is_running()) {
+    while (m_is_running && m.is_running()) {
         auto frameStart = SDL_GetTicks();
 
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
             case SDL_QUIT:
-                is_running = false;
+                m_is_running = false;
                 break;
 
             case SDL_KEYDOWN:
@@ -59,14 +59,14 @@ void level_runner::run(const level& p_level) {
 
         auto frameTime = SDL_GetTicks() - frameStart;
 
-        if (frameTime < 50)
+        if (frameTime < 10)
         {
-            SDL_Delay((int)(50 - frameTime));
+            SDL_Delay((int)(10 - frameTime));
         }
     }
 }
 
 
 bool level_runner::is_game_over() const {
-    return m_context->is_dead();
+    return !m_is_running || m_context->is_dead();
 }

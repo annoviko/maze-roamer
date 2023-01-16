@@ -6,7 +6,7 @@
 
 class player : public dynamic_game_object {
 private:
-    static constexpr int PLAYER_TRANSITION_STEP_SIZE = 5;
+    static constexpr int PLAYER_TRANSITION_STEP_SIZE = 2;
 
 private:
     dynamic_object_state m_last_state = dynamic_object_state::wait_for_destination;

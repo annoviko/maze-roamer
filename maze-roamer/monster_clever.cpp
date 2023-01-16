@@ -36,6 +36,10 @@ void monster_clever::handle_wait_for_destination() {
 
 
 std::list<position> monster_clever::get_path_to_player(const position& p_player) {
+    if (p_player == m_logical_location) {
+        return { p_player };
+    }
+
     position not_visited = { -1, -1 };
     position initial = { 0, 0 };
 
@@ -72,7 +76,7 @@ std::list<position> monster_clever::get_path_to_player(const position& p_player)
         throw std::exception("No way to player");
     }
 
-    std::list<position> result = { };
+    std::list<position> result;
     for (position p = p_player; p != m_logical_location; p = path_back[p.y][p.x]) {
         result.push_front(p);
     }

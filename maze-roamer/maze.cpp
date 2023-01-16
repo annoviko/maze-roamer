@@ -113,21 +113,33 @@ void maze::check_score() {
     }
 }
 
+
 void maze::update() {
-    if (m_death_seq)
-    {
+    if (m_death_seq) {
         return;
     }
+
     m_player->update();
 
     for (auto& monster_ptr : m_monsters) {
+        /* check if player made a step into dynamic object */
+        if (m_player->is_collision(*monster_ptr)) {
+            if (check_game_over()) {
+                return;
+            }
+        }
+
         monster_ptr->notify_player_moving(m_player->get_logical_location());
         monster_ptr->update();
 
-        if (monster_ptr->get_logical_location() == m_player->get_logical_location()) {
-            check_game_over();
+        /* check if monster made a step into dynamic object */
+        if (monster_ptr->is_collision(*m_player)) {
+            if (check_game_over()) {
+                return;
+            }
         }
     }
+
     check_score();
 }
 
@@ -143,7 +155,6 @@ void maze::reinitialize() {
             SDL_Rect rect{ x, y, OBJECT_SIZE, OBJECT_SIZE };
 
             x += OBJECT_SIZE;
-
 
             switch (value) {
             case 'S':
@@ -234,21 +245,23 @@ void maze::check_win_condition() {
 }
 
 
-void maze::check_game_over() {
+bool maze::check_game_over() {
     m_player_context->decrease_health();
     if (m_player_context->is_dead()) {
         m_is_running = false;
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Game Over", "Game Over", nullptr);
+
+        return true;
     }
-    else
-    {
-        m_death_seq = true;
-        render_static_objects();
-        m_player->render();
-        SDL_RenderPresent(m_renderer);
-        SDL_Delay(500);
-        render_bottom();
-    }
+
+    m_death_seq = true;
+    render_static_objects();
+    m_player->render();
+    SDL_RenderPresent(m_renderer);
+    SDL_Delay(500);
+    render_bottom();
+
+    return false;
 }
 
 

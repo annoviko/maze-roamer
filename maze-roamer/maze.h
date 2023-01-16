@@ -73,7 +73,7 @@ private:
 
     void render_static_objects();
 
-    void check_game_over();
+    bool check_game_over();
 
     void render_object(const char p_obj_id, const int p_x, const int p_y);
 

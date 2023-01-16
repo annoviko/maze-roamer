@@ -14,7 +14,7 @@
 
 class dynamic_game_object : public game_object {
 protected:
-    static constexpr int TRANSITION_STEP_SIZE = 4;
+    static constexpr int TRANSITION_STEP_SIZE = 1;
 
 protected:
     const level_matrix* m_map;
@@ -39,6 +39,8 @@ public:
 
 public:
     const position& get_logical_location() const;
+
+    bool is_collision(const dynamic_game_object& p_other) const;
 
 protected:
     virtual std::vector<position> get_possible_steps(const position& p_pos) const;
