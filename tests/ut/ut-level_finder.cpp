@@ -4,7 +4,7 @@
 
 
 TEST(ut_level_finder, two_levels) {
-    level_finder finder("resources/ut-level_finder");
+    level_finder finder("ut-resources/ut-level_finder");
     auto levels = finder.get_levels();
 
     ASSERT_EQ(2, levels.size());
@@ -18,7 +18,7 @@ TEST(ut_level_finder, two_levels) {
 
 
 TEST(ut_level_finder, no_levels) {
-    level_finder finder("resources");
+    level_finder finder("ut-resources");
     auto levels = finder.get_levels();
 
     ASSERT_EQ(0, levels.size());
