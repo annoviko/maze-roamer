@@ -59,9 +59,9 @@ void level_runner::run(const level& p_level) {
 
         auto frameTime = SDL_GetTicks() - frameStart;
 
-        if (frameTime < 10)
+        if (frameTime < 20)
         {
-            SDL_Delay((int)(10 - frameTime));
+            SDL_Delay((int)(20 - frameTime));
         }
     }
 }

@@ -105,6 +105,8 @@
     <Text Include="level-02.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="booster_interim.h" />
+    <ClInclude Include="booster_speed.h" />
     <ClInclude Include="coin.h" />
     <ClInclude Include="dynamic_game_object.h" />
     <ClInclude Include="ground.h" />

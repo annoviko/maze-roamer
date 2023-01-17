@@ -81,6 +81,12 @@
     <ClInclude Include="player_context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="booster_interim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="booster_speed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

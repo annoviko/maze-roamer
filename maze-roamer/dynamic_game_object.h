@@ -21,7 +21,6 @@ protected:
 
     dynamic_object_state m_state = dynamic_object_state::wait_for_destination;
 
-    position m_logical_location = { -1, -1 };
     position m_logical_destination = { -1, -1 };
 
     SDL_Rect m_destination;
@@ -38,7 +37,9 @@ public:
         const SDL_RendererFlip p_flip);
 
 public:
-    const position& get_logical_location() const;
+    void set_transition_step(const int p_transition_step);
+
+    int get_transition_step() const;
 
     bool is_collision(const dynamic_game_object& p_other) const;
 

@@ -19,10 +19,16 @@ protected:
     int m_num_of_frame;
     SDL_RendererFlip m_flip;
 
+    position m_logical_location;
     SDL_Rect m_location;
 
 public:
-    game_object(const char p_id, const SDL_Rect& p_location, const texture_manager& p_manager, const int p_current_row, const int p_current_frame, const int p_num_of_frame, const SDL_RendererFlip p_flip);
+    game_object(const char p_id, const SDL_Rect& p_location, const position& p_logical_position, 
+        const texture_manager& p_manager, 
+        const int p_current_row, 
+        const int p_current_frame, 
+        const int p_num_of_frame, 
+        const SDL_RendererFlip p_flip);
 
     virtual ~game_object() = default;
 
@@ -32,4 +38,6 @@ public:
     virtual void update() = 0;
 
     virtual void render();
+
+    const position& get_logical_location() const;
 };

@@ -6,6 +6,7 @@
 
 #include <SDL_image.h>
 
+#include "booster_speed.h"
 #include "coin.h"
 #include "ground.h"
 #include "monster_random.h"
@@ -45,7 +46,7 @@ void maze::initialize_texture_manager() {
 void maze::initialize() {
     int x = 0, y = 0;
 
-    m_objects_static = std::vector<std::vector<game_object::ptr>>(m_maze.size(), std::vector<game_object::ptr>(m_maze[0].size(), nullptr));
+    m_objects_static_on_map = std::vector<std::vector<game_object::ptr>>(m_maze.size(), std::vector<game_object::ptr>(m_maze[0].size(), nullptr));
 
     for (int i = 0; i < m_maze.size(); i++) {
         m_objects_fundamental.push_back(std::vector<game_object::ptr>());
@@ -75,8 +76,12 @@ void maze::initialize() {
                 break;
 
             case '$':
-                m_objects_static[i][j] = std::make_shared<coin>(value, rect, m_texture_manager);
+                m_objects_static_on_map[i][j] = std::make_shared<coin>(value, rect, position{ i, j }, m_texture_manager);
                 m_total_coin++;
+                break;
+
+            case '@':
+                m_objects_static_on_map[i][j] = std::make_shared<booster_speed>(value, rect, position{ i, j }, m_texture_manager);
                 break;
 
             case '*':
@@ -99,17 +104,26 @@ void maze::initialize() {
     render_bottom();
 }
 
-void maze::check_score() {
-    auto& static_object = m_objects_static[m_player->get_logical_location().y][m_player->get_logical_location().x];
-    if ((static_object != nullptr) && (static_object->get_id() == '$')) {
-        m_player_context->increase_score(100);
-        m_collected_coin++;
+void maze::check_collision_with_static_objects() {
+    auto& static_object = m_objects_static_on_map[m_player->get_logical_location().y][m_player->get_logical_location().x];
+    if (static_object != nullptr) {
+        switch (static_object->get_id()) {
+        case '$':
+            m_player_context->increase_score(100);
+            m_collected_coin++;
 
-        static_object = nullptr;
-        render_bottom();
+            static_object = nullptr;
+            render_bottom();
 
-        m_remaining_coin--;
-        check_win_condition();
+            m_remaining_coin--;
+            check_win_condition();
+            break;
+
+        case '@':
+            m_player->boost_speed(2, 5000);
+            static_object = nullptr;
+            break;
+        }
     }
 }
 
@@ -140,7 +154,7 @@ void maze::update() {
         }
     }
 
-    check_score();
+    check_collision_with_static_objects();
 }
 
 
@@ -208,7 +222,7 @@ void maze::render_static_objects() {
             auto& object_fundamental = m_objects_fundamental[i][j];
             object_fundamental->render();
 
-            auto& object_static = m_objects_static[i][j];
+            auto& object_static = m_objects_static_on_map[i][j];
             if (object_static != nullptr) {
                 object_static->render();
             }
@@ -286,12 +300,12 @@ void maze::move_down() {
 
 
 int maze::get_height() const {
-    return OBJECT_SIZE * m_maze.size();
+    return static_cast<int>(OBJECT_SIZE * m_maze.size());
 }
 
 
 int maze::get_width() const {
-    return OBJECT_SIZE * m_maze.front().size();
+    return static_cast<int>(OBJECT_SIZE * m_maze.front().size());
 }
 
 void maze::show_health()

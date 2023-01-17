@@ -24,7 +24,7 @@ private:
 
 private:
     std::vector<std::vector<game_object::ptr>> m_objects_fundamental;
-    std::vector<std::vector<game_object::ptr>> m_objects_static;
+    std::vector<std::vector<game_object::ptr>> m_objects_static_on_map;
     std::shared_ptr<player> m_player;
     std::vector<std::shared_ptr<monster>> m_monsters;
 
@@ -79,7 +79,7 @@ private:
 
     void render_bottom();
 
-    void check_score();
+    void check_collision_with_static_objects();
 
     void check_win_condition();
 

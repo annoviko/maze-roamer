@@ -1,6 +1,12 @@
 #include "player.h"
 
 
+void player::boost_speed(const int p_multiplier, const int p_duration_ms) {
+    m_transition_step_size = PLAYER_TRANSITION_STEP_SIZE * p_multiplier;
+    m_speed_booster.activate(m_transition_step_size, p_duration_ms);
+}
+
+
 void player::move_right() {
     m_next_state = dynamic_object_state::moving_right;
 }
@@ -39,6 +45,8 @@ bool player::death()
 }
 
 void player::update() {
+    handle_boosters();
+
     if (m_next_state != m_state) {
         try_change_destination(m_next_state);
     }
@@ -107,6 +115,13 @@ void player::try_change_destination(const dynamic_object_state p_state) {
 
         m_state = p_state;
         m_last_state = p_state;
+    }
+}
+
+
+void player::handle_boosters() {
+    if (!m_speed_booster.is_active()) {
+        m_transition_step_size = PLAYER_TRANSITION_STEP_SIZE;
     }
 }
 
