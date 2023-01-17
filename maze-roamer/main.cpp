@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-#include "level_finder.h"
-#include "level_runner.h"
-#include "player_context.h"
+#include "engine/level_finder.h"
+#include "engine/level_runner.h"
+#include "engine/player_context.h"
 
 
 int main(int argc, char* argv[]) {

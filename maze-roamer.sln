@@ -5,12 +5,18 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "maze-roamer", "maze-roamer\maze-roamer.vcxproj", "{2DDAE4CA-20E0-4B59-B53E-19D722949AED}"
 	ProjectSection(ProjectDependencies) = postProject
+		{6CED2B0C-1174-4A24-8644-EAB20E26D0A8} = {6CED2B0C-1174-4A24-8644-EAB20E26D0A8}
 		{B4113E66-A139-4465-B924-B372219DB532} = {B4113E66-A139-4465-B924-B372219DB532}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ut", "tests\ut\ut.vcxproj", "{5E2DF477-03D2-46C4-B1CB-4B96B5B3829B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core", "core\core.vcxproj", "{B4113E66-A139-4465-B924-B372219DB532}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine", "engine\engine.vcxproj", "{6CED2B0C-1174-4A24-8644-EAB20E26D0A8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B4113E66-A139-4465-B924-B372219DB532} = {B4113E66-A139-4465-B924-B372219DB532}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +36,10 @@ Global
 		{B4113E66-A139-4465-B924-B372219DB532}.Debug|x64.Build.0 = Debug|x64
 		{B4113E66-A139-4465-B924-B372219DB532}.Release|x64.ActiveCfg = Release|x64
 		{B4113E66-A139-4465-B924-B372219DB532}.Release|x64.Build.0 = Release|x64
+		{6CED2B0C-1174-4A24-8644-EAB20E26D0A8}.Debug|x64.ActiveCfg = Debug|x64
+		{6CED2B0C-1174-4A24-8644-EAB20E26D0A8}.Debug|x64.Build.0 = Debug|x64
+		{6CED2B0C-1174-4A24-8644-EAB20E26D0A8}.Release|x64.ActiveCfg = Release|x64
+		{6CED2B0C-1174-4A24-8644-EAB20E26D0A8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
