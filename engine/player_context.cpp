@@ -1,6 +1,16 @@
 #include "player_context.h"
 
 
+speed_booster& player_context::get_speed_booster() {
+    return m_speed_booster;
+}
+
+
+const speed_booster& player_context::get_speed_booster() const {
+    return m_speed_booster;
+}
+
+
 void player_context::increase_score(const int p_score) {
     m_score += p_score;
 }
