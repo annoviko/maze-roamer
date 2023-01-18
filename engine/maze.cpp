@@ -16,8 +16,7 @@
 
 maze::maze(const level& p_level,const player_context::ptr& p_context, SDL_Renderer* p_renderer) :
     m_renderer(p_renderer),
-    m_texture_manager(p_renderer),
-    m_player_context(p_context)
+    m_texture_manager(p_renderer)
 {
     m_maze = p_level.load();
     m_initial_maze = m_maze;
@@ -25,10 +24,8 @@ maze::maze(const level& p_level,const player_context::ptr& p_context, SDL_Render
     initialize_texture_manager();
     m_font = TTF_OpenFont("fonts/Symtext.ttf", 28);
 
-    m_total_coin = 0;
-    m_collected_coin = 0;
-    m_remaining_coin = 0;
     m_death_seq = false;
+    initialize(p_context);
 }
 
 
@@ -43,8 +40,9 @@ void maze::initialize_texture_manager() {
 }
 
 
-void maze::initialize() {
+void maze::initialize(const player_context::ptr& p_context) {
     int x = 0, y = 0;
+    int total_coins = 0;
 
     m_objects_static_on_map = std::vector<std::vector<game_object::ptr>>(m_maze.size(), std::vector<game_object::ptr>(m_maze[0].size(), nullptr));
 
@@ -72,12 +70,12 @@ void maze::initialize() {
                 break;
 
             case 'P':
-                m_player = std::make_shared<player>('P', rect, m_texture_manager, &m_maze, position{ j, i });
+                m_player = std::make_shared<player>('P', rect, m_texture_manager, p_context, &m_maze, position{ j, i });
                 break;
 
             case '$':
                 m_objects_static_on_map[i][j] = std::make_shared<coin>(value, rect, position{ i, j }, m_texture_manager);
-                m_total_coin++;
+                total_coins++;
                 break;
 
             case '@':
@@ -98,10 +96,8 @@ void maze::initialize() {
         y += OBJECT_SIZE;
     }
 
-    m_remaining_coin = m_total_coin;
-
-    render();
-    render_bottom();
+    m_level_stats = std::make_shared<level_stats>(total_coins);
+    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, 0, m_maze.size(), p_context, m_level_stats);
 }
 
 void maze::check_collision_with_static_objects() {
@@ -109,13 +105,12 @@ void maze::check_collision_with_static_objects() {
     if (static_object != nullptr) {
         switch (static_object->get_id()) {
         case '$':
-            m_player_context->increase_score(100);
-            m_collected_coin++;
+            m_player->get_context()->increase_score(100);
+            m_level_stats->decrease_remaining_coins();
 
             static_object = nullptr;
-            render_bottom();
+            m_status_widget->render();
 
-            m_remaining_coin--;
             check_win_condition();
             break;
 
@@ -138,9 +133,9 @@ void maze::update() {
     for (auto& monster_ptr : m_monsters) {
         /* check if player made a step into dynamic object */
         if (m_player->is_collision(*monster_ptr)) {
-            if (check_game_over()) {
-                return;
-            }
+            m_player->get_context()->decrease_health();
+            check_game_over();
+            return;
         }
 
         monster_ptr->notify_player_moving(m_player->get_logical_location());
@@ -148,9 +143,9 @@ void maze::update() {
 
         /* check if monster made a step into dynamic object */
         if (monster_ptr->is_collision(*m_player)) {
-            if (check_game_over()) {
-                return;
-            }
+            m_player->get_context()->decrease_health();
+            check_game_over();
+            return;
         }
     }
 
@@ -180,7 +175,7 @@ void maze::reinitialize() {
                 break;
 
             case 'P':
-                m_player = std::make_shared<player>('P', rect, m_texture_manager, &m_maze, position{ j, i });
+                m_player = std::make_shared<player>('P', rect, m_texture_manager, m_player->get_context(), &m_maze, position{ j, i });
                 break;
             }
         }
@@ -210,6 +205,8 @@ void maze::render() {
             monster_ptr->render();
         }
     }
+
+    m_status_widget->render();
     SDL_RenderPresent(m_renderer);
 }
 
@@ -252,7 +249,7 @@ bool maze::is_running() const {
 
 
 void maze::check_win_condition() {
-    if (m_remaining_coin == 0) {
+    if (m_level_stats->get_remaining_coins() == 0) {
         m_is_running = false;
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Congratulations!", "Congratulations! You have passed the level!", nullptr);
     }
@@ -260,8 +257,7 @@ void maze::check_win_condition() {
 
 
 bool maze::check_game_over() {
-    m_player_context->decrease_health();
-    if (m_player_context->is_dead()) {
+    if (m_player->get_context()->is_dead()) {
         m_is_running = false;
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Game Over", "Game Over", nullptr);
 
@@ -273,7 +269,7 @@ bool maze::check_game_over() {
     m_player->render();
     SDL_RenderPresent(m_renderer);
     SDL_Delay(500);
-    render_bottom();
+    m_status_widget->render();
 
     return false;
 }
@@ -306,88 +302,4 @@ int maze::get_height() const {
 
 int maze::get_width() const {
     return static_cast<int>(OBJECT_SIZE * m_maze.front().size());
-}
-
-void maze::show_health()
-{
-    SDL_Color White = { 255, 255, 255 };
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(m_font, "Health:", White);
-    SDL_Texture* Message = SDL_CreateTextureFromSurface(m_renderer, surfaceMessage);
-
-    int texW = 0;
-    int texH = 0;
-    SDL_QueryTexture(Message, NULL, NULL, &texW, &texH);
-    SDL_Rect dstrect = { 595, 410, texW, texH };
-
-    SDL_RenderCopy(m_renderer, Message, NULL, &dstrect);
-
-    SDL_FreeSurface(surfaceMessage);
-    SDL_DestroyTexture(Message);
-
-    const int health = m_player_context->get_health();
-
-    SDL_Rect location = { 736, 414, 32, 32 };
-    m_texture_manager.draw_frame(location, 10, health < 3, SDL_FLIP_NONE);
-    location = { 768, 414, 32,32 };
-    m_texture_manager.draw_frame(location, 10, health < 2, SDL_FLIP_NONE);
-    location = { 800, 414, 32,32 };
-    m_texture_manager.draw_frame(location, 10, health < 1, SDL_FLIP_NONE);
-}
-
-void maze::show_score()
-{
-    //Score: 00000
-    std::string message("Score: ");
-    const int score = m_player_context->get_score();
-    if (score == 0)
-    {
-        message.append("00000");
-    }
-    else {
-        int cnt = 5 - (int)log10(score);
-        while (cnt > 0)
-        {
-            cnt--;
-            message.append("0");
-        }
-        message.append(std::to_string(score));
-    }
-    SDL_Color White = { 255, 255, 255 };
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(m_font, message.c_str(), White);
-    SDL_Texture* Message = SDL_CreateTextureFromSurface(m_renderer, surfaceMessage);
-
-    int texW = 0;
-    int texH = 0;
-    SDL_QueryTexture(Message, NULL, NULL, &texW, &texH);
-    SDL_Rect dstrect = { 5, 410, texW, texH };
-
-    SDL_RenderCopy(m_renderer, Message, NULL, &dstrect);
-
-    SDL_FreeSurface(surfaceMessage);
-    SDL_DestroyTexture(Message);
-}
-
-void maze::render_bottom()
-{
-    SDL_Rect rect = { 0, 410, 832, 38 };
-    SDL_SetRenderDrawColor(m_renderer, 0xff, 0x5b, 0x00, 0xff);
-    SDL_RenderFillRect(m_renderer, &rect);
-
-    show_score();
-    show_health();
-    show_progress();
-}
-
-void maze::show_progress() const
-{
-    SDL_Rect progress = { 278, 425, 291, 14 };
-    SDL_Rect border = { progress.x - 3, progress.y - 3, progress.w + 6, progress.h + 6 };
-    SDL_SetRenderDrawColor(m_renderer, 0x5a, 0x74, 0x7a, 0xff);
-    SDL_RenderFillRect(m_renderer, &border);
-    SDL_SetRenderDrawColor(m_renderer, 0x18, 0x37, 0x3d, 0xff);
-    SDL_RenderFillRect(m_renderer, &progress);
-    double percentage = progress.w * m_collected_coin / (double)m_total_coin;
-    SDL_Rect progress_value = { progress.x, progress.y, (int)percentage, progress.h };
-    SDL_SetRenderDrawColor(m_renderer, 0x00, 0xb6, 0x30, 0xff);
-    SDL_RenderFillRect(m_renderer, &progress_value);
 }

@@ -13,8 +13,7 @@ level_runner::level_runner(SDL_Renderer* p_renderer, const player_context::ptr& 
 
 void level_runner::run(const level& p_level) {
     maze m(p_level, m_context, m_renderer);
-
-    m.initialize();
+    m.render();
 
     SDL_Event event;
     std::memset((void*)&event, 0x00, sizeof(SDL_Event));

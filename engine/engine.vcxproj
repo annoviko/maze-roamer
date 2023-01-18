@@ -85,9 +85,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dynamic_game_object.cpp" />
+    <ClCompile Include="game_status_widget.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="level_finder.cpp" />
     <ClCompile Include="level_runner.cpp" />
+    <ClCompile Include="level_stats.cpp" />
     <ClCompile Include="maze.cpp" />
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="monster_clever.cpp" />
@@ -101,11 +103,13 @@
     <ClInclude Include="coin.h" />
     <ClInclude Include="dynamic_game_object.h" />
     <ClInclude Include="dynamic_object_state.h" />
+    <ClInclude Include="game_status_widget.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="level_finder.h" />
     <ClInclude Include="level_matrix.h" />
     <ClInclude Include="level_runner.h" />
+    <ClInclude Include="level_stats.h" />
     <ClInclude Include="maze.h" />
     <ClInclude Include="monster.h" />
     <ClInclude Include="monster_clever.h" />

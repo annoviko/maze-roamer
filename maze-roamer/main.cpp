@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window* window;
-    window = SDL_CreateWindow("Maze Roamer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 832, 448, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("Maze Roamer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 832, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
     if (window == NULL) {
         std::cout << "Could not create window: " << SDL_GetError() << '\n';

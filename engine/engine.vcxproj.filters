@@ -45,6 +45,12 @@
     <ClCompile Include="player_context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="level_stats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_status_widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamic_game_object.h">
@@ -96,6 +102,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="wall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="level_stats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_status_widget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

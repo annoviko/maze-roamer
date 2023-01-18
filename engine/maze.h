@@ -7,8 +7,10 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "game_status_widget.h"
 #include "level.h"
 #include "level_matrix.h"
+#include "level_stats.h"
 #include "monster.h"
 #include "player.h"
 #include "player_context.h"
@@ -31,12 +33,11 @@ private:
     level_matrix m_maze;
     level_matrix m_initial_maze;
 
-    player_context::ptr m_player_context;
+    level_stats::ptr m_level_stats;
+
+    game_status_widget::ptr m_status_widget;
 
     bool m_death_seq;
-    int m_total_coin;
-    int m_collected_coin;
-    int m_remaining_coin;
     SDL_Renderer* m_renderer;
     texture_manager m_texture_manager;
     TTF_Font* m_font;
@@ -65,10 +66,9 @@ public:
 
     bool is_running() const;
 
-public:
-    void initialize();
-
 private:
+    void initialize(const player_context::ptr& p_context);
+
     void initialize_texture_manager();
 
     void render_static_objects();
@@ -77,17 +77,9 @@ private:
 
     void render_object(const char p_obj_id, const int p_x, const int p_y);
 
-    void render_bottom();
-
     void check_collision_with_static_objects();
 
     void check_win_condition();
-
-    void show_score();
-
-    void show_health();
-
-    void show_progress() const;
 
     void reinitialize();
 };

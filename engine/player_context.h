@@ -3,6 +3,11 @@
 
 #include <memory>
 
+#include "booster_interim.h"
+
+
+using speed_booster = booster_interim<int>;
+
 
 class player_context {
 public:
@@ -16,7 +21,13 @@ private:
     int m_score = DEFAULT_SCORE;
     int m_health = DEFAULT_HEALTH;
 
+    speed_booster m_speed_booster;
+
 public:
+    speed_booster& get_speed_booster();
+
+    const speed_booster& get_speed_booster() const;
+
     void increase_score(const int p_score);
 
     void decrease_score(const int p_score);
