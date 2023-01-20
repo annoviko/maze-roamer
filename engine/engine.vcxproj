@@ -97,6 +97,7 @@
     <ClCompile Include="monster_random.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player_context.cpp" />
+    <ClCompile Include="window_win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="booster_interim.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="player_context.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="window_win.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
