@@ -49,7 +49,7 @@ public:
         const std::chrono::duration<double> duration = cur_time - m_start_time;
         const auto active_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 
-        return active_ms;
+        return static_cast<int>(active_ms);
     }
 
     int get_remaining_time_ms() const {

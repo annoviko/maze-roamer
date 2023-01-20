@@ -25,25 +25,30 @@ bool dynamic_game_object::is_collision(const dynamic_game_object& p_other) const
 }
 
 
-std::vector<position> dynamic_game_object::get_possible_steps(const position& p_pos) const {
+std::vector<position> dynamic_game_object::get_possible_steps(const int x, const int y) const {
     std::vector<position> positions = { };
-    if ((*m_map)[p_pos.y][p_pos.x + 1] != '*') {
-        positions.push_back({ p_pos.x + 1, p_pos.y });
+    if ((*m_map)[y][x + 1] != '*') {
+        positions.push_back({ x + 1, y });
     }
 
-    if ((*m_map)[p_pos.y][p_pos.x - 1] != '*') {
-        positions.push_back({ p_pos.x - 1, p_pos.y });
+    if ((*m_map)[y][x - 1] != '*') {
+        positions.push_back({ x - 1, y });
     }
 
-    if ((*m_map)[p_pos.y + 1][p_pos.x] != '*') {
-        positions.push_back({ p_pos.x, p_pos.y + 1 });
+    if ((*m_map)[y + 1][x] != '*') {
+        positions.push_back({ x, y + 1 });
     }
 
-    if ((*m_map)[p_pos.y - 1][p_pos.x] != '*') {
-        positions.push_back({ p_pos.x, p_pos.y - 1 });
+    if ((*m_map)[y - 1][x] != '*') {
+        positions.push_back({ x, y - 1 });
     }
 
     return positions;
+}
+
+
+std::vector<position> dynamic_game_object::get_possible_steps(const position& p_pos) const {
+    return get_possible_steps(p_pos.x, p_pos.y);
 }
 
 
