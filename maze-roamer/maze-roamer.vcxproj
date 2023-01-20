@@ -93,6 +93,7 @@
   <ItemGroup>
     <Text Include="level-01.txt" />
     <Text Include="level-02.txt" />
+    <Text Include="level-03.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

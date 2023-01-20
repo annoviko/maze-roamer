@@ -46,6 +46,8 @@ void maze::initialize(const player_context::ptr& p_context) {
 
     m_objects_static_on_map = std::vector<std::vector<game_object::ptr>>(m_maze.size(), std::vector<game_object::ptr>(m_maze[0].size(), nullptr));
 
+    std::vector<monster_clever::ptr> clever_masters = { };
+
     for (int i = 0; i < m_maze.size(); i++) {
         m_objects_fundamental.push_back(std::vector<game_object::ptr>());
 
@@ -66,7 +68,8 @@ void maze::initialize(const player_context::ptr& p_context) {
                 break;
 
             case 'C':
-                m_monsters.push_back(std::make_shared<monster_clever>('C', rect, m_texture_manager, &m_maze, position{ j, i }));
+                clever_masters.push_back(std::make_shared<monster_clever>('C', rect, m_texture_manager, &m_maze, position{ j, i }, clever_masters));
+                m_monsters.push_back(clever_masters.back());
                 break;
 
             case 'P':
@@ -156,6 +159,9 @@ void maze::update() {
 void maze::reinitialize() {
     int x = 0, y = 0;
     m_monsters.clear();
+
+    std::vector<monster_clever::ptr> clever_masters = { };
+
     for (int i = 0; i < m_initial_maze.size(); i++) {
 
         for (int j = 0; j < m_initial_maze[0].size(); j++) {
@@ -171,7 +177,8 @@ void maze::reinitialize() {
                 break;
 
             case 'C':
-                m_monsters.push_back(std::make_shared<monster_clever>('C', rect, m_texture_manager, &m_maze, position{ j, i }));
+                clever_masters.push_back(std::make_shared<monster_clever>('C', rect, m_texture_manager, &m_maze, position{ j, i }, clever_masters));
+                m_monsters.push_back(clever_masters.back());
                 break;
 
             case 'P':

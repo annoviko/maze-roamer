@@ -44,6 +44,8 @@ public:
     bool is_collision(const dynamic_game_object& p_other) const;
 
 protected:
+    virtual std::vector<position> get_possible_steps(const int x, const int y) const;
+
     virtual std::vector<position> get_possible_steps(const position& p_pos) const;
 
     virtual void handle_state();

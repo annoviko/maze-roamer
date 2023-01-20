@@ -1,8 +1,9 @@
 #include "monster_clever.h"
 
 #include <queue>
-
 #include <iostream>
+
+#include "edge_2d.h"
 
 
 void monster_clever::update() {
@@ -11,9 +12,14 @@ void monster_clever::update() {
 }
 
 
+const std::list<position>& monster_clever::get_path() const {
+    return m_path_to_player;
+}
+
+
 void monster_clever::handle_wait_for_destination() {
     if (m_path_to_player.empty() || (m_logical_player != m_logical_player_last)) {
-        m_path_to_player = get_path_to_player(m_logical_player);
+        m_path_to_player = calculate_path_to_player();
         m_logical_player_last = m_logical_player;
     }
 
@@ -35,13 +41,22 @@ void monster_clever::handle_wait_for_destination() {
 }
 
 
-std::list<position> monster_clever::get_path_to_player(const position& p_player) {
-    if (p_player == m_logical_location) {
-        return { p_player };
+std::list<position> monster_clever::calculate_path_to_player() {
+    if (m_masters.empty()) {
+        return calculate_path_bfs();
     }
 
-    position not_visited = { -1, -1 };
-    position initial = { 0, 0 };
+    return calculate_path_dijkstra();
+}
+
+
+std::list<position> monster_clever::calculate_path_bfs() const {
+    if (m_logical_player == m_logical_location) {
+        return { m_logical_player };
+    }
+
+    const position not_visited = { -1, -1 };
+    const position initial = { 0, 0 };
 
     std::vector<std::vector<position>> path_back(m_map->size(), std::vector<position>(m_map->front().size(), not_visited));
 
@@ -63,7 +78,7 @@ std::list<position> monster_clever::get_path_to_player(const position& p_player)
 
             path_back[way.y][way.x] = cur;
 
-            if (way == p_player) {
+            if (way == m_logical_player) {
                 player_found = true;
                 break;
             }
@@ -77,7 +92,66 @@ std::list<position> monster_clever::get_path_to_player(const position& p_player)
     }
 
     std::list<position> result;
-    for (position p = p_player; p != m_logical_location; p = path_back[p.y][p.x]) {
+    for (position p = m_logical_player; p != m_logical_location; p = path_back[p.y][p.x]) {
+        result.push_front(p);
+    }
+
+    return result;
+}
+
+
+std::list<position> monster_clever::calculate_path_dijkstra() const {
+    const position not_visited = { -1, -1 };
+    const position initial = { 0, 0 };
+
+    std::vector<std::vector<position>> path_back(m_map->size(), std::vector<position>(m_map->front().size(), not_visited));
+
+    std::vector<std::vector<int>> graph(m_map->size(), std::vector<int>(m_map->front().size(), INT_MAX));
+    for (int i = 0; i < m_map->size(); i++) {
+        for (int j = 0; j < m_map->front().size(); j++) {
+            if ((*m_map)[i][j] != '#') {
+                graph[i][j] = 1;
+            }
+        }
+    }
+
+    for (const auto& master : m_masters) {
+        for (const auto& pos : master->get_path()) {
+            if (pos == m_logical_player) {
+                continue; // no fine for player position
+            }
+
+            graph[pos.y][pos.x] = 5;
+        }
+    }
+
+    std::vector<std::vector<int>> cost(m_map->size(), std::vector<int>(m_map->front().size(), INT_MAX));
+
+    std::priority_queue<edge_2d, std::vector<edge_2d>, std::greater<edge_2d>> queue;
+    queue.push({ m_logical_location.x, m_logical_location.y, 0 });
+
+    while (!queue.empty()) {
+        edge_2d cur = queue.top();
+        queue.pop();
+
+        if (cur.weight > cost[cur.y][cur.x]) {
+            continue;
+        }
+
+        const auto possible_ways = get_possible_steps(cur.x, cur.y);
+        for (const auto& way : possible_ways) {
+            const int nei_weight = cur.weight + graph[way.y][way.x];
+            if (nei_weight < cost[way.y][way.x]) {
+                cost[way.y][way.x] = nei_weight;
+                queue.push({ way.x, way.y, nei_weight });
+
+                path_back[way.y][way.x] = { cur.x, cur.y };
+            }
+        }
+    }
+
+    std::list<position> result;
+    for (position p = m_logical_player; p != m_logical_location; p = path_back[p.y][p.x]) {
         result.push_front(p);
     }
 

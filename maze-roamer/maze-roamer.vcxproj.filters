@@ -26,5 +26,8 @@
     <Text Include="level-02.txt">
       <Filter>Resources</Filter>
     </Text>
+    <Text Include="level-03.txt">
+      <Filter>Resources</Filter>
+    </Text>
   </ItemGroup>
 </Project>

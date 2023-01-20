@@ -110,6 +110,9 @@
     <ClInclude Include="game_status_widget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="edge_2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

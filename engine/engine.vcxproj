@@ -103,6 +103,7 @@
     <ClInclude Include="coin.h" />
     <ClInclude Include="dynamic_game_object.h" />
     <ClInclude Include="dynamic_object_state.h" />
+    <ClInclude Include="edge_2d.h" />
     <ClInclude Include="game_status_widget.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="level.h" />
