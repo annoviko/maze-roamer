@@ -59,4 +59,6 @@ protected:
     void try_change_destination(const dynamic_object_state p_state);
 
     void handle_wait_for_destination() override;
+
+    void handle_moving_done() override;
 };

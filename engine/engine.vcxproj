@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dynamic_game_object.cpp" />
+    <ClCompile Include="dynamic_object_state.cpp" />
     <ClCompile Include="game_status_widget.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="level_finder.cpp" />

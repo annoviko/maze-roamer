@@ -27,22 +27,19 @@ void player::move_down() {
 }
 
 
-bool player::death()
-{
-    if (m_current_frame < 8)
-    {
+bool player::death() {
+    if (m_current_frame < 8) {
         m_current_frame = 8;
         return  true;
     }
-    if (m_current_frame < 19)
-    {
+
+    if (m_current_frame < 19) {
         m_current_frame++;
         return true;
     }
-    {
-        m_current_frame = 0;
-        return false;
-    }
+
+    m_current_frame = 0;
+    return false;
 }
 
 
@@ -51,6 +48,7 @@ player_context::ptr player::get_context() const {
 }
 
 
+int cnt = 0;
 void player::update() {
     handle_boosters();
 
@@ -81,6 +79,7 @@ void player::update() {
     default:
         base_frame = 0;
         m_flip = SDL_FLIP_NONE;
+        break;
     }
     m_current_frame = base_frame + int((SDL_GetTicks() / 100) % m_num_of_frame);
 
@@ -121,7 +120,7 @@ void player::try_change_destination(const dynamic_object_state p_state) {
         m_destination.y = destination_candidate.y * m_location.h;
 
         m_state = p_state;
-        m_last_state = p_state;
+        m_last_state = p_state;  // direction was completelly changed, clean the history
     }
 }
 
@@ -135,4 +134,10 @@ void player::handle_boosters() {
 
 void player::handle_wait_for_destination() {
     try_change_destination(m_last_state);
+}
+
+
+void player::handle_moving_done() {
+    dynamic_game_object::handle_moving_done();  // logical destination has been reached - state was changed to wait_for_destination
+    try_change_destination(m_last_state);  // check if we can continue to move in the current direction
 }

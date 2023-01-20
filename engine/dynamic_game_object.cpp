@@ -80,21 +80,26 @@ void dynamic_game_object::handle_state() {
 }
 
 
+void dynamic_game_object::set_state(const dynamic_object_state p_state) {
+    m_state = p_state;
+}
+
+
 void dynamic_game_object::define_moving_state() {
     if (m_logical_location.x < m_logical_destination.x) {
-        m_state = dynamic_object_state::moving_right;
+        set_state(dynamic_object_state::moving_right);
     }
     else if (m_logical_location.x > m_logical_destination.x) {
-        m_state = dynamic_object_state::moving_left;
+        set_state(dynamic_object_state::moving_left);
     }
     else if (m_logical_location.y < m_logical_destination.y) {
-        m_state = dynamic_object_state::moving_down;
+        set_state(dynamic_object_state::moving_down);
     }
     else if (m_logical_location.y > m_logical_destination.y) {
-        m_state = dynamic_object_state::moving_up;
+        set_state(dynamic_object_state::moving_up);
     }
     else {
-        m_state = dynamic_object_state::wait_for_destination;
+        set_state(dynamic_object_state::wait_for_destination);
     }
 }
 
