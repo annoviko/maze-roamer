@@ -50,6 +50,8 @@ protected:
 
     virtual void handle_state();
 
+    virtual void set_state(const dynamic_object_state p_state);
+
     virtual void define_moving_state();
 
     virtual void handle_moving_done();
