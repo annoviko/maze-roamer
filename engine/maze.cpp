@@ -12,6 +12,7 @@
 #include "monster_random.h"
 #include "monster_clever.h"
 #include "wall.h"
+#include "window_win.h"
 
 
 maze::maze(const level& p_level,const player_context::ptr& p_context, SDL_Renderer* p_renderer) :
@@ -258,7 +259,7 @@ bool maze::is_running() const {
 void maze::check_win_condition() {
     if (m_level_stats->get_remaining_coins() == 0) {
         m_is_running = false;
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Congratulations!", "Congratulations! You have passed the level!", nullptr);
+        window_win().show();
     }
 }
 
