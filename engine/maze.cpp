@@ -12,6 +12,7 @@
 #include "monster_random.h"
 #include "monster_clever.h"
 #include "wall.h"
+#include "window_game_over.h"
 #include "window_win.h"
 
 
@@ -267,7 +268,7 @@ void maze::check_win_condition() {
 bool maze::check_game_over() {
     if (m_player->get_context()->is_dead()) {
         m_is_running = false;
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Game Over", "Game Over", nullptr);
+        window_game_over().show();
 
         return true;
     }

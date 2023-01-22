@@ -97,6 +97,8 @@
     <ClCompile Include="monster_random.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player_context.cpp" />
+    <ClCompile Include="window_game_over.cpp" />
+    <ClCompile Include="window_message.cpp" />
     <ClCompile Include="window_win.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +122,8 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="player_context.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="window_game_over.h" />
+    <ClInclude Include="window_message.h" />
     <ClInclude Include="window_win.h" />
   </ItemGroup>
   <ItemGroup>

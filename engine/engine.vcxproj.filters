@@ -57,6 +57,12 @@
     <ClCompile Include="window_win.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="window_message.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window_game_over.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamic_game_object.h">
@@ -120,6 +126,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="window_win.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_game_over.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
