@@ -15,6 +15,7 @@ public:
 
 private:
     static constexpr int DEFAULT_SCORE = 0;
+    static constexpr int DEFAULT_NUM_BOMBS = 0;
     static constexpr int DEFAULT_HEALTH = 3;
 
 private:
@@ -22,6 +23,7 @@ private:
     int m_health = DEFAULT_HEALTH;
 
     speed_booster m_speed_booster;
+    int m_amount_bombs = DEFAULT_NUM_BOMBS;
 
 public:
     speed_booster& get_speed_booster();
@@ -31,6 +33,12 @@ public:
     void increase_score(const int p_score);
 
     void decrease_score(const int p_score);
+
+    void increase_amount_bombs();
+
+    void decrease_amount_bombs();
+
+    bool has_bombs() const;
 
     int get_score() const;
 

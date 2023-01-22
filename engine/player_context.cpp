@@ -24,6 +24,21 @@ void player_context::decrease_score(const int p_score) {
 }
 
 
+void player_context::increase_amount_bombs() {
+    m_amount_bombs++;
+}
+
+void player_context::decrease_amount_bombs() {
+    if (m_amount_bombs > 0) {
+        m_amount_bombs--;
+    }
+}
+
+bool player_context::has_bombs() const {
+    return m_amount_bombs > 0;
+}
+
+
 int player_context::get_score() const {
     return m_score;
 }

@@ -5,7 +5,6 @@
 #include <vector>
 
 #include <SDL.h>
-#include <SDL_ttf.h>
 
 #include "game_status_widget.h"
 #include "level.h"
@@ -40,7 +39,6 @@ private:
     bool m_death_seq;
     SDL_Renderer* m_renderer;
     texture_manager m_texture_manager;
-    TTF_Font* m_font;
     bool m_is_running = true;
 
 public:

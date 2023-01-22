@@ -134,6 +134,9 @@
     <ClInclude Include="window_game_over.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

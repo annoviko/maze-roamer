@@ -102,6 +102,7 @@
     <ClCompile Include="window_win.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bomb.h" />
     <ClInclude Include="booster_interim.h" />
     <ClInclude Include="booster_speed.h" />
     <ClInclude Include="coin.h" />

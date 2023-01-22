@@ -7,6 +7,7 @@
 #include <SDL_image.h>
 
 #include "booster_speed.h"
+#include "bomb.h"
 #include "coin.h"
 #include "ground.h"
 #include "monster_random.h"
@@ -24,7 +25,6 @@ maze::maze(const level& p_level,const player_context::ptr& p_context, SDL_Render
     m_initial_maze = m_maze;
 
     initialize_texture_manager();
-    m_font = TTF_OpenFont("fonts/Symtext.ttf", 28);
 
     m_death_seq = false;
     initialize(p_context);
@@ -33,7 +33,6 @@ maze::maze(const level& p_level,const player_context::ptr& p_context, SDL_Render
 
 maze::~maze() {
     m_is_running = false;
-    TTF_CloseFont(m_font);
 }
 
 
@@ -87,6 +86,10 @@ void maze::initialize(const player_context::ptr& p_context) {
                 m_objects_static_on_map[i][j] = std::make_shared<booster_speed>(value, rect, position{ i, j }, m_texture_manager);
                 break;
 
+            case '!':
+                m_objects_static_on_map[i][j] = std::make_shared<bomb>(value, rect, position{ i, j }, m_texture_manager);
+                break;
+
             case '*':
                 m_objects_fundamental.back().push_back(std::make_shared<wall>(value, rect, m_texture_manager));
                 break;
@@ -121,6 +124,11 @@ void maze::check_collision_with_static_objects() {
 
         case '@':
             m_player->boost_speed(2, 5000);
+            static_object = nullptr;
+            break;
+
+        case '!':
+            m_player->get_context()->increase_amount_bombs();
             static_object = nullptr;
             break;
         }
