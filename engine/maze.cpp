@@ -8,6 +8,9 @@
 
 #include "booster_speed.h"
 #include "bomb.h"
+#include "bomb_active.h"
+#include "bomb_explosion.h"
+#include "boom.h"
 #include "coin.h"
 #include "ground.h"
 #include "monster_random.h"
@@ -105,7 +108,7 @@ void maze::initialize(const player_context::ptr& p_context) {
     }
 
     m_level_stats = std::make_shared<level_stats>(total_coins);
-    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, 0, m_maze.size(), p_context, m_level_stats);
+    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, 0, (int) m_maze.size(), p_context, m_level_stats);
 }
 
 void maze::check_collision_with_static_objects() {
@@ -163,6 +166,50 @@ void maze::update() {
     }
 
     check_collision_with_static_objects();
+
+    for (auto iter = std::begin(m_objects_static_interim); iter != std::end(m_objects_static_interim);) {
+        (*iter)->update();
+
+        if ((*iter)->is_expired()) {
+            process_expired_object((*iter));
+            iter = m_objects_static_interim.erase(iter);
+        }
+        else {
+            iter++;
+        }
+    }
+}
+
+
+void maze::process_expired_object(game_object_interim::ptr& p_object) {
+    switch (p_object->get_id()) {
+    case '!':
+        process_active_bomb(p_object);
+        break;
+
+    case 'B':
+    default:
+        break;
+    }
+}
+
+
+void maze::process_active_bomb(game_object_interim::ptr& p_object) {
+    const auto boom_area = bomb_explosion().boom(m_maze, p_object->get_logical_location());
+    for (const auto& boom_position : boom_area) {
+        for (auto iter = m_monsters.begin(); iter != m_monsters.end();) {
+            const auto& monster = (*iter);
+            if (monster->is_collision(boom_position)) {
+                iter = m_monsters.erase(iter);
+            }
+            else {
+                iter++;
+            }
+        }
+
+        SDL_Rect location = { boom_position.x * OBJECT_SIZE, boom_position.y * OBJECT_SIZE, OBJECT_SIZE, OBJECT_SIZE };
+        m_objects_static_interim.push_back(std::make_shared<boom>('B', location, boom_position, m_texture_manager));
+    }
 }
 
 
@@ -245,6 +292,10 @@ void maze::render_static_objects() {
         x = 0;
         y += OBJECT_SIZE;
     }
+
+    for (const auto& temp_static_object : m_objects_static_interim) {
+        temp_static_object->render();
+    }
 }
 
 
@@ -262,6 +313,24 @@ void maze::render_object(const char p_obj_id, const int p_x, const int p_y) {
 
 bool maze::is_running() const {
     return m_is_running;
+}
+
+
+player::ptr maze::get_player() {
+    return m_player;
+}
+
+
+void maze::activate_bomb() {
+    if (m_player->get_context()->has_bombs()) {
+        m_player->get_context()->decrease_amount_bombs();
+
+        const int x = (int) std::round(((double) m_player->get_location().x) / (double) OBJECT_SIZE);
+        const int y = (int) std::round(((double) m_player->get_location().y) / (double) OBJECT_SIZE);
+
+        SDL_Rect location{ x * OBJECT_SIZE, y * OBJECT_SIZE, OBJECT_SIZE, OBJECT_SIZE };
+        m_objects_static_interim.push_back(std::make_shared<bomb_active>('!', location, position{ x, y }, m_texture_manager));
+    }
 }
 
 
@@ -289,26 +358,6 @@ bool maze::check_game_over() {
     m_status_widget->render();
 
     return false;
-}
-
-
-void maze::move_right() {
-    m_player->move_right();
-}
-
-
-void maze::move_left() {
-    m_player->move_left();
-}
-
-
-void maze::move_up() {
-    m_player->move_up();
-}
-
-
-void maze::move_down() {
-    m_player->move_down();
 }
 
 

@@ -39,5 +39,7 @@ public:
 
     virtual void render();
 
+    const SDL_Rect& get_location() const;
+
     const position& get_logical_location() const;
 };

@@ -33,6 +33,12 @@
     <ClInclude Include="font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="game_object_interim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="texture_manager.cpp">

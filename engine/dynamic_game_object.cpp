@@ -25,6 +25,11 @@ bool dynamic_game_object::is_collision(const dynamic_game_object& p_other) const
 }
 
 
+bool dynamic_game_object::is_collision(const position& p_logical_position) const {
+    return m_logical_location == p_logical_position;
+}
+
+
 std::vector<position> dynamic_game_object::get_possible_steps(const int x, const int y) const {
     std::vector<position> positions = { };
     if ((*m_map)[y][x + 1] != '*') {

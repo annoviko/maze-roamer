@@ -84,6 +84,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bomb_explosion.cpp" />
     <ClCompile Include="dynamic_game_object.cpp" />
     <ClCompile Include="dynamic_object_state.cpp" />
     <ClCompile Include="game_status_widget.cpp" />
@@ -103,7 +104,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bomb.h" />
-    <ClInclude Include="booster_interim.h" />
+    <ClInclude Include="bomb_active.h" />
+    <ClInclude Include="bomb_explosion.h" />
+    <ClInclude Include="boom.h" />
     <ClInclude Include="booster_speed.h" />
     <ClInclude Include="coin.h" />
     <ClInclude Include="dynamic_game_object.h" />
@@ -111,6 +114,7 @@
     <ClInclude Include="edge_2d.h" />
     <ClInclude Include="game_status_widget.h" />
     <ClInclude Include="ground.h" />
+    <ClInclude Include="interim_game_object.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="level_finder.h" />
     <ClInclude Include="level_matrix.h" />

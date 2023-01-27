@@ -30,19 +30,23 @@ void level_runner::run(const level& p_level) {
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
                 case SDLK_RIGHT:
-                    m.move_right();
+                    m.get_player()->move_right();
                     break;
 
                 case SDLK_LEFT:
-                    m.move_left();
+                    m.get_player()->move_left();
                     break;
 
                 case SDLK_UP:
-                    m.move_up();
+                    m.get_player()->move_up();
                     break;
 
                 case SDLK_DOWN:
-                    m.move_down();
+                    m.get_player()->move_down();
+                    break;
+
+                case SDLK_b:
+                    m.activate_bomb();
                     break;
                 }
 

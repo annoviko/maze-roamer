@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <memory>
 #include <string>
 #include <vector>
@@ -15,6 +16,7 @@
 #include "player_context.h"
 
 #include "core/game_object.h"
+#include "core/game_object_interim.h"
 #include "core/position.h"
 #include "core/texture_manager.h"
 
@@ -26,8 +28,9 @@ private:
 private:
     std::vector<std::vector<game_object::ptr>> m_objects_fundamental;
     std::vector<std::vector<game_object::ptr>> m_objects_static_on_map;
+    std::list<game_object_interim::ptr> m_objects_static_interim;
     std::shared_ptr<player> m_player;
-    std::vector<std::shared_ptr<monster>> m_monsters;
+    std::list<std::shared_ptr<monster>> m_monsters;
 
     level_matrix m_maze;
     level_matrix m_initial_maze;
@@ -50,19 +53,15 @@ public:
 
     void render();
 
-    void move_right();
-
-    void move_left();
-
-    void move_up();
-
-    void move_down();
-
     int get_height() const;
 
     int get_width() const;
 
     bool is_running() const;
+
+    player::ptr get_player();
+
+    void activate_bomb();
 
 private:
     void initialize(const player_context::ptr& p_context);
@@ -80,4 +79,8 @@ private:
     void check_win_condition();
 
     void reinitialize();
+
+    void process_expired_object(game_object_interim::ptr& p_object);
+
+    void process_active_bomb(game_object_interim::ptr& p_object);
 };

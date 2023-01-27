@@ -29,6 +29,11 @@ void game_object::render() {
 }
 
 
+const SDL_Rect& game_object::get_location() const {
+    return m_location;
+}
+
+
 const position& game_object::get_logical_location() const {
     return m_logical_location;
 }

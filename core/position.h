@@ -34,4 +34,18 @@ struct position {
     position operator+(const position& p_value) const {
         return { x + p_value.x, y + p_value.y };
     }
+
+    position& operator+=(const position& p_value) {
+        this->x += p_value.x;
+        this->y += p_value.y;
+        return *this;
+    }
+
+    position operator-(const int p_value) const {
+        return { x - p_value, y - p_value };
+    }
+
+    position operator-(const position& p_value) const {
+        return { x - p_value.x, y - p_value.y };
+    }
 };

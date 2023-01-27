@@ -3,12 +3,16 @@
 
 #include <chrono>
 
-#include "booster_interim.h"
+#include "core/interim.h"
+
 #include "dynamic_game_object.h"
 #include "player_context.h"
 
 
 class player : public dynamic_game_object {
+public:
+    using ptr = std::shared_ptr<player>;
+
 private:
     static constexpr int PLAYER_TRANSITION_STEP_SIZE = 2;
 

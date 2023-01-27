@@ -63,15 +63,15 @@
     <ClCompile Include="window_game_over.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bomb_explosion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamic_game_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dynamic_object_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="booster_interim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="booster_speed.h">
@@ -135,6 +135,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bomb_explosion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bomb_active.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interim_game_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

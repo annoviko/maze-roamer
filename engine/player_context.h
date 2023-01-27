@@ -3,10 +3,10 @@
 
 #include <memory>
 
-#include "booster_interim.h"
+#include "core/interim.h"
 
 
-using speed_booster = booster_interim<int>;
+using speed_booster = interim<int>;
 
 
 class player_context {
