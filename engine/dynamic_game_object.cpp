@@ -1,4 +1,5 @@
 #include "dynamic_game_object.h"
+#include "object_identifier.h"
 
 
 dynamic_game_object::dynamic_game_object(const char p_id, const SDL_Rect& p_location, const texture_manager& p_texture_manager, const level_matrix* p_map, const position p_logical_position, const int p_transition_step_size = TRANSITION_STEP_SIZE, const int p_current_row = 1, const int p_current_frame = 0, const int p_num_of_frame = 0, const SDL_RendererFlip p_flip = SDL_FLIP_NONE) :
@@ -32,19 +33,19 @@ bool dynamic_game_object::is_collision(const position& p_logical_position) const
 
 std::vector<position> dynamic_game_object::get_possible_steps(const int x, const int y) const {
     std::vector<position> positions = { };
-    if ((*m_map)[y][x + 1] != '*') {
+    if (!object_identifier::is_hurdle((*m_map)[y][x + 1])) {
         positions.push_back({ x + 1, y });
     }
 
-    if ((*m_map)[y][x - 1] != '*') {
+    if (!object_identifier::is_hurdle((*m_map)[y][x - 1])) {
         positions.push_back({ x - 1, y });
     }
 
-    if ((*m_map)[y + 1][x] != '*') {
+    if (!object_identifier::is_hurdle((*m_map)[y + 1][x])) {
         positions.push_back({ x, y + 1 });
     }
 
-    if ((*m_map)[y - 1][x] != '*') {
+    if (!object_identifier::is_hurdle((*m_map)[y - 1][x])) {
         positions.push_back({ x, y - 1 });
     }
 

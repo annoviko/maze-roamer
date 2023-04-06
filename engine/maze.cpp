@@ -15,6 +15,8 @@
 #include "ground.h"
 #include "monster_random.h"
 #include "monster_clever.h"
+#include "object_identifier.h"
+#include "tree.h"
 #include "wall.h"
 #include "window_game_over.h"
 #include "window_win.h"
@@ -62,7 +64,7 @@ void maze::initialize(const player_context::ptr& p_context) {
 
             x += OBJECT_SIZE;
 
-            if (value != '*') {
+            if (!object_identifier::is_hurdle(value)) {
                 m_objects_fundamental.back().push_back(std::make_shared<ground>(' ', rect, m_texture_manager));
             }
 
@@ -96,9 +98,13 @@ void maze::initialize(const player_context::ptr& p_context) {
             case '*':
                 m_objects_fundamental.back().push_back(std::make_shared<wall>(value, rect, m_texture_manager));
                 break;
+
+            case '^':
+                m_objects_fundamental.back().push_back(std::make_shared<tree>(value, rect, m_texture_manager));
+                break;
             }
 
-            if (value != '*' && value != ' ') {
+            if (!object_identifier::is_hurdle(value) && value != ' ') {
                 value = ' '; // clean dynamic objects.
             }
         }
@@ -197,6 +203,12 @@ void maze::process_expired_object(game_object_interim::ptr& p_object) {
 void maze::process_active_bomb(game_object_interim::ptr& p_object) {
     const auto boom_area = bomb_explosion().boom(m_maze, p_object->get_logical_location());
     for (const auto& boom_position : boom_area) {
+        if (m_player->is_collision(boom_position)) {
+            m_player->get_context()->decrease_health();
+            check_game_over();
+            return;
+        }
+
         for (auto iter = m_monsters.begin(); iter != m_monsters.end();) {
             const auto& monster = (*iter);
             if (monster->is_collision(boom_position)) {

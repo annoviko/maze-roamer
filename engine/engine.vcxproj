@@ -114,6 +114,7 @@
     <ClInclude Include="edge_2d.h" />
     <ClInclude Include="game_status_widget.h" />
     <ClInclude Include="ground.h" />
+    <ClInclude Include="object_identifier.h" />
     <ClInclude Include="interim_game_object.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="level_finder.h" />
@@ -126,6 +127,7 @@
     <ClInclude Include="monster_random.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="player_context.h" />
+    <ClInclude Include="tree.h" />
     <ClInclude Include="wall.h" />
     <ClInclude Include="window_game_over.h" />
     <ClInclude Include="window_message.h" />

@@ -1,4 +1,5 @@
 #include "player.h"
+#include "object_identifier.h"
 
 
 void player::boost_speed(const int p_multiplier, const int p_duration_ms) {
@@ -113,7 +114,7 @@ void player::try_change_destination(const dynamic_object_state p_state) {
         break;
     }
 
-    if ((*m_map)[destination_candidate.y][destination_candidate.x] != '*') {
+    if (!object_identifier::is_hurdle((*m_map)[destination_candidate.y][destination_candidate.x])) {
         m_logical_destination = destination_candidate;
 
         m_destination.x = destination_candidate.x * m_location.w;
