@@ -11,11 +11,17 @@
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
+    SDL_DisplayMode desktop_mode;
+    if (SDL_GetDesktopDisplayMode(0, &desktop_mode) != 0) {
+        std::cout << "Unable to get desktop display mode: " << SDL_GetError() << std::endl;
+        return 1;
+    }
+
     SDL_Window* window;
-    window = SDL_CreateWindow("Maze Roamer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 832, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("Maze Roamer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, desktop_mode.w, desktop_mode.h, SDL_WINDOW_FULLSCREEN);
 
     if (window == NULL) {
-        std::cout << "Could not create window: " << SDL_GetError() << '\n';
+        std::cout << "Could not create window: " << SDL_GetError() << std::endl;
         return 1;
     }
 

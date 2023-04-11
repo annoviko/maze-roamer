@@ -114,7 +114,7 @@ void maze::initialize(const player_context::ptr& p_context) {
     }
 
     m_level_stats = std::make_shared<level_stats>(total_coins);
-    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, 0, (int) m_maze.size(), p_context, m_level_stats);
+    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, 0, (int) m_maze.size() * OBJECT_SIZE, p_context, m_level_stats);
 }
 
 void maze::check_collision_with_static_objects() {

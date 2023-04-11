@@ -20,6 +20,11 @@ private:
     constexpr static int WIDGET_CELL_SIZE = 32;
     constexpr static int WIDGET_ROWS = 2;
     constexpr static int WIDGET_COLS = 26;
+    constexpr static int FONT_Y_DRIFT = 6;
+
+    constexpr static int PROGRESS_BAR_HEIGHT = 14;
+    constexpr static int PROGRESS_BAR_WIDTH = 291;
+    constexpr static int PROGRESS_BAR_BORDER_SIZE = 3;
 
 private:
     SDL_Renderer* m_renderer = nullptr;
