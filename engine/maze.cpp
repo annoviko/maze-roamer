@@ -1,5 +1,6 @@
 #include "maze.h"
 
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -28,6 +29,10 @@ maze::maze(const level& p_level, const player_context::ptr& p_context) :
     m_renderer(graphic_context::get().get_render()),
     m_texture_manager(graphic_context::get().get_render())
 {
+    if (!m_renderer) {
+        throw std::exception("imposible to render maze - renderer is nullptr");
+    }
+
     m_maze = p_level.load();
     m_initial_maze = m_maze;
 
@@ -49,6 +54,11 @@ void maze::initialize_texture_manager() {
 
 
 void maze::initialize(const player_context::ptr& p_context) {
+    const int offset_y = graphic_context::get().get_screen_height() / 2 - (m_maze.size() * OBJECT_SIZE) / 2;
+    const int offset_x = graphic_context::get().get_screen_width() / 2 - (m_maze[0].size() * OBJECT_SIZE) / 2;
+
+    m_texture_manager.set_offset(offset_x, offset_y);
+
     int x = 0, y = 0;
     int total_coins = 0;
 
@@ -116,7 +126,10 @@ void maze::initialize(const player_context::ptr& p_context) {
     }
 
     m_level_stats = std::make_shared<level_stats>(total_coins);
-    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, 0, (int) m_maze.size() * OBJECT_SIZE, p_context, m_level_stats);
+
+    const int widget_x = offset_x;
+    const int widget_y = offset_y + (int)m_maze.size() * OBJECT_SIZE;
+    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, widget_x, widget_y, p_context, m_level_stats);
 }
 
 void maze::check_collision_with_static_objects() {

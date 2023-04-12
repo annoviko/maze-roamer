@@ -34,8 +34,6 @@ private:
 
     int m_x = 0;
     int m_y = 0;
-    int m_w = 0;
-    int m_h = 0;
 
     level_stats::ptr m_level_stats = nullptr;
     player_context::ptr m_player_context = nullptr;

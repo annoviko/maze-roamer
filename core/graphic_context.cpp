@@ -18,14 +18,13 @@ void graphic_context::intialize(const std::string& p_application_name) {
         throw graphic_error("Unable to get desktop display mode: " + std::string(SDL_GetError()));
     }
 
-    SDL_Window* window;
-    window = SDL_CreateWindow(p_application_name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_display_mode.w, m_display_mode.h, SDL_WINDOW_FULLSCREEN);
-    if (window == nullptr) {
+    m_window = SDL_CreateWindow(p_application_name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_display_mode.w, m_display_mode.h, SDL_WINDOW_FULLSCREEN);
+    if (m_window == nullptr) {
         throw graphic_error("Unable to create window: " + std::string(SDL_GetError()));
     }
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == nullptr) {
+    m_render = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    if (m_render == nullptr) {
         throw graphic_error("Unable to create renderer: " + std::string(SDL_GetError()));
     }
 

@@ -47,6 +47,10 @@ void level_runner::run(const level& p_level) {
                 case SDLK_b:
                     m.activate_bomb();
                     break;
+
+                case SDLK_ESCAPE:
+                    m_is_running = false;
+                    break;
                 }
 
                 break;
