@@ -45,7 +45,7 @@ private:
     bool m_is_running = true;
 
 public:
-    maze(const level& p_level, const player_context::ptr& p_context, SDL_Renderer* p_renderer);
+    maze(const level& p_level, const player_context::ptr& p_context);
 
     ~maze();
 

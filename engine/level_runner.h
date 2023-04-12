@@ -10,13 +10,12 @@
 
 class level_runner {
 private:
-    SDL_Renderer* m_renderer;
     player_context::ptr m_context;
 
     bool m_is_running = false;
 
 public:
-    level_runner(SDL_Renderer* p_renderer, const player_context::ptr& p_context);
+    level_runner(const player_context::ptr& p_context);
 
 public:
     void run(const level& p_level);

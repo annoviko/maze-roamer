@@ -6,6 +6,8 @@
 
 #include <SDL_image.h>
 
+#include "core/graphic_context.h"
+
 #include "booster_speed.h"
 #include "bomb.h"
 #include "bomb_active.h"
@@ -22,9 +24,9 @@
 #include "window_win.h"
 
 
-maze::maze(const level& p_level,const player_context::ptr& p_context, SDL_Renderer* p_renderer) :
-    m_renderer(p_renderer),
-    m_texture_manager(p_renderer)
+maze::maze(const level& p_level, const player_context::ptr& p_context) :
+    m_renderer(graphic_context::get().get_render()),
+    m_texture_manager(graphic_context::get().get_render())
 {
     m_maze = p_level.load();
     m_initial_maze = m_maze;

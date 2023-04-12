@@ -4,15 +4,14 @@
 #include "maze.h"
 
 
-level_runner::level_runner(SDL_Renderer* p_renderer, const player_context::ptr& p_context) :
-    m_renderer(p_renderer),
+level_runner::level_runner(const player_context::ptr& p_context) :
     m_context(p_context),
     m_is_running(true)
 { }
 
 
 void level_runner::run(const level& p_level) {
-    maze m(p_level, m_context, m_renderer);
+    maze m(p_level, m_context);
     m.render();
 
     SDL_Event event;
