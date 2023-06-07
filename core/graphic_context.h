@@ -26,6 +26,10 @@ public:
 
     const int get_screen_height() const;
 
+    const int get_window_x_center(const int p_width) const;
+
+    const int get_window_y_center(const int p_height) const;
+
     SDL_Window* get_window();
 
     SDL_Renderer* get_render();

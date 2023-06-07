@@ -49,3 +49,11 @@ SDL_Window* graphic_context::get_window() {
 SDL_Renderer* graphic_context::get_render() {
     return m_render;
 }
+
+const int graphic_context::get_window_x_center(const int p_width) const {
+    return m_display_mode.w / 2 - p_width / 2;
+}
+
+const int graphic_context::get_window_y_center(const int p_height) const {
+    return m_display_mode.h / 2 - p_height / 2;
+}

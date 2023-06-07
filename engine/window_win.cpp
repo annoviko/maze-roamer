@@ -5,5 +5,5 @@
 
 
 window_win::window_win() :
-    window_message("Congratulations!", "CONGRATULATIONS! YOU HAVE SUCCESSFULLY COMPLETED THE LEVEL!")
+    window_message("Congratulations! You have successfully completed the level!")
 { }

@@ -20,17 +20,20 @@ private:
     constexpr static int WIDGET_CELL_SIZE = 32;
     constexpr static int WIDGET_ROWS = 2;
     constexpr static int WIDGET_COLS = 26;
-    constexpr static int FONT_Y_DRIFT = 6;
+    constexpr static int FONT_Y_DRIFT = -2;
 
     constexpr static int PROGRESS_BAR_HEIGHT = 14;
     constexpr static int PROGRESS_BAR_WIDTH = 291;
     constexpr static int PROGRESS_BAR_BORDER_SIZE = 3;
+    constexpr static int PROGRESS_BAR_X_OFFSET = 190;
+
+    constexpr static int HEALTH_X_OFFSET = 736;
 
 private:
     SDL_Renderer* m_renderer = nullptr;
     const texture_manager& m_texture_manager;
 
-    TTF_Font* m_font = TTF_OpenFont("fonts/Symtext.ttf", 28);
+    TTF_Font* m_font = TTF_OpenFont("fonts/the-confession-full-regular.ttf", 28);
 
     int m_x = 0;
     int m_y = 0;

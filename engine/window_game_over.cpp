@@ -5,5 +5,5 @@
 
 
 window_game_over::window_game_over() :
-    window_message("Game Over!", "GAME OVER!")
+    window_message("Unfortunately the game is over. Want to try again?")
 { }
