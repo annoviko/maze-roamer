@@ -7,15 +7,14 @@
 #include "core/font.h"
 
 
-window_message::window_message(const std::string& p_title, const std::string& p_message) {
-    m_window = SDL_CreateWindow(p_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, DEFAULT_WIDTH, DEFAULT_HEIGHT, SDL_WINDOW_SHOWN);
-    if (!m_window) {
-        throw std::exception("impossible to create SDL window");
-    }
+window_message::window_message(const std::string& p_message) {
+    SDL_Rect rect = { 
+        m_x, 
+        m_y, 
+        DEFAULT_WIDTH, 
+        DEFAULT_HEIGHT
+    };
 
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
-
-    SDL_Rect rect = { 0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT };
     SDL_SetRenderDrawColor(m_renderer, BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, BACKGROUND_COLOR.a);
     SDL_RenderFillRect(m_renderer, &rect);
 
@@ -30,19 +29,24 @@ window_message::window_message(const std::string& p_title, const std::string& p_
     int text_width = 0;
     int text_height = 0;
     SDL_QueryTexture(texture_message, NULL, NULL, &text_width, &text_height);
-    SDL_Rect dstrect = { 20, 15, text_width, text_height };
+    SDL_Rect dstrect = { m_x + 20, m_y + 15, text_width, text_height };
 
-    SDL_SetWindowSize(m_window, DEFAULT_WIDTH, text_height + message_font.get_size());
     SDL_RenderCopy(m_renderer, texture_message, NULL, &dstrect);
 
     SDL_FreeSurface(surface_message);
     SDL_DestroyTexture(texture_message);
+
+    draw_window_border();
 }
 
 
-window_message::~window_message() {
-    SDL_DestroyRenderer(m_renderer);
-    SDL_DestroyWindow(m_window);
+void window_message::draw_window_border() {
+    SDL_SetRenderDrawColor(m_renderer, BORDER_COLOR.r, BORDER_COLOR.g, BORDER_COLOR.b, BORDER_COLOR.a); // Red frame color
+
+    SDL_RenderDrawLine(m_renderer, m_x, m_y, m_x + DEFAULT_WIDTH, m_y);
+    SDL_RenderDrawLine(m_renderer, m_x, m_y, m_x, m_y + DEFAULT_HEIGHT);
+    SDL_RenderDrawLine(m_renderer, m_x + DEFAULT_WIDTH, m_y, m_x + DEFAULT_WIDTH, m_y + DEFAULT_HEIGHT);
+    SDL_RenderDrawLine(m_renderer, m_x, m_y + DEFAULT_HEIGHT, m_x + DEFAULT_WIDTH, m_y + DEFAULT_HEIGHT);
 }
 
 
@@ -57,14 +61,19 @@ void window_message::show() {
         auto frameStart = SDL_GetTicks();
 
         while (SDL_PollEvent(&event)) {
-            if (event.type != SDL_WINDOWEVENT) {
-                continue;
-            }
-
-            switch (event.window.event) {
-            case SDL_WINDOWEVENT_CLOSE:
+            switch (event.type) {
+            case SDL_QUIT:
                 window_active = false;
-                return;
+                break;
+
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) {
+                case SDLK_RETURN:
+                case SDLK_SPACE:
+                case SDLK_ESCAPE:
+                    window_active = false;
+                    break;
+                }
 
             default:
                 break;

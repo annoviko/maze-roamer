@@ -77,9 +77,12 @@
     <ClInclude Include="font.h" />
     <ClInclude Include="game_object.h" />
     <ClInclude Include="game_object_interim.h" />
+    <ClInclude Include="graphic_context.h" />
+    <ClInclude Include="graphic_error.h" />
     <ClInclude Include="interim.h" />
     <ClInclude Include="position.h" />
     <ClInclude Include="rgba.h" />
+    <ClInclude Include="singleton.h" />
     <ClInclude Include="texture_manager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +91,8 @@
   <ItemGroup>
     <ClCompile Include="font.cpp" />
     <ClCompile Include="game_object.cpp" />
+    <ClCompile Include="graphic_context.cpp" />
+    <ClCompile Include="graphic_error.cpp" />
     <ClCompile Include="texture_manager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
