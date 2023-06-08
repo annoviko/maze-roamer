@@ -1,8 +1,9 @@
 #pragma once
 
 
-#include <chrono>
 #include <limits>
+
+#include "game_time.h"
 
 
 template <typename ObjectContext>
@@ -13,7 +14,7 @@ private:
 private:
     bool m_active = false;
     int m_duration_ms = 0;
-    std::chrono::time_point<std::chrono::system_clock> m_start_time;
+    long long m_start_time;
 
     ObjectContext m_value = ObjectContext();
 
@@ -32,7 +33,7 @@ public:
     void activate(const ObjectContext& p_value, const int p_duration_ms) {
         m_active = true;
         m_duration_ms = p_duration_ms;
-        m_start_time = std::chrono::system_clock::now();
+        m_start_time = game_time::get().get_ticks();
         m_value = p_value;
     }
 
@@ -45,9 +46,7 @@ public:
             return INVALID_TIME_VALUE;
         }
 
-        const auto cur_time = std::chrono::system_clock::now();
-        const std::chrono::duration<double> duration = cur_time - m_start_time;
-        const auto active_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+        auto active_ms = game_time::get().get_ticks() - m_start_time;
 
         return static_cast<int>(active_ms);
     }

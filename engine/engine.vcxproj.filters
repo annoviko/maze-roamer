@@ -66,6 +66,9 @@
     <ClCompile Include="bomb_explosion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="window_pause.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamic_game_object.h">
@@ -153,6 +156,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="object_identifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_pause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

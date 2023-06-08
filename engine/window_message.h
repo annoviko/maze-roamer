@@ -10,7 +10,7 @@
 
 
 class window_message {
-private:
+protected:
     constexpr static int DEFAULT_HEIGHT = 160;
     constexpr static int DEFAULT_WIDTH = 640;
 
@@ -20,15 +20,17 @@ private:
     constexpr static char FONTNAME[] = "fonts/the-confession-full-regular.ttf";
     constexpr static std::uint8_t FONTSIZE = 28;
 
-private:
+protected:
     int m_x = graphic_context::get().get_window_x_center(DEFAULT_WIDTH);
     int m_y = graphic_context::get().get_window_y_center(DEFAULT_HEIGHT);
+    int m_width = DEFAULT_WIDTH;
+    int m_height = DEFAULT_HEIGHT;
 
     SDL_Window* m_window = graphic_context::get().get_window();
     SDL_Renderer* m_renderer = graphic_context::get().get_render();
 
 public:
-    window_message(const std::string& p_message);
+    window_message(const std::string& p_message, const bool p_resize_to_message = false);
 
 public:
     virtual void show();

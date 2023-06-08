@@ -13,6 +13,7 @@ private:
     player_context::ptr m_context;
 
     bool m_is_running = false;
+    bool m_is_pause = false;
 
 public:
     level_runner(const player_context::ptr& p_context);

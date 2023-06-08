@@ -7,17 +7,7 @@
 #include "core/font.h"
 
 
-window_message::window_message(const std::string& p_message) {
-    SDL_Rect rect = { 
-        m_x, 
-        m_y, 
-        DEFAULT_WIDTH, 
-        DEFAULT_HEIGHT
-    };
-
-    SDL_SetRenderDrawColor(m_renderer, BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, BACKGROUND_COLOR.a);
-    SDL_RenderFillRect(m_renderer, &rect);
-
+window_message::window_message(const std::string& p_message, const bool p_resize_to_message) {
     font message_font = font(FONTNAME, FONTSIZE);
 
     std::string message(p_message);
@@ -29,8 +19,25 @@ window_message::window_message(const std::string& p_message) {
     int text_width = 0;
     int text_height = 0;
     SDL_QueryTexture(texture_message, NULL, NULL, &text_width, &text_height);
-    SDL_Rect dstrect = { m_x + 20, m_y + 15, text_width, text_height };
 
+    if (p_resize_to_message) {
+        m_width = text_width + 40;
+        m_height = text_height + 30;
+        m_x = graphic_context::get().get_window_x_center(m_width);
+        m_y = graphic_context::get().get_window_y_center(m_height);
+    }
+
+    SDL_Rect rect = {
+        m_x,
+        m_y,
+        m_width,
+        m_height
+    };
+
+    SDL_SetRenderDrawColor(m_renderer, BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, BACKGROUND_COLOR.a);
+    SDL_RenderFillRect(m_renderer, &rect);
+
+    SDL_Rect dstrect = { m_x + 20, m_y + 15, text_width, text_height };
     SDL_RenderCopy(m_renderer, texture_message, NULL, &dstrect);
 
     SDL_FreeSurface(surface_message);
@@ -43,10 +50,10 @@ window_message::window_message(const std::string& p_message) {
 void window_message::draw_window_border() {
     SDL_SetRenderDrawColor(m_renderer, BORDER_COLOR.r, BORDER_COLOR.g, BORDER_COLOR.b, BORDER_COLOR.a); // Red frame color
 
-    SDL_RenderDrawLine(m_renderer, m_x, m_y, m_x + DEFAULT_WIDTH, m_y);
-    SDL_RenderDrawLine(m_renderer, m_x, m_y, m_x, m_y + DEFAULT_HEIGHT);
-    SDL_RenderDrawLine(m_renderer, m_x + DEFAULT_WIDTH, m_y, m_x + DEFAULT_WIDTH, m_y + DEFAULT_HEIGHT);
-    SDL_RenderDrawLine(m_renderer, m_x, m_y + DEFAULT_HEIGHT, m_x + DEFAULT_WIDTH, m_y + DEFAULT_HEIGHT);
+    SDL_RenderDrawLine(m_renderer, m_x, m_y, m_x + m_width, m_y);
+    SDL_RenderDrawLine(m_renderer, m_x, m_y, m_x, m_y + m_height);
+    SDL_RenderDrawLine(m_renderer, m_x + m_width, m_y, m_x + m_width, m_y + m_height);
+    SDL_RenderDrawLine(m_renderer, m_x, m_y + m_height, m_x + m_width, m_y + m_height);
 }
 
 
