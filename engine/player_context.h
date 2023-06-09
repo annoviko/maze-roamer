@@ -5,8 +5,17 @@
 
 #include "core/interim.h"
 
+#include "engine/inventory.h"
 
-using speed_booster = interim<int>;
+
+using booster_t = interim<int>;
+
+
+struct booster {
+    booster_t m_booster;
+    inventory_object_t m_type;
+};
+
 
 
 class player_context {
@@ -22,13 +31,21 @@ private:
     int m_score = DEFAULT_SCORE;
     int m_health = DEFAULT_HEALTH;
 
-    speed_booster m_speed_booster;
-    int m_amount_bombs = DEFAULT_NUM_BOMBS;
+    booster m_current_booster;
+    inventory m_invetory;
 
 public:
-    speed_booster& get_speed_booster();
+    booster_t& get_booster();
 
-    const speed_booster& get_speed_booster() const;
+    const booster_t& get_booster() const;
+
+    bool is_booster_active(const inventory_object_t p_type);
+
+    void activate_booster(const inventory_object_t p_type, const int p_value, const int p_duration_ms);
+
+    const inventory& get_inventory() const;
+
+    inventory& get_inventory();
 
     void increase_score(const int p_score);
 
@@ -39,6 +56,18 @@ public:
     void decrease_amount_bombs();
 
     bool has_bombs() const;
+
+    void increase_amount_speed_boosters();
+
+    void decrease_amount_speed_boosters();
+
+    bool has_speed_boosters();
+
+    void increase_amount_stone_skin_boosters();
+
+    void decrease_amount_stone_skin_boosters();
+
+    bool has_stone_skin_boosters();
 
     int get_score() const;
 

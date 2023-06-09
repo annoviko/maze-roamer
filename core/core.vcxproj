@@ -81,6 +81,7 @@
     <ClInclude Include="graphic_context.h" />
     <ClInclude Include="graphic_error.h" />
     <ClInclude Include="interim.h" />
+    <ClInclude Include="painter.h" />
     <ClInclude Include="position.h" />
     <ClInclude Include="rgba.h" />
     <ClInclude Include="singleton.h" />
@@ -95,6 +96,7 @@
     <ClCompile Include="game_time.cpp" />
     <ClCompile Include="graphic_context.cpp" />
     <ClCompile Include="graphic_error.cpp" />
+    <ClCompile Include="painter.cpp" />
     <ClCompile Include="texture_manager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

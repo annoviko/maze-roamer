@@ -147,7 +147,7 @@ void maze::check_collision_with_static_objects() {
             break;
 
         case '@':
-            m_player->boost_speed(2, 5000);
+            m_player->get_context()->increase_amount_speed_boosters();
             static_object = nullptr;
             break;
 
@@ -350,6 +350,7 @@ player::ptr maze::get_player() {
 
 void maze::activate_bomb() {
     if (m_player->get_context()->has_bombs()) {
+        std::cout << "Activate bomb (amount bombs: " << m_player->get_context()->get_inventory().get_amount(inventory_object_t::BOMB) << ")." << std::endl;
         m_player->get_context()->decrease_amount_bombs();
 
         const int x = (int) std::round(((double) m_player->get_location().x) / (double) OBJECT_SIZE);

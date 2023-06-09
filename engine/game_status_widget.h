@@ -18,7 +18,7 @@ public:
 
 private:
     constexpr static int WIDGET_CELL_SIZE = 32;
-    constexpr static int WIDGET_ROWS = 2;
+    constexpr static int WIDGET_ROWS = 3;
     constexpr static int WIDGET_COLS = 26;
     constexpr static int FONT_Y_DRIFT = -2;
 
@@ -27,6 +27,10 @@ private:
     constexpr static int PROGRESS_BAR_BORDER_SIZE = 3;
     constexpr static int PROGRESS_BAR_X_OFFSET = 190;
 
+    constexpr static int INVENTORY_SLOTS = 7;
+    constexpr static int INVENTORY_X_OFFSET = 600;
+    constexpr static int INVENTORY_Y_OFFSET = 36;
+
     constexpr static int HEALTH_X_OFFSET = 736;
 
 private:
@@ -34,6 +38,7 @@ private:
     const texture_manager& m_texture_manager;
 
     TTF_Font* m_font = TTF_OpenFont("fonts/the-confession-full-regular.ttf", 28);
+    TTF_Font* m_font_inventory = TTF_OpenFont("fonts/the-confession-full-regular.ttf", 3);
 
     int m_x = 0;
     int m_y = 0;
@@ -65,4 +70,6 @@ private:
     void show_progress();
 
     void show_boost_speed();
+
+    void show_inventory();
 };

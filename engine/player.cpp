@@ -3,8 +3,8 @@
 
 
 void player::boost_speed(const int p_multiplier, const int p_duration_ms) {
-    m_transition_step_size = PLAYER_TRANSITION_STEP_SIZE * p_multiplier;
-    m_player_context->get_speed_booster().activate(m_transition_step_size, p_duration_ms);
+    //m_transition_step_size = PLAYER_TRANSITION_STEP_SIZE * p_multiplier;
+    //m_player_context->activate_booster(inventory_object_t::BOOSTER_SPEED, m_transition_step_size, p_duration_ms);
 }
 
 
@@ -127,7 +127,7 @@ void player::try_change_destination(const dynamic_object_state p_state) {
 
 
 void player::handle_boosters() {
-    if (!m_player_context->get_speed_booster().is_active()) {
+    if (!m_player_context->is_booster_active(inventory_object_t::BOOSTER_SPEED)) {
         m_transition_step_size = PLAYER_TRANSITION_STEP_SIZE;
     }
 }
