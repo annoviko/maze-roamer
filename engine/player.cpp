@@ -3,8 +3,8 @@
 
 
 void player::boost_speed(const int p_multiplier, const int p_duration_ms) {
-    //m_transition_step_size = PLAYER_TRANSITION_STEP_SIZE * p_multiplier;
-    //m_player_context->activate_booster(inventory_object_t::BOOSTER_SPEED, m_transition_step_size, p_duration_ms);
+    m_transition_step_size = PLAYER_TRANSITION_STEP_SIZE * p_multiplier;
+    m_player_context->activate_booster(inventory_object_t::BOOSTER_SPEED, m_transition_step_size, p_duration_ms);
 }
 
 

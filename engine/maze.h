@@ -61,7 +61,7 @@ public:
 
     player::ptr get_player();
 
-    void activate_bomb();
+    void inventory_action(const int p_inventory_action_number);
 
 private:
     void initialize(const player_context::ptr& p_context);
@@ -69,6 +69,8 @@ private:
     void initialize_texture_manager();
 
     void render_static_objects();
+
+    void activate_bomb();
 
     bool check_game_over();
 

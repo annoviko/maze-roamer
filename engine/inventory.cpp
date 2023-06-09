@@ -35,14 +35,14 @@ bool inventory::exists(const inventory_object_t p_type) const {
 
 
 inventory_object_t inventory::get_object_by_position(const int p_position) const {
-    int cur_pos = 0;
-    for (int i = 0; i < static_cast<int>(inventory_object_t::__LENGTH__); i++) {
-        if (m_objects[i] > 0) {
-            if (cur_pos == p_position) {
-                return static_cast<inventory_object_t>(m_objects[i]);
-            }
+    if (p_position >= m_objects_stack.size()) {
+        return inventory_object_t::__NULL__;
+    }
 
-            cur_pos++;
+    int cur_pos = 0;
+    for (auto iter = m_objects_stack.begin(); iter != m_objects_stack.end(); iter++, cur_pos++) {
+        if (cur_pos == p_position) {
+            return *iter;
         }
     }
 

@@ -348,6 +348,24 @@ player::ptr maze::get_player() {
 }
 
 
+void maze::inventory_action(const int p_inventory_action_number) {
+    const auto object_type = m_player->get_context()->get_inventory().get_object_by_position(p_inventory_action_number);
+
+    switch (object_type) {
+    case inventory_object_t::BOMB:
+        activate_bomb();
+        break;
+
+    case inventory_object_t::BOOSTER_SPEED:
+        m_player->boost_speed(2, 5000);
+        break;
+
+    default:
+        break;
+    }
+}
+
+
 void maze::activate_bomb() {
     if (m_player->get_context()->has_bombs()) {
         std::cout << "Activate bomb (amount bombs: " << m_player->get_context()->get_inventory().get_amount(inventory_object_t::BOMB) << ")." << std::endl;

@@ -53,8 +53,16 @@ void level_runner::run(const level& p_level) {
                     m.get_player()->move_down();
                     break;
 
-                case SDLK_b:
-                    m.activate_bomb();
+                case SDLK_1:
+                case SDLK_2:
+                case SDLK_3:
+                case SDLK_4:
+                case SDLK_5:
+                case SDLK_6:
+                case SDLK_7:
+                case SDLK_8:
+                case SDLK_9:
+                    m.inventory_action(event.key.keysym.sym - SDLK_1);
                     break;
 
                 case SDLK_p:
