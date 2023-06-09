@@ -75,6 +75,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="font.h" />
+    <ClInclude Include="font_manager.h" />
     <ClInclude Include="game_object.h" />
     <ClInclude Include="game_object_interim.h" />
     <ClInclude Include="game_time.h" />
@@ -92,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="font.cpp" />
+    <ClCompile Include="font_manager.cpp" />
     <ClCompile Include="game_object.cpp" />
     <ClCompile Include="game_time.cpp" />
     <ClCompile Include="graphic_context.cpp" />

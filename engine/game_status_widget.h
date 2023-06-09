@@ -38,7 +38,7 @@ private:
     const texture_manager& m_texture_manager;
 
     TTF_Font* m_font = TTF_OpenFont("fonts/the-confession-full-regular.ttf", 28);
-    TTF_Font* m_font_inventory = TTF_OpenFont("fonts/the-confession-full-regular.ttf", 3);
+    TTF_Font* m_font_inventory = TTF_OpenFont("fonts/the-confession-full-regular.ttf", 12);
 
     int m_x = 0;
     int m_y = 0;

@@ -206,20 +206,13 @@ void game_status_widget::show_inventory() {
             painter_handler.draw_frame(location, frame_color);
         }
 
+        painter_handler.draw_text(std::to_string(count), font_value_t::CONFESSION_FULL_REGULAR, 12, { 255, 255, 255, 255 }, location.x, location.y,
+            WIDGET_CELL_SIZE, text_alignment::RIGHT,
+            WIDGET_CELL_SIZE, text_alignment::BOTTOM);
+
         painter_handler.draw_rectangle(location_count, frame_color);
-
-        SDL_Color white_color = { 255, 255, 255 };
-        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(m_font, std::to_string(count).c_str(), white_color);
-        SDL_Texture* count_texture = SDL_CreateTextureFromSurface(m_renderer, surfaceMessage);
-
-        int text_width = 0;
-        int text_height = 0;
-        SDL_QueryTexture(count_texture, NULL, NULL, &text_width, &text_height);
-        SDL_Rect dst_rect = { m_x + INVENTORY_X_OFFSET + WIDGET_CELL_SIZE * slot + 16, m_y + INVENTORY_Y_OFFSET + 16, text_width, text_height };
-
-        SDL_RenderCopy(m_renderer, count_texture, NULL, &dst_rect);
-
-        SDL_FreeSurface(surfaceMessage);
-        SDL_DestroyTexture(count_texture);
+        painter_handler.draw_text(std::to_string(slot + 1), font_value_t::CONFESSION_FULL_REGULAR, 12, { 0, 0, 0, 255 }, location_count.x, location_count.y,
+            location_count.w, text_alignment::CENTER,
+            location_count.h, text_alignment::CENTER);
     }
 }
