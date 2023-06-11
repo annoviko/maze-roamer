@@ -20,7 +20,7 @@ public:
     void update() override { }
 
     void render() override {
-        m_current_frame = static_cast<int>((SDL_GetTicks() / 200) % 4) + 1;
+        m_current_frame = static_cast<int>((SDL_GetTicks() / 200) % 4) + SPRITE_COL;
         game_object::render();
     }
 };
