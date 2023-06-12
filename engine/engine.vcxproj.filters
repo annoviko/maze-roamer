@@ -179,6 +179,9 @@
     <ClInclude Include="scenario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="castle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

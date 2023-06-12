@@ -29,7 +29,8 @@ private:
     std::vector<std::vector<game_object::ptr>> m_objects_fundamental;
     std::vector<std::vector<game_object::ptr>> m_objects_static_on_map;
     std::list<game_object_interim::ptr> m_objects_static_interim;
-    std::shared_ptr<player> m_player;
+    game_object::ptr m_castle = nullptr;
+    std::shared_ptr<player> m_player = nullptr;
     std::list<std::shared_ptr<monster>> m_monsters;
 
     level_matrix m_maze;

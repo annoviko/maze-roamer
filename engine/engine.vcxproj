@@ -111,6 +111,7 @@
     <ClInclude Include="bomb_explosion.h" />
     <ClInclude Include="boom.h" />
     <ClInclude Include="booster_speed.h" />
+    <ClInclude Include="castle.h" />
     <ClInclude Include="coin_gold.h" />
     <ClInclude Include="coin_silver.h" />
     <ClInclude Include="collectible_gear.h" />

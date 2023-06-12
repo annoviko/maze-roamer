@@ -45,6 +45,12 @@ void texture_manager::draw_frame(const SDL_Rect& p_dest, const int current_row, 
 }
 
 
+void texture_manager::draw_frame(const SDL_Rect& p_src, const SDL_Rect& p_dest, const SDL_RendererFlip flip) const {
+    const SDL_Rect dest_rect = { p_dest.x + m_offset_x, p_dest.y + m_offset_y, p_dest.w, p_dest.h };
+    SDL_RenderCopyEx(m_renderer, m_textures, &p_src, &dest_rect, 0, nullptr, flip);
+}
+
+
 void texture_manager::draw_frame_wo_offset(const SDL_Rect& p_dest, const int current_row, const int current_frame, const SDL_RendererFlip flip) const {
     const SDL_Rect src_rect = { p_dest.w * current_frame , p_dest.h * (current_row - 1), p_dest.w, p_dest.h };
     const SDL_Rect dest_rect = { p_dest.x, p_dest.y, p_dest.w, p_dest.h };

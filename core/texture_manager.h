@@ -29,6 +29,8 @@ public:
 
     void draw_frame(const SDL_Rect& p_dest, const int current_row, const int current_frame, const SDL_RendererFlip flip) const;
 
+    void draw_frame(const SDL_Rect& p_src, const SDL_Rect& p_dest, const SDL_RendererFlip flip) const;
+
     void draw_frame_wo_offset(const SDL_Rect& p_dest, const int current_row, const int current_frame, const SDL_RendererFlip flip) const;
 
     void draw_frame_wo_offset(const SDL_Rect& p_src, const SDL_Rect& p_dest, const SDL_RendererFlip flip) const;

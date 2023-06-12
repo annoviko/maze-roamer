@@ -14,6 +14,7 @@
 #include "bomb_active.h"
 #include "bomb_explosion.h"
 #include "boom.h"
+#include "castle.h"
 #include "coin_gold.h"
 #include "coin_silver.h"
 #include "collectible_gear.h"
@@ -113,6 +114,10 @@ void maze::initialize(const player_context::ptr& p_context) {
 
             case '!':
                 m_objects_static_on_map[i][j] = std::make_shared<bomb>(value, rect, position{ i, j }, m_texture_manager);
+                break;
+
+            case 'W':
+                m_castle = std::make_shared<castle>(value, rect, position{ i, j }, m_texture_manager);
                 break;
 
             case '*':
@@ -339,6 +344,8 @@ void maze::render_static_objects() {
     for (const auto& temp_static_object : m_objects_static_interim) {
         temp_static_object->render();
     }
+
+    m_castle->render();
 }
 
 
