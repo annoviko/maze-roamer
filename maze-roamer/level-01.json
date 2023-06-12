@@ -1,0 +1,55 @@
+{
+  "map": "level-01.map",
+  "scenario": [
+    {
+      "description": "Collect all gears on the map, avoid monsters.",
+
+      "quest": {
+        "type": "collect",
+        "object-id": "G",
+        "number": -1
+      },
+
+      "intro": {
+        "image": "scenario-01-collect-gears.png"
+      }
+    },
+
+    {
+      "description": "Return to the wizard.",
+
+      "quest": {
+        "type": "reach",
+        "object-id": "W"
+      },
+
+      "intro": {
+        "image": "scenario-01-return-gears.png"
+      }
+    },
+
+    {
+      "description": "Kill at least one monster.",
+
+      "intro": {
+        "image": "scenario-01-kill-monster.png"
+      },
+
+      "before": [
+        {
+          "type": "grant",
+          "id": "!",
+          "number": 5
+        }
+      ],
+
+      "quest": {
+        "type": "kill",
+        "object-id": "C",
+        "number": 1
+      }
+    }
+  ],
+
+  "epilogue": "scenario-01-epilogue.png"
+}

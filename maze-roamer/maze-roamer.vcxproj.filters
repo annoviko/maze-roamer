@@ -7,6 +7,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="level-01.json">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -20,13 +23,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="level-01.txt">
+    <Text Include="level-01.map">
       <Filter>Resources</Filter>
     </Text>
     <Text Include="level-02.txt">
       <Filter>Resources</Filter>
     </Text>
     <Text Include="level-03.txt">
+      <Filter>Resources</Filter>
+    </Text>
+    <Text Include="level-01.txt">
       <Filter>Resources</Filter>
     </Text>
   </ItemGroup>
