@@ -51,6 +51,8 @@ public:
 
     void decrease_cash(const int p_cash);
 
+    int get_cash() const;
+
     void increase_amount_bombs();
 
     void decrease_amount_bombs();
@@ -69,7 +71,9 @@ public:
 
     bool has_stone_skin_boosters();
 
-    int get_cash() const;
+    void increase_collectible(const char p_id_obj);
+
+    int get_collectible_amount(const char p_id_obj) const;
 
     void increase_health();
 

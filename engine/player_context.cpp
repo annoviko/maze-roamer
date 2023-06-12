@@ -93,6 +93,16 @@ bool player_context::has_stone_skin_boosters() {
 }
 
 
+void player_context::increase_collectible(const char p_id_obj) {
+    m_invetory.increment_colletible(p_id_obj);
+}
+
+
+int player_context::get_collectible_amount(const char p_id_obj) const {
+    return m_invetory.get_collectible_amount(p_id_obj);
+}
+
+
 int player_context::get_cash() const {
     return m_cash;
 }

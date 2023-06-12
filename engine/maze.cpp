@@ -16,6 +16,7 @@
 #include "boom.h"
 #include "coin_gold.h"
 #include "coin_silver.h"
+#include "collectible_gear.h"
 #include "ground.h"
 #include "monster_random.h"
 #include "monster_clever.h"
@@ -106,6 +107,10 @@ void maze::initialize(const player_context::ptr& p_context) {
                 m_objects_static_on_map[i][j] = std::make_shared<booster_speed>(value, rect, position{ i, j }, m_texture_manager);
                 break;
 
+            case 'G':
+                m_objects_static_on_map[i][j] = std::make_shared<collectible_gear>(value, rect, position{ i, j }, m_texture_manager);
+                break;
+
             case '!':
                 m_objects_static_on_map[i][j] = std::make_shared<bomb>(value, rect, position{ i, j }, m_texture_manager);
                 break;
@@ -150,6 +155,11 @@ void maze::check_collision_with_static_objects() {
 
             static_object = nullptr;
             m_status_widget->render();
+            break;
+
+        case 'G':
+            m_player->get_context()->increase_collectible(static_object->get_id());
+            static_object = nullptr;
             break;
 
         case '@':

@@ -53,3 +53,23 @@ inventory_object_t inventory::get_object_by_position(const int p_position) const
 std::list<inventory_object_t> inventory::get_objects_as_stack() const {
     return m_objects_stack;
 }
+
+
+int inventory::get_collectible_amount(const char p_obj_id) const {
+    auto iter = m_collectible_objects.find(p_obj_id);
+    if (iter != m_collectible_objects.end()) {
+        return iter->second;
+    }
+
+    return 0;
+}
+
+
+void inventory::increment_colletible(const char p_obj_id) {
+    m_collectible_objects[p_obj_id]++;
+}
+
+
+void inventory::clean_collectible() {
+    m_collectible_objects.clear();
+}

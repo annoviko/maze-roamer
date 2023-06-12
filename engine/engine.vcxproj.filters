@@ -170,6 +170,9 @@
     <ClInclude Include="coin_silver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="collectible_gear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
