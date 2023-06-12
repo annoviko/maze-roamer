@@ -35,15 +35,15 @@ inventory& player_context::get_inventory() {
 }
 
 
-void player_context::increase_score(const int p_score) {
-    m_score += p_score;
+void player_context::increase_cash(const int p_cash) {
+    m_cash += p_cash;
 }
 
 
-void player_context::decrease_score(const int p_score) {
-    m_score -= p_score;
-    if (m_score < 0) {
-        m_score = 0;
+void player_context::decrease_cash(const int p_cash) {
+    m_cash -= p_cash;
+    if (m_cash < 0) {
+        m_cash = 0;
     }
 }
 
@@ -93,8 +93,8 @@ bool player_context::has_stone_skin_boosters() {
 }
 
 
-int player_context::get_score() const {
-    return m_score;
+int player_context::get_cash() const {
+    return m_cash;
 }
 
 

@@ -95,7 +95,7 @@
     <ClInclude Include="level_runner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="coin.h">
+    <ClInclude Include="coin_gold.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ground.h">
@@ -165,6 +165,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coin_silver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

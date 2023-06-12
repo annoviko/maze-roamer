@@ -110,7 +110,8 @@
     <ClInclude Include="bomb_explosion.h" />
     <ClInclude Include="boom.h" />
     <ClInclude Include="booster_speed.h" />
-    <ClInclude Include="coin.h" />
+    <ClInclude Include="coin_gold.h" />
+    <ClInclude Include="coin_silver.h" />
     <ClInclude Include="dynamic_game_object.h" />
     <ClInclude Include="dynamic_object_state.h" />
     <ClInclude Include="edge_2d.h" />

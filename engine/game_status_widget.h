@@ -63,11 +63,9 @@ public:
     void render();
 
 private:
-    void show_score();
+    void show_cash();
 
     void show_health();
-
-    void show_progress();
 
     void show_boost_speed();
 

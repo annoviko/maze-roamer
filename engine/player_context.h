@@ -23,12 +23,12 @@ public:
     using ptr = std::shared_ptr<player_context>;
 
 private:
-    static constexpr int DEFAULT_SCORE = 0;
+    static constexpr int DEFAULT_CASH = 0;
     static constexpr int DEFAULT_NUM_BOMBS = 0;
     static constexpr int DEFAULT_HEALTH = 3;
 
 private:
-    int m_score = DEFAULT_SCORE;
+    int m_cash = DEFAULT_CASH;
     int m_health = DEFAULT_HEALTH;
 
     booster m_current_booster;
@@ -47,9 +47,9 @@ public:
 
     inventory& get_inventory();
 
-    void increase_score(const int p_score);
+    void increase_cash(const int p_cash);
 
-    void decrease_score(const int p_score);
+    void decrease_cash(const int p_cash);
 
     void increase_amount_bombs();
 
@@ -69,7 +69,7 @@ public:
 
     bool has_stone_skin_boosters();
 
-    int get_score() const;
+    int get_cash() const;
 
     void increase_health();
 

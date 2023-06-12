@@ -31,7 +31,7 @@ void painter::draw_rectangle(const SDL_Rect& p_rect, const rgba& p_rgba) {
 }
 
 
-void painter::draw_text(const std::string& p_text, const font_value_t p_font, const int p_font_size, const rgba& p_rgba, 
+SDL_Rect painter::draw_text(const std::string& p_text, const font_value_t p_font, const int p_font_size, const rgba& p_rgba, 
     const int p_x, const int p_y,
     const int p_align_width,
     const text_alignment p_x_align,
@@ -65,6 +65,8 @@ void painter::draw_text(const std::string& p_text, const font_value_t p_font, co
 
     SDL_FreeSurface(surface_message);
     SDL_DestroyTexture(text_texture);
+
+    return { text_x, text_y, text_width, text_height };
 }
 
 

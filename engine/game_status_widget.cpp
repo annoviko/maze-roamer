@@ -1,5 +1,6 @@
 #include "game_status_widget.h"
 
+#include <cmath>
 #include <string>
 
 #include <SDL.h>
@@ -9,6 +10,8 @@
 
 #include "engine/bomb.h"
 #include "engine/booster_speed.h"
+#include "engine/coin_gold.h"
+#include "engine/coin_silver.h"
 
 
 game_status_widget::game_status_widget(SDL_Renderer* p_renderer, const texture_manager& p_texture_manager, const int p_x, const int p_y, const player_context::ptr& p_context, const level_stats::ptr& p_level_stats) :
@@ -36,9 +39,8 @@ void game_status_widget::render() {
     SDL_SetRenderDrawColor(m_renderer, 0xff, 0x5b, 0x00, 0xff);
     SDL_RenderFillRect(m_renderer, &rect);
 
-    show_score();
+    show_cash();
     show_health();
-    show_progress();
     show_boost_speed();
     show_inventory();
 
@@ -74,6 +76,36 @@ void game_status_widget::show_health() {
 }
 
 
+void game_status_widget::show_cash() {
+    const int total_coins_in_silver = m_player_context->get_cash();
+    const int coins_in_gold = std::floor(total_coins_in_silver / coin_gold::COIN_VALUE);
+    const int coins_in_silver = total_coins_in_silver - coins_in_gold * coin_gold::COIN_VALUE;
+
+    const int y_position = m_y - FONT_Y_DRIFT;
+
+    /* display gold coins */
+    auto painter_handler = painter(m_renderer);
+    SDL_Rect destination = painter_handler.draw_text("Gold", font_value_t::CONFESSION_FULL_REGULAR, 28, { 255, 255, 255, 255 }, m_x + 5, y_position);
+
+    destination = { destination.x + destination.w, m_y + 3, 26, 26 };
+    SDL_Rect source = { coin_gold::SPRITE_COL * 32, (coin_gold::SPRITE_ROW - 1) * 32, 32, 32 };
+    m_texture_manager.draw_frame_wo_offset(source, destination, SDL_FLIP_NONE);
+
+    destination = painter_handler.draw_text(std::string(": ") + std::to_string(coins_in_gold), font_value_t::CONFESSION_FULL_REGULAR, 28, { 255, 255, 255, 255 }, destination.x + destination.w, y_position);
+
+    /* display silver coins */
+    destination = painter_handler.draw_text("Silver", font_value_t::CONFESSION_FULL_REGULAR, 28, { 255, 255, 255, 255 }, destination.x + 50, y_position);
+
+    destination = { destination.x + destination.w, m_y + 3, 26, 26 };
+    source = { coin_silver::SPRITE_COL * 32, (coin_silver::SPRITE_ROW - 1) * 32, 32, 32 };
+    m_texture_manager.draw_frame_wo_offset(source, destination, SDL_FLIP_NONE);
+
+    destination = painter_handler.draw_text(std::string(": ") + std::to_string(coins_in_silver), font_value_t::CONFESSION_FULL_REGULAR, 28, { 255, 255, 255, 255 }, destination.x + destination.w, y_position);
+
+}
+
+#if 0
+/* do not remove until issue #48 is done */
 void game_status_widget::show_score() {
     std::string message("Score: ");
     const int score = m_player_context->get_score();
@@ -105,6 +137,7 @@ void game_status_widget::show_score() {
 }
 
 
+
 void game_status_widget::show_progress() {
     SDL_Rect progress = { m_x + PROGRESS_BAR_X_OFFSET, m_y + PROGRESS_BAR_HEIGHT / 2 + PROGRESS_BAR_BORDER_SIZE, PROGRESS_BAR_WIDTH, PROGRESS_BAR_HEIGHT };
     SDL_Rect border = { progress.x - PROGRESS_BAR_BORDER_SIZE, progress.y - PROGRESS_BAR_BORDER_SIZE, progress.w + 6, progress.h + 6 };
@@ -120,7 +153,7 @@ void game_status_widget::show_progress() {
     SDL_SetRenderDrawColor(m_renderer, 0x00, 0xb6, 0x30, 0xff);
     SDL_RenderFillRect(m_renderer, &progress_value);
 }
-
+#endif
 
 void game_status_widget::show_boost_speed() {
     /* show message (TODO: refactor to move it to common functionality) */

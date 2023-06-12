@@ -14,7 +14,8 @@
 #include "bomb_active.h"
 #include "bomb_explosion.h"
 #include "boom.h"
-#include "coin.h"
+#include "coin_gold.h"
+#include "coin_silver.h"
 #include "ground.h"
 #include "monster_random.h"
 #include "monster_clever.h"
@@ -60,7 +61,6 @@ void maze::initialize(const player_context::ptr& p_context) {
     m_texture_manager.set_offset(offset_x, offset_y);
 
     int x = 0, y = 0;
-    int total_coins = 0;
 
     m_objects_static_on_map = std::vector<std::vector<game_object::ptr>>(m_maze.size(), std::vector<game_object::ptr>(m_maze[0].size(), nullptr));
 
@@ -95,8 +95,11 @@ void maze::initialize(const player_context::ptr& p_context) {
                 break;
 
             case '$':
-                m_objects_static_on_map[i][j] = std::make_shared<coin>(value, rect, position{ i, j }, m_texture_manager);
-                total_coins++;
+                m_objects_static_on_map[i][j] = std::make_shared<coin_gold>(value, rect, position{ i, j }, m_texture_manager);
+                break;
+
+            case '%':
+                m_objects_static_on_map[i][j] = std::make_shared<coin_silver>(value, rect, position{ i, j }, m_texture_manager);
                 break;
 
             case '@':
@@ -125,8 +128,6 @@ void maze::initialize(const player_context::ptr& p_context) {
         y += OBJECT_SIZE;
     }
 
-    m_level_stats = std::make_shared<level_stats>(total_coins);
-
     const int widget_x = offset_x;
     const int widget_y = offset_y + (int)m_maze.size() * OBJECT_SIZE;
     m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, widget_x, widget_y, p_context, m_level_stats);
@@ -137,13 +138,18 @@ void maze::check_collision_with_static_objects() {
     if (static_object != nullptr) {
         switch (static_object->get_id()) {
         case '$':
-            m_player->get_context()->increase_score(100);
-            m_level_stats->decrease_remaining_coins();
+        case '%':
+            switch (static_object->get_id()) {
+            case '$':
+                m_player->get_context()->increase_cash(coin_gold::COIN_VALUE);
+                break;
+            case '%':
+                m_player->get_context()->increase_cash(coin_silver::COIN_VALUE);
+                break;
+            }
 
             static_object = nullptr;
             m_status_widget->render();
-
-            check_win_condition();
             break;
 
         case '@':
@@ -381,10 +387,12 @@ void maze::activate_bomb() {
 
 
 void maze::check_win_condition() {
+#if 0
     if (m_level_stats->get_remaining_coins() == 0) {
         m_is_running = false;
         window_win().show();
     }
+#endif
 }
 
 
