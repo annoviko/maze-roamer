@@ -182,6 +182,24 @@
     <ClInclude Include="castle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="quest_collect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="event_from_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quest_kill.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quest_reach_checkpoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quest_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

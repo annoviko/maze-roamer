@@ -134,6 +134,12 @@
     <ClInclude Include="monster_random.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="player_context.h" />
+    <ClInclude Include="event_from_player.h" />
+    <ClInclude Include="quest.h" />
+    <ClInclude Include="quest_base.h" />
+    <ClInclude Include="quest_collect.h" />
+    <ClInclude Include="quest_kill.h" />
+    <ClInclude Include="quest_reach_checkpoint.h" />
     <ClInclude Include="scenario.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="wall.h" />
