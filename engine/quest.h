@@ -11,5 +11,5 @@
 using quest = std::variant <
     quest_collect,
     quest_kill,
-    event_reach_checkpoint
+    quest_reach_checkpoint
 >;

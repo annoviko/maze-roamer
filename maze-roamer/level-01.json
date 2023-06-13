@@ -35,10 +35,10 @@
         "image": "scenario-01-kill-monster.png"
       },
 
-      "before": [
+      "event-before": [
         {
           "type": "grant",
-          "id": "!",
+          "object-id": "!",
           "number": 5
         }
       ],

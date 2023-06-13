@@ -118,6 +118,8 @@
     <ClInclude Include="dynamic_game_object.h" />
     <ClInclude Include="dynamic_object_state.h" />
     <ClInclude Include="edge_2d.h" />
+    <ClInclude Include="event_base.h" />
+    <ClInclude Include="event_from_game.h" />
     <ClInclude Include="game_status_widget.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="inventory.h" />
@@ -160,6 +162,7 @@
     <Import Project="..\packages\sdl2_image.nuget.2.6.2\build\native\sdl2_image.nuget.targets" Condition="Exists('..\packages\sdl2_image.nuget.2.6.2\build\native\sdl2_image.nuget.targets')" />
     <Import Project="..\packages\sdl2_ttf.nuget.redist.2.20.1\build\native\sdl2_ttf.nuget.redist.targets" Condition="Exists('..\packages\sdl2_ttf.nuget.redist.2.20.1\build\native\sdl2_ttf.nuget.redist.targets')" />
     <Import Project="..\packages\sdl2_ttf.nuget.2.20.1\build\native\sdl2_ttf.nuget.targets" Condition="Exists('..\packages\sdl2_ttf.nuget.2.20.1\build\native\sdl2_ttf.nuget.targets')" />
+    <Import Project="..\packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets" Condition="Exists('..\packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -171,5 +174,6 @@
     <Error Condition="!Exists('..\packages\sdl2_image.nuget.2.6.2\build\native\sdl2_image.nuget.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2_image.nuget.2.6.2\build\native\sdl2_image.nuget.targets'))" />
     <Error Condition="!Exists('..\packages\sdl2_ttf.nuget.redist.2.20.1\build\native\sdl2_ttf.nuget.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2_ttf.nuget.redist.2.20.1\build\native\sdl2_ttf.nuget.redist.targets'))" />
     <Error Condition="!Exists('..\packages\sdl2_ttf.nuget.2.20.1\build\native\sdl2_ttf.nuget.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2_ttf.nuget.2.20.1\build\native\sdl2_ttf.nuget.targets'))" />
+    <Error Condition="!Exists('..\packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets'))" />
   </Target>
 </Project>

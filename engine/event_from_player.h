@@ -3,33 +3,21 @@
 
 #include <variant>
 
-
-class event_base {
-protected:
-    char m_subject_id;
-
-public:
-    event_base(const char p_subject_id) :
-        m_subject_id(p_subject_id)
-    { }
-
-public:
-    char get_subject_id() { return m_subject_id; }
-};
+#include "event_base.h"
 
 
 class event_collect : public event_base {
 public:
-    event_collect(const char p_object_id) :
-        event_base(p_object_id)
+    event_collect(const char p_object_id, const int p_amount) :
+        event_base(p_object_id, p_amount)
     { }
 };
 
 
 class event_kill : public event_base {
 public:
-    event_kill(const char p_monster_id) :
-        event_base(p_monster_id)
+    event_kill(const char p_monster_id, const int p_amount) :
+        event_base(p_monster_id, p_amount)
     { }
 };
 
@@ -37,7 +25,7 @@ public:
 class event_reach_checkpoint : public event_base {
 public:
     event_reach_checkpoint(const char p_object) :
-        event_base(p_object)
+        event_base(p_object, 1)
     { }
 };
 

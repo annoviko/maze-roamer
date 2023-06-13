@@ -203,6 +203,12 @@
     <ClInclude Include="portal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="event_from_game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="event_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

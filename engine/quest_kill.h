@@ -3,9 +3,10 @@
 
 #include "event_from_player.h"
 
+#include "quest_base.h"
 
 
-class quest_kill {
+class quest_kill : public quest_base {
 private:
     char m_object_id;
 
@@ -13,7 +14,8 @@ private:
     int m_current = 0;
 
 public:
-    quest_kill(const char p_object_id, const int p_expected, const int p_current) :
+    quest_kill(const std::string& p_description, const char p_object_id, const int p_expected, const int p_current) :
+        quest_base(p_description),
         m_object_id(p_object_id),
         m_expected(p_expected),
         m_current(p_current)
