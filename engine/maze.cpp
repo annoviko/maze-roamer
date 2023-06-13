@@ -22,6 +22,7 @@
 #include "monster_random.h"
 #include "monster_clever.h"
 #include "object_identifier.h"
+#include "portal.h"
 #include "tree.h"
 #include "wall.h"
 #include "window_game_over.h"
@@ -117,7 +118,7 @@ void maze::initialize(const player_context::ptr& p_context) {
                 break;
 
             case 'W':
-                m_castle = std::make_shared<castle>(value, rect, position{ i, j }, m_texture_manager);
+                m_castle = std::make_shared<portal>(value, rect, position{ i, j }, m_texture_manager);
                 break;
 
             case '*':

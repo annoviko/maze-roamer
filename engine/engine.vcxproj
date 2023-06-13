@@ -135,6 +135,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="player_context.h" />
     <ClInclude Include="event_from_player.h" />
+    <ClInclude Include="portal.h" />
     <ClInclude Include="quest.h" />
     <ClInclude Include="quest_base.h" />
     <ClInclude Include="quest_collect.h" />

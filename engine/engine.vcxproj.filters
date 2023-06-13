@@ -200,6 +200,9 @@
     <ClInclude Include="quest_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="portal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
