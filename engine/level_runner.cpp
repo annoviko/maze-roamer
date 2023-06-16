@@ -15,8 +15,10 @@ level_runner::level_runner(const player_context::ptr& p_context) :
 { }
 
 
-void level_runner::run(const level& p_level) {
-    maze m(p_level, m_context);
+void level_runner::run(const scenario& p_scenario) {
+    maze m(p_scenario, m_context);
+
+    m.run();
     m.render();
 
     SDL_Event event;

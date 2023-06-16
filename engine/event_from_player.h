@@ -7,17 +7,26 @@
 
 
 class event_collect : public event_base {
+private:
+    int m_remain_amount;
+
 public:
-    event_collect(const char p_object_id, const int p_amount) :
-        event_base(p_object_id, p_amount)
+    event_collect(const char p_object_id, const int p_amount, const int p_remain_amount) :
+        event_base(p_object_id, p_amount),
+        m_remain_amount(p_remain_amount)
     { }
+
+public:
+    int get_remain_amount() const {
+        return m_remain_amount;
+    }
 };
 
 
-class event_kill : public event_base {
+class event_kill : public event_collect {
 public:
-    event_kill(const char p_monster_id, const int p_amount) :
-        event_base(p_monster_id, p_amount)
+    event_kill(const char p_monster_id, const int p_amount, const int p_remain_amount) :
+        event_collect(p_monster_id, p_amount, p_remain_amount)
     { }
 };
 

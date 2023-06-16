@@ -3,6 +3,8 @@
 
 #include "event_from_player.h"
 
+#include <iostream>
+
 #include "quest_base.h"
 
 
@@ -21,14 +23,30 @@ public:
         m_current(p_current)
     { }
 
-public:
-    bool handle_event(const event_collect& p_event) {
-        return (++m_current >= m_expected);
+private:
+    bool handle_event_impl(const event_collect& p_event) {
+        std::cout << "Event 'event_collect' is received (current: '" << m_current + 1 << "', expected: '" << m_expected << "', remain: '" << p_event.get_remain_amount() << "')." << std::endl;
+
+        m_current++;
+        if (m_expected == -1) {
+            return (p_event.get_remain_amount() == 0);
+        }
+
+        return (m_current >= m_expected);
     }
 
 
     template<typename TypeEvent>
-    bool handle_event(const TypeEvent& p_event) {
+    bool handle_event_impl(const TypeEvent& p_event) {
+        std::cout << "Event is ignored by the quest." << std::endl;
         return false;
+    }
+
+public:
+    template<typename TypeEvent>
+    bool handle_event(const TypeEvent& p_event) {
+        return std::visit([this](const auto& event) -> bool { 
+            return this->handle_event_impl(event); }, 
+        p_event);
     }
 };

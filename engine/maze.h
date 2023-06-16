@@ -8,12 +8,11 @@
 #include <SDL.h>
 
 #include "game_status_widget.h"
-#include "level.h"
 #include "level_matrix.h"
-#include "level_stats.h"
 #include "monster.h"
 #include "player.h"
 #include "player_context.h"
+#include "scenario.h"
 
 #include "core/game_object.h"
 #include "core/game_object_interim.h"
@@ -25,6 +24,11 @@ class maze {
 private:
     static constexpr int OBJECT_SIZE = 32;
 
+    struct object_stats_entry {
+        int total = 0;
+        int remain = 0;
+    };
+
 private:
     std::vector<std::vector<game_object::ptr>> m_objects_fundamental;
     std::vector<std::vector<game_object::ptr>> m_objects_static_on_map;
@@ -33,12 +37,13 @@ private:
     std::shared_ptr<player> m_player = nullptr;
     std::list<std::shared_ptr<monster>> m_monsters;
 
+    scenario m_scenario;
     level_matrix m_maze;
     level_matrix m_initial_maze;
 
-    level_stats::ptr m_level_stats;
-
     game_status_widget::ptr m_status_widget;
+
+    std::unordered_map<char, object_stats_entry> m_object_stats;
 
     bool m_death_seq;
     SDL_Renderer* m_renderer;
@@ -46,9 +51,11 @@ private:
     bool m_is_running = true;
 
 public:
-    maze(const level& p_level, const player_context::ptr& p_context);
+    maze(const scenario& p_scenario, const player_context::ptr& p_context);
 
     ~maze();
+
+    void run();
 
     void update();
 

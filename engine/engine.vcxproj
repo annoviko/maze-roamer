@@ -89,10 +89,8 @@
     <ClCompile Include="dynamic_object_state.cpp" />
     <ClCompile Include="game_status_widget.cpp" />
     <ClCompile Include="inventory.cpp" />
-    <ClCompile Include="level.cpp" />
     <ClCompile Include="level_finder.cpp" />
     <ClCompile Include="level_runner.cpp" />
-    <ClCompile Include="level_stats.cpp" />
     <ClCompile Include="maze.cpp" />
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="monster_clever.cpp" />
@@ -100,7 +98,9 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player_context.cpp" />
     <ClCompile Include="scenario.cpp" />
+    <ClCompile Include="window_base.cpp" />
     <ClCompile Include="window_game_over.cpp" />
+    <ClCompile Include="window_image.cpp" />
     <ClCompile Include="window_message.cpp" />
     <ClCompile Include="window_pause.cpp" />
     <ClCompile Include="window_win.cpp" />
@@ -125,11 +125,9 @@
     <ClInclude Include="inventory.h" />
     <ClInclude Include="object_identifier.h" />
     <ClInclude Include="interim_game_object.h" />
-    <ClInclude Include="level.h" />
     <ClInclude Include="level_finder.h" />
     <ClInclude Include="level_matrix.h" />
     <ClInclude Include="level_runner.h" />
-    <ClInclude Include="level_stats.h" />
     <ClInclude Include="maze.h" />
     <ClInclude Include="monster.h" />
     <ClInclude Include="monster_clever.h" />
@@ -146,7 +144,9 @@
     <ClInclude Include="scenario.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="window_base.h" />
     <ClInclude Include="window_game_over.h" />
+    <ClInclude Include="window_image.h" />
     <ClInclude Include="window_message.h" />
     <ClInclude Include="window_pause.h" />
     <ClInclude Include="window_win.h" />

@@ -24,9 +24,6 @@
     <ClCompile Include="level_runner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="maze.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,9 +40,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="player_context.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="level_stats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game_status_widget.cpp">
@@ -75,6 +69,12 @@
     <ClCompile Include="scenario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="window_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamic_game_object.h">
@@ -84,9 +84,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="booster_speed.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="level_finder.h">
@@ -123,9 +120,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="wall.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="level_stats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game_status_widget.h">
@@ -207,6 +201,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="event_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

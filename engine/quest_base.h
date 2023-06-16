@@ -1,10 +1,12 @@
 #pragma once
 
 
+#include <iostream>
 #include <string>
 #include <vector>
 
 #include "event_from_game.h"
+#include "window_image.h"
 
 
 class quest_base {
@@ -34,12 +36,23 @@ public:
         m_start_events.push_back(p_event);
     }
 
-    void play() { }
+    void play() {
+        play_intro();
+        play_start_events();
+    }
 
 
 private:
     void play_start_events() { }
 
 
-    void play_into() { }
+    void play_intro() {
+        if (m_intro.empty()) {
+            std::cout << "The quest does not have intro to play." << std::endl;
+            return;
+        }
+
+        std::cout << "Play intro '" << m_intro << "' for the quest." << std::endl;
+        window_image(m_intro).show();
+    }
 };

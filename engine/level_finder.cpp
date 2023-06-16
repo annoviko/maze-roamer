@@ -12,7 +12,7 @@ level_finder::level_finder(const std::string& p_directory) {
 }
 
 
-const std::vector<level>& level_finder::get_levels() const {
+const std::vector<scenario>& level_finder::get_levels() const {
     return m_levels;
 }
 
@@ -24,7 +24,7 @@ bool level_finder::is_level_file(const std::filesystem::directory_entry& p_entry
 
     const std::string filename = p_entry.path().filename().string();
 
-    std::regex pattern("level-(\\d+).txt");
+    std::regex pattern("level-(\\d+).json");
     std::smatch result;
 
     if (!std::regex_search(filename, result, pattern)) {

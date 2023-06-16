@@ -3,8 +3,8 @@
 
 #include <SDL.h>
 
-#include "level.h"
 #include "player_context.h"
+#include "scenario.h"
 
 
 
@@ -19,7 +19,7 @@ public:
     level_runner(const player_context::ptr& p_context);
 
 public:
-    void run(const level& p_level);
+    void run(const scenario& p_scenario);
 
     bool is_game_over() const;
 };

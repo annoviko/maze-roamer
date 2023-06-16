@@ -14,12 +14,11 @@
 #include "engine/coin_silver.h"
 
 
-game_status_widget::game_status_widget(SDL_Renderer* p_renderer, const texture_manager& p_texture_manager, const int p_x, const int p_y, const player_context::ptr& p_context, const level_stats::ptr& p_level_stats) :
+game_status_widget::game_status_widget(SDL_Renderer* p_renderer, const texture_manager& p_texture_manager, const int p_x, const int p_y, const player_context::ptr& p_context) :
     m_renderer(p_renderer),
     m_texture_manager(p_texture_manager),
     m_x(p_x), m_y(p_y),
-    m_player_context(p_context),
-    m_level_stats(p_level_stats)
+    m_player_context(p_context)
 { }
 
 

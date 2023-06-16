@@ -6,7 +6,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "level_stats.h"
 #include "player_context.h"
 
 #include "core/texture_manager.h"
@@ -43,7 +42,6 @@ private:
     int m_x = 0;
     int m_y = 0;
 
-    level_stats::ptr m_level_stats = nullptr;
     player_context::ptr m_player_context = nullptr;
 
 public:
@@ -51,8 +49,7 @@ public:
 
     game_status_widget(SDL_Renderer * p_renderer, const texture_manager& p_texture_manager, 
         const int p_x, const int p_y, 
-        const player_context::ptr & p_context,
-        const level_stats::ptr & p_level_stats);
+        const player_context::ptr & p_context);
 
 public:
     static int get_height();

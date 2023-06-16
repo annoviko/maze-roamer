@@ -24,13 +24,16 @@ public:
     scenario(const std::string& p_json_path);
 
 public:
-    void play();
-
-    void play_epilogue();
+    void run();
 
     void update(const event_from_player& p_event);
 
-    const level_matrix& get_maze() const;
+    const level_matrix& get_map() const;
 
     bool is_done() const;
+
+private:
+    level_matrix load_map(const std::string& p_path);
+
+    void play_epilogue();
 };

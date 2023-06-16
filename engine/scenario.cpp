@@ -1,10 +1,9 @@
 #include "scenario.h"
 
 #include <fstream>
+#include <iostream>
 
 #include <nlohmann/json.hpp>
-
-#include "level.h"
 
 
 scenario::scenario(const std::string& p_json_path) {
@@ -12,7 +11,7 @@ scenario::scenario(const std::string& p_json_path) {
     nlohmann::json json_scenario = nlohmann::json::parse(file_handle);
 
     std::string map_path = json_scenario["map"];
-    m_maze = level(map_path).load();
+    m_maze = load_map(map_path);
 
     for (const auto& json_quest : json_scenario["scenario"]) {
         std::string description = json_quest["description"];
@@ -39,8 +38,8 @@ scenario::scenario(const std::string& p_json_path) {
         }
 
         if (!intro_image.empty()) {
-            std::visit([&map_path](auto&& current_quest) {
-                current_quest.add_intro_image(map_path);
+            std::visit([&intro_image](auto&& current_quest) {
+                current_quest.add_intro_image(intro_image);
             }, m_quests.back());
         }
 
@@ -63,12 +62,23 @@ scenario::scenario(const std::string& p_json_path) {
 }
 
 
-void scenario::play() {
-    
+void scenario::run() {
+    if (m_quests.empty()) {
+        std::cout << "[ERROR] Impossible to run scenario - no quests to play." << std::endl;
+
+        m_is_done = true;
+        return; /* nothing to play - all quests is over */
+    }
+
+    std::visit([](auto& current_quest) {
+        current_quest.play();
+    }, m_quests.front());
 }
 
 
 void scenario::update(const event_from_player& p_event) {
+    std::cout << "Scenario received an event from player." << std::endl;
+
     if (m_quests.empty() || m_is_done) {
         return;
     }
@@ -99,11 +109,24 @@ void scenario::play_epilogue() {
 }
 
 
-const level_matrix& scenario::get_maze() const {
+const level_matrix& scenario::get_map() const {
     return m_maze;
 }
 
 
 bool scenario::is_done() const {
     return m_is_done;
+}
+
+
+level_matrix scenario::load_map(const std::string& p_path) {
+    std::ifstream stream(p_path);
+
+    level_matrix matrix;
+
+    for (std::string line; std::getline(stream, line); ) {
+        matrix.push_back(line);
+    }
+
+    return matrix;
 }

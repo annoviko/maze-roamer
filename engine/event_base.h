@@ -4,7 +4,8 @@
 class event_base {
 protected:
     char m_subject_id;
-    int m_amount;
+    int  m_amount;
+    int  m_remain_amount;
 
 public:
     event_base(const char p_subject_id, const int p_amount) :

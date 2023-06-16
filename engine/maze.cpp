@@ -29,15 +29,16 @@
 #include "window_win.h"
 
 
-maze::maze(const level& p_level, const player_context::ptr& p_context) :
+maze::maze(const scenario& p_scenario, const player_context::ptr& p_context) :
     m_renderer(graphic_context::get().get_render()),
-    m_texture_manager(graphic_context::get().get_render())
+    m_texture_manager(graphic_context::get().get_render()),
+    m_scenario(p_scenario)
 {
     if (!m_renderer) {
         throw std::exception("imposible to render maze - renderer is nullptr");
     }
 
-    m_maze = p_level.load();
+    m_maze = p_scenario.get_map();
     m_initial_maze = m_maze;
 
     initialize_texture_manager();
@@ -49,6 +50,11 @@ maze::maze(const level& p_level, const player_context::ptr& p_context) :
 
 maze::~maze() {
     m_is_running = false;
+}
+
+
+void maze::run() {
+    m_scenario.run();
 }
 
 
@@ -130,6 +136,9 @@ void maze::initialize(const player_context::ptr& p_context) {
                 break;
             }
 
+            m_object_stats[value].total++;
+            m_object_stats[value].remain++;
+
             if (!object_identifier::is_hurdle(value) && value != ' ') {
                 value = ' '; // clean dynamic objects.
             }
@@ -141,7 +150,7 @@ void maze::initialize(const player_context::ptr& p_context) {
 
     const int widget_x = offset_x;
     const int widget_y = offset_y + (int)m_maze.size() * OBJECT_SIZE;
-    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, widget_x, widget_y, p_context, m_level_stats);
+    m_status_widget = std::make_shared<game_status_widget>(m_renderer, m_texture_manager, widget_x, widget_y, p_context);
 }
 
 void maze::check_collision_with_static_objects() {
@@ -159,22 +168,28 @@ void maze::check_collision_with_static_objects() {
                 break;
             }
 
+            m_object_stats[static_object->get_id()].remain--;
+
             static_object = nullptr;
             m_status_widget->render();
             break;
 
         case 'G':
             m_player->get_context()->increase_collectible(static_object->get_id());
+            m_object_stats[static_object->get_id()].remain--;
+            m_scenario.update(event_collect(static_object->get_id(), 1, m_object_stats[static_object->get_id()].remain));
             static_object = nullptr;
             break;
 
         case '@':
             m_player->get_context()->increase_amount_speed_boosters();
+            m_object_stats[static_object->get_id()].remain--;
             static_object = nullptr;
             break;
 
         case '!':
             m_player->get_context()->increase_amount_bombs();
+            m_object_stats[static_object->get_id()].remain--;
             static_object = nullptr;
             break;
         }
@@ -250,6 +265,7 @@ void maze::process_active_bomb(game_object_interim::ptr& p_object) {
             const auto& monster = (*iter);
             if (monster->is_collision(boom_position)) {
                 iter = m_monsters.erase(iter);
+                m_object_stats[monster->get_id()].remain--;
             }
             else {
                 iter++;
