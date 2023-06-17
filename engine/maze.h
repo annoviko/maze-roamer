@@ -33,7 +33,7 @@ private:
     std::vector<std::vector<game_object::ptr>> m_objects_fundamental;
     std::vector<std::vector<game_object::ptr>> m_objects_static_on_map;
     std::list<game_object_interim::ptr> m_objects_static_interim;
-    game_object::ptr m_castle = nullptr;
+    game_object::ptr m_portal = nullptr;
     std::shared_ptr<player> m_player = nullptr;
     std::list<std::shared_ptr<monster>> m_monsters;
 
@@ -77,6 +77,8 @@ private:
     void initialize_texture_manager();
 
     void render_static_objects();
+
+    void process_game_event_pool();
 
     void activate_bomb();
 

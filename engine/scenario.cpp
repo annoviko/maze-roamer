@@ -77,8 +77,6 @@ void scenario::run() {
 
 
 void scenario::update(const event_from_player& p_event) {
-    std::cout << "Scenario received an event from player." << std::endl;
-
     if (m_quests.empty() || m_is_done) {
         return;
     }

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "event_from_game.h"
+#include "pool_event_game.h"
 #include "window_image.h"
 
 
@@ -43,8 +44,11 @@ public:
 
 
 private:
-    void play_start_events() { }
-
+    void play_start_events() {
+        for (auto& cur_event : m_start_events) {
+            pool_event_game::get().push(cur_event);
+        }
+    }
 
     void play_intro() {
         if (m_intro.empty()) {

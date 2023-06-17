@@ -9,8 +9,8 @@
 
 class texture_manager {
 private:
-    SDL_Renderer* m_renderer;
-    SDL_Texture* m_textures;
+    SDL_Renderer* m_renderer = nullptr;
+    SDL_Texture* m_textures = nullptr;
 
     int m_offset_x = 0;
     int m_offset_y = 0;

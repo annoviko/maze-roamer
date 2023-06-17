@@ -82,6 +82,7 @@ void maze::initialize(const player_context::ptr& p_context) {
             auto& value = m_maze[i][j];
 
             SDL_Rect rect{ x, y, OBJECT_SIZE, OBJECT_SIZE };
+            position logical_position = { j, i };
 
             x += OBJECT_SIZE;
 
@@ -91,40 +92,40 @@ void maze::initialize(const player_context::ptr& p_context) {
 
             switch (value) {
             case 'S':
-                m_monsters.push_back(std::make_shared<monster_random>('S', rect, m_texture_manager, &m_maze, position{ j, i }));
+                m_monsters.push_back(std::make_shared<monster_random>('S', rect, m_texture_manager, &m_maze, logical_position));
                 break;
 
             case 'C':
-                clever_masters.push_back(std::make_shared<monster_clever>('C', rect, m_texture_manager, &m_maze, position{ j, i }, clever_masters));
+                clever_masters.push_back(std::make_shared<monster_clever>('C', rect, m_texture_manager, &m_maze, logical_position, clever_masters));
                 m_monsters.push_back(clever_masters.back());
                 break;
 
             case 'P':
-                m_player = std::make_shared<player>('P', rect, m_texture_manager, p_context, &m_maze, position{ j, i });
+                m_player = std::make_shared<player>('P', rect, m_texture_manager, p_context, &m_maze, logical_position);
                 break;
 
             case '$':
-                m_objects_static_on_map[i][j] = std::make_shared<coin_gold>(value, rect, position{ i, j }, m_texture_manager);
+                m_objects_static_on_map[i][j] = std::make_shared<coin_gold>(value, rect, logical_position, m_texture_manager);
                 break;
 
             case '%':
-                m_objects_static_on_map[i][j] = std::make_shared<coin_silver>(value, rect, position{ i, j }, m_texture_manager);
+                m_objects_static_on_map[i][j] = std::make_shared<coin_silver>(value, rect, logical_position, m_texture_manager);
                 break;
 
             case '@':
-                m_objects_static_on_map[i][j] = std::make_shared<booster_speed>(value, rect, position{ i, j }, m_texture_manager);
+                m_objects_static_on_map[i][j] = std::make_shared<booster_speed>(value, rect, logical_position, m_texture_manager);
                 break;
 
             case 'G':
-                m_objects_static_on_map[i][j] = std::make_shared<collectible_gear>(value, rect, position{ i, j }, m_texture_manager);
+                m_objects_static_on_map[i][j] = std::make_shared<collectible_gear>(value, rect, logical_position, m_texture_manager);
                 break;
 
             case '!':
-                m_objects_static_on_map[i][j] = std::make_shared<bomb>(value, rect, position{ i, j }, m_texture_manager);
+                m_objects_static_on_map[i][j] = std::make_shared<bomb>(value, rect, logical_position, m_texture_manager);
                 break;
 
             case 'W':
-                m_castle = std::make_shared<portal>(value, rect, position{ i, j }, m_texture_manager);
+                m_portal = std::make_shared<portal>(value, rect, logical_position, m_texture_manager);
                 break;
 
             case '*':
@@ -224,6 +225,10 @@ void maze::update() {
     }
 
     check_collision_with_static_objects();
+
+    if (m_player->is_collision(m_portal->get_logical_location())) {
+        m_scenario.update(event_reach_checkpoint(m_portal->get_id()));
+    }
 
     for (auto iter = std::begin(m_objects_static_interim); iter != std::end(m_objects_static_interim);) {
         (*iter)->update();
@@ -362,7 +367,7 @@ void maze::render_static_objects() {
         temp_static_object->render();
     }
 
-    m_castle->render();
+    m_portal->render();
 }
 
 
@@ -456,4 +461,9 @@ int maze::get_height() const {
 
 int maze::get_width() const {
     return static_cast<int>(OBJECT_SIZE * m_maze.front().size());
+}
+
+
+void maze::process_game_event_pool() {
+
 }
