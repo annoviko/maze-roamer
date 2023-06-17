@@ -75,6 +75,9 @@
     <ClCompile Include="window_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pool_event_game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dynamic_game_object.h">
@@ -207,6 +210,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="window_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pool_event_game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
