@@ -14,6 +14,6 @@ public:
 };
 
 
-using event_from_game = std::variant <
+using event_from_scenario = std::variant <
     event_grant
 >;

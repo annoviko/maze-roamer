@@ -53,7 +53,7 @@ public:
 
     int get_cash() const;
 
-    void increase_amount_bombs();
+    void increase_amount_bombs(const int p_amount = 1);
 
     void decrease_amount_bombs();
 

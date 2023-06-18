@@ -6,12 +6,12 @@ int inventory::get_amount(const inventory_object_t p_type) const {
 }
 
 
-void inventory::increment(const inventory_object_t p_type) {
+void inventory::increment(const inventory_object_t p_type, const int p_amount) {
     if (m_objects[static_cast<int>(p_type)] == 0) {
         m_objects_stack.push_back(p_type);
     }
 
-    m_objects[static_cast<int>(p_type)]++;
+    m_objects[static_cast<int>(p_type)] += p_amount;
 }
 
 

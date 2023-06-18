@@ -75,7 +75,7 @@
     <ClCompile Include="window_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pool_event_game.cpp">
+    <ClCompile Include="event_pool_from_scenario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -200,7 +200,7 @@
     <ClInclude Include="portal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="event_from_game.h">
+    <ClInclude Include="event_from_scenario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="event_base.h">
@@ -212,7 +212,7 @@
     <ClInclude Include="window_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pool_event_game.h">
+    <ClInclude Include="event_pool_from_scenario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

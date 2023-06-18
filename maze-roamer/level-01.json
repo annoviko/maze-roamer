@@ -32,7 +32,7 @@
       "description": "Kill at least one monster.",
 
       "intro": {
-        "image": "img/scenario-01-kill-monster.png"
+        "image": "img/scenario-01-use-bomb.png"
       },
 
       "event-before": [

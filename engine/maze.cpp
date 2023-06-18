@@ -18,6 +18,7 @@
 #include "coin_gold.h"
 #include "coin_silver.h"
 #include "collectible_gear.h"
+#include "event_pool_from_scenario.h"
 #include "ground.h"
 #include "monster_random.h"
 #include "monster_clever.h"
@@ -241,6 +242,8 @@ void maze::update() {
             iter++;
         }
     }
+
+    process_event_pool_from_scenario();
 }
 
 
@@ -464,6 +467,17 @@ int maze::get_width() const {
 }
 
 
-void maze::process_game_event_pool() {
+void maze::process_event_pool_from_scenario() {
+    while (!event_pool_from_scenario::get().is_empty()) {
+        auto event_from_scenario = event_pool_from_scenario::get().pop();
 
+        std::visit([this](const auto& event) {
+            return this->handle_event_from_scenario(event); 
+        }, event_from_scenario);
+    }
+}
+
+
+void maze::handle_event_from_scenario(const event_grant& p_event) {
+    m_player->get_context()->increase_amount_bombs(p_event.get_amount());
 }

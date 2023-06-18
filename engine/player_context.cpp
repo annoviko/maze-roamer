@@ -48,8 +48,8 @@ void player_context::decrease_cash(const int p_cash) {
 }
 
 
-void player_context::increase_amount_bombs() {
-    m_invetory.increment(inventory_object_t::BOMB);
+void player_context::increase_amount_bombs(const int p_amount) {
+    m_invetory.increment(inventory_object_t::BOMB, p_amount);
 }
 
 

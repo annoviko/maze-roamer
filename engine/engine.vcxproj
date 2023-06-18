@@ -97,7 +97,7 @@
     <ClCompile Include="monster_random.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="player_context.cpp" />
-    <ClCompile Include="pool_event_game.cpp" />
+    <ClCompile Include="event_pool_from_scenario.cpp" />
     <ClCompile Include="scenario.cpp" />
     <ClCompile Include="window_base.cpp" />
     <ClCompile Include="window_game_over.cpp" />
@@ -120,7 +120,7 @@
     <ClInclude Include="dynamic_object_state.h" />
     <ClInclude Include="edge_2d.h" />
     <ClInclude Include="event_base.h" />
-    <ClInclude Include="event_from_game.h" />
+    <ClInclude Include="event_from_scenario.h" />
     <ClInclude Include="game_status_widget.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="inventory.h" />
@@ -136,7 +136,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="player_context.h" />
     <ClInclude Include="event_from_player.h" />
-    <ClInclude Include="pool_event_game.h" />
+    <ClInclude Include="event_pool_from_scenario.h" />
     <ClInclude Include="portal.h" />
     <ClInclude Include="quest.h" />
     <ClInclude Include="quest_base.h" />

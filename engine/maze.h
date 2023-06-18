@@ -8,6 +8,7 @@
 #include <SDL.h>
 
 #include "game_status_widget.h"
+#include "event_from_scenario.h"
 #include "level_matrix.h"
 #include "monster.h"
 #include "player.h"
@@ -78,8 +79,6 @@ private:
 
     void render_static_objects();
 
-    void process_game_event_pool();
-
     void activate_bomb();
 
     bool check_game_over();
@@ -95,4 +94,11 @@ private:
     void process_expired_object(game_object_interim::ptr& p_object);
 
     void process_active_bomb(game_object_interim::ptr& p_object);
+
+    void process_event_pool_from_scenario();
+
+    void handle_event_from_scenario(const event_grant& p_event);
+
+    template<typename TypeEvent>
+    void handle_event_from_scenario(const TypeEvent& p_event) { }
 };

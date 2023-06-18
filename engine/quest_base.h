@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "event_from_game.h"
-#include "pool_event_game.h"
+#include "event_from_scenario.h"
+#include "event_pool_from_scenario.h"
 #include "window_image.h"
 
 
@@ -15,7 +15,7 @@ protected:
     std::string m_description;
     std::string m_intro;
 
-    std::vector<event_from_game> m_start_events;
+    std::vector<event_from_scenario> m_start_events;
 
 public:
     quest_base(const std::string& p_description) :
@@ -33,7 +33,7 @@ public:
     }
 
 
-    void add_start_event(const event_from_game& p_event) {
+    void add_start_event(const event_from_scenario& p_event) {
         m_start_events.push_back(p_event);
     }
 
@@ -46,7 +46,7 @@ public:
 private:
     void play_start_events() {
         for (auto& cur_event : m_start_events) {
-            pool_event_game::get().push(cur_event);
+            event_pool_from_scenario::get().push(cur_event);
         }
     }
 

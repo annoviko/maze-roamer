@@ -25,7 +25,7 @@ private:
 public:
     int get_amount(const inventory_object_t p_type) const;
 
-    void increment(const inventory_object_t p_type);
+    void increment(const inventory_object_t p_type, const int p_amount = 1);
 
     void decrement(const inventory_object_t p_type);
 
