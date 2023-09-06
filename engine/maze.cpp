@@ -272,8 +272,8 @@ void maze::process_active_bomb(game_object_interim::ptr& p_object) {
         for (auto iter = m_monsters.begin(); iter != m_monsters.end();) {
             const auto& monster = (*iter);
             if (monster->is_collision(boom_position)) {
-                iter = m_monsters.erase(iter);
                 m_object_stats[monster->get_id()].remain--;
+                iter = m_monsters.erase(iter);
             }
             else {
                 iter++;
