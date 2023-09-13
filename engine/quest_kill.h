@@ -22,13 +22,24 @@ public:
     { }
 
 public:
-    bool handle_event(const event_kill& p_event) {
+
+    bool handle_event_impl(const event_kill& p_event) {
+        std::cout << "Event event_kill '" << p_event.get_subject_id() << "' is received by quest_kill." << std::endl;
+        std::cout << "Quest state. Current: '" << m_current << "', Expected: '" << m_expected << "'." << std::endl;
         return (++m_current >= m_expected);
     }
 
 
     template<typename TypeEvent>
-    bool handle_event(const TypeEvent& p_event) {
+    bool handle_event_impl(const TypeEvent& p_event) {
         return false;
+    }
+
+
+    template<typename TypeEvent>
+    bool handle_event(const TypeEvent& p_event) {
+        return std::visit([this](const auto& event) -> bool {
+            return this->handle_event_impl(event); },
+            p_event);
     }
 };

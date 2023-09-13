@@ -247,6 +247,11 @@ void maze::update() {
 }
 
 
+int maze::count_remaining_monsters() {
+    return m_object_stats['S'].remain + m_object_stats['C'].remain;
+}
+
+
 void maze::process_expired_object(game_object_interim::ptr& p_object) {
     switch (p_object->get_id()) {
     case '!':
@@ -273,6 +278,9 @@ void maze::process_active_bomb(game_object_interim::ptr& p_object) {
             const auto& monster = (*iter);
             if (monster->is_collision(boom_position)) {
                 m_object_stats[monster->get_id()].remain--;
+
+                m_scenario.update(event_kill(monster->get_id(), 1, count_remaining_monsters()));
+
                 iter = m_monsters.erase(iter);
             }
             else {

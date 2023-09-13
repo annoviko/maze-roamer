@@ -89,6 +89,8 @@ private:
 
     void check_win_condition();
 
+    int count_remaining_monsters();
+
     void reinitialize();
 
     void process_expired_object(game_object_interim::ptr& p_object);
