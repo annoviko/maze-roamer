@@ -17,6 +17,7 @@ private:
     level_matrix m_maze;
 
     std::string m_epilogue_image;
+    int m_epilogue_delay = 0;
 
     bool m_is_done = false;
 

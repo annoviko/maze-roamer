@@ -244,6 +244,7 @@ void maze::update() {
     }
 
     process_event_pool_from_scenario();
+    check_win_condition();
 }
 
 
@@ -437,12 +438,9 @@ void maze::activate_bomb() {
 
 
 void maze::check_win_condition() {
-#if 0
-    if (m_level_stats->get_remaining_coins() == 0) {
+    if (m_scenario.is_done()) {
         m_is_running = false;
-        window_win().show();
     }
-#endif
 }
 
 

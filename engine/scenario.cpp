@@ -13,6 +13,9 @@ scenario::scenario(const std::string& p_json_path) {
     std::string map_path = json_scenario["map"];
     m_maze = load_map(map_path);
 
+    m_epilogue_image = json_scenario["epilogue"];
+
+
     for (const auto& json_quest : json_scenario["scenario"]) {
         std::string description = json_quest["description"];
 
@@ -89,6 +92,8 @@ void scenario::update(const event_from_player& p_event) {
         return;
     }
 
+    std::cout << "Quest is done" << std::endl;
+
     m_quests.pop_front();
     m_is_done = m_quests.empty();
 
@@ -104,6 +109,8 @@ void scenario::update(const event_from_player& p_event) {
 
 
 void scenario::play_epilogue() {
+    std::cout << "Play epilogue '" << m_epilogue_image << "'" << std::endl;
+    window_image(m_epilogue_image).show();
 }
 
 

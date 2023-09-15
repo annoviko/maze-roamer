@@ -25,6 +25,8 @@ public:
 
     bool handle_event_impl(const event_kill& p_event) {
         std::cout << "Event event_kill '" << p_event.get_subject_id() << "' is received by quest_kill." << std::endl;
+        m_current++;
+
         std::cout << "Quest state. Current: '" << m_current << "', Expected: '" << m_expected << "'." << std::endl;
         return (++m_current >= m_expected);
     }
