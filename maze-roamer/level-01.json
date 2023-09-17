@@ -47,10 +47,11 @@
                 "type": "kill",
                 "object-id": "C",
                 "number": 1
-            }
+            },
+
+            "delay-completion": 1000
         }
     ],
 
-    "delay_epilogue": 1000,
     "epilogue": "img/scenario-01-epilogue.png"
 }

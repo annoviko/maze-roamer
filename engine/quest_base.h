@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "core/game_time.h"
+
 #include "event_from_scenario.h"
 #include "event_pool_from_scenario.h"
 #include "window_image.h"
@@ -14,6 +16,9 @@ class quest_base {
 protected:
     std::string m_description;
     std::string m_intro;
+
+    std::uint64_t m_delay_completion = 0;
+    std::uint64_t m_delay_time_begin = 0;
 
     std::vector<event_from_scenario> m_start_events;
 
@@ -25,6 +30,32 @@ public:
 public:
     const std::string& get_description() const {
         return m_description;
+    }
+
+
+    void set_delay_completion(const std::uint32_t delay_ms) {
+        m_delay_completion = delay_ms;
+    }
+
+
+    std::uint32_t get_delay_completion() {
+        return m_delay_completion;
+    }
+
+
+    void start_delay_completion_timer() {
+        m_delay_time_begin = game_time::get().get_ticks();
+    }
+
+
+    bool is_delay_completion_timer_on() {
+        return m_delay_time_begin != 0;
+    }
+
+
+    bool is_delay_completion_over() {
+        std::uint64_t current_time = game_time::get().get_ticks();
+        return (current_time - m_delay_time_begin) > m_delay_completion;
     }
 
 

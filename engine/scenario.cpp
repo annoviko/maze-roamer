@@ -5,6 +5,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include "core/game_time.h"
+
 
 scenario::scenario(const std::string& p_json_path) {
     std::ifstream file_handle(p_json_path);
@@ -13,8 +15,8 @@ scenario::scenario(const std::string& p_json_path) {
     std::string map_path = json_scenario["map"];
     m_maze = load_map(map_path);
 
-    m_epilogue_image = json_scenario["epilogue"];
-
+    std::string epilogue_image_path = json_scenario["epilogue"];
+    m_epilogue_image = epilogue_image_path;
 
     for (const auto& json_quest : json_scenario["scenario"]) {
         std::string description = json_quest["description"];
@@ -60,6 +62,13 @@ scenario::scenario(const std::string& p_json_path) {
                     }, m_quests.back());
                 }
             }
+        }
+
+        if (json_quest.contains("delay-completion")) {
+            const std::uint32_t delay_completion = json_quest["delay-completion"];
+            std::visit([delay_completion](auto&& current_quest) {
+                current_quest.set_delay_completion(delay_completion);
+            }, m_quests.back());
         }
     }
 }

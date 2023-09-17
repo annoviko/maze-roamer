@@ -28,7 +28,16 @@ public:
         m_current++;
 
         std::cout << "Quest state. Current: '" << m_current << "', Expected: '" << m_expected << "'." << std::endl;
-        return (++m_current >= m_expected);
+
+        if ((m_current >= m_expected) && !is_delay_completion_timer_on()) {
+            start_delay_completion_timer();
+        }
+        return is_done();
+    }
+
+
+    bool handle_event_impl(const event_ping& p_event) {
+        return is_done();
     }
 
 
@@ -43,5 +52,10 @@ public:
         return std::visit([this](const auto& event) -> bool {
             return this->handle_event_impl(event); },
             p_event);
+    }
+
+private:
+    bool is_done() {
+        return (m_current >= m_expected) && is_delay_completion_over();
     }
 };

@@ -39,8 +39,15 @@ public:
 };
 
 
+class event_ping {
+public:
+    event_ping() { }
+};
+
+
 using event_from_player = std::variant <
     event_collect,
     event_kill,
-    event_reach_checkpoint
+    event_reach_checkpoint,
+    event_ping
 >;

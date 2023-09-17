@@ -243,6 +243,8 @@ void maze::update() {
         }
     }
 
+    m_scenario.update(event_ping());
+
     process_event_pool_from_scenario();
     check_win_condition();
 }
