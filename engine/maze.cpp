@@ -270,6 +270,7 @@ void maze::process_expired_object(game_object_interim::ptr& p_object) {
 
 void maze::process_active_bomb(game_object_interim::ptr& p_object) {
     const auto boom_area = bomb_explosion().boom(m_maze, p_object->get_logical_location());
+
     for (const auto& boom_position : boom_area) {
         if (m_player->is_collision(boom_position)) {
             m_player->get_context()->decrease_health();

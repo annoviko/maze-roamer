@@ -28,29 +28,42 @@
             }
         },
 
-        {
-            "description": "Kill at least one monster.",
+      {
+        "description": "Kill at least one monster.",
 
-            "intro": {
-                "image": "img/scenario-01-use-bomb.png"
-            },
+        "intro": {
+          "image": "img/scenario-01-use-bomb.png"
+        },
 
-            "event-before": [
-                {
-                    "type": "grant",
-                    "object-id": "!",
-                    "number": 10
-                }
-            ],
+        "event-before": [
+          {
+            "type": "grant",
+            "object-id": "!",
+            "number": 10
+          }
+        ],
 
-            "quest": {
-                "type": "kill",
-                "object-id": "C",
-                "number": 1
-            },
+        "quest": {
+          "type": "kill",
+          "object-id": "C",
+          "number": 1
+        },
 
-            "delay-completion": 1000
+        "delay-completion": 1000
+      },
+
+      {
+        "description": "Return to the wizard.",
+
+        "quest": {
+          "type": "reach",
+          "object-id": "W"
+        },
+
+        "intro": {
+          "image": "img/scenario-01-return-done.png"
         }
+      }
     ],
 
     "epilogue": "img/scenario-01-epilogue.png"
