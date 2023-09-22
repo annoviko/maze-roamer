@@ -10,6 +10,12 @@
     <None Include="level-01.json">
       <Filter>Resources</Filter>
     </None>
+    <None Include="level-02.json">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="level-02.map">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

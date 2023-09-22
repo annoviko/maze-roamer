@@ -124,6 +124,7 @@
     <ClInclude Include="game_status_widget.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="inventory.h" />
+    <ClInclude Include="mage.h" />
     <ClInclude Include="object_identifier.h" />
     <ClInclude Include="interim_game_object.h" />
     <ClInclude Include="level_finder.h" />

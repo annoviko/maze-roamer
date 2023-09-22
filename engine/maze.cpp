@@ -20,6 +20,7 @@
 #include "collectible_gear.h"
 #include "event_pool_from_scenario.h"
 #include "ground.h"
+#include "mage.h"
 #include "monster_random.h"
 #include "monster_clever.h"
 #include "object_identifier.h"
@@ -127,6 +128,10 @@ void maze::initialize(const player_context::ptr& p_context) {
 
             case 'W':
                 m_portal = std::make_shared<portal>(value, rect, logical_position, m_texture_manager);
+                break;
+
+            case 'M':
+                m_portal = std::make_shared<mage>(value, rect, logical_position, m_texture_manager);
                 break;
 
             case '*':

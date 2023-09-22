@@ -215,6 +215,9 @@
     <ClInclude Include="event_pool_from_scenario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
