@@ -38,7 +38,6 @@ private:
 
     template<typename TypeEvent>
     bool handle_event_impl(const TypeEvent& p_event) {
-        std::cout << "Event is ignored by the quest." << std::endl;
         return false;
     }
 
